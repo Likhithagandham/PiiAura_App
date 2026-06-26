@@ -37,21 +37,21 @@ export interface FacultySystemItem {
 }
 
 export const FACULTY_ACADEMIC_MODULES: FacultyModuleItem[] = [
-  { id: 'study-material', label: 'Study Material', Icon: FileText },
+  { id: 'study-material', label: 'Study Material', Icon: FileText, route: ROUTES.FACULTY.STUDY_MATERIAL },
   {
     id: 'assignments',
     label: 'Assignments',
     Icon: ClipboardList,
     route: ROUTES.FACULTY.ASSIGNMENTS,
   },
-  { id: 'invigilation', label: 'Invigilation', Icon: IdCard },
-  { id: 'syllabus', label: 'Syllabus Progress', Icon: LineChart },
+  { id: 'invigilation', label: 'Invigilation', Icon: IdCard, route: ROUTES.FACULTY.INVIGILATION },
+  { id: 'syllabus', label: 'Syllabus Progress', Icon: LineChart, route: ROUTES.FACULTY.SYLLABUS },
 ];
 
 export const FACULTY_ADMIN_MODULES: FacultyModuleItem[] = [
   { id: 'leave', label: 'My Leave', Icon: CalendarX, route: ROUTES.FACULTY.LEAVE },
-  { id: 'salary', label: 'My Salary', Icon: Wallet },
-  { id: 'marks', label: 'Marks Entry', Icon: PenSquare },
+  { id: 'salary', label: 'My Salary', Icon: Wallet, route: ROUTES.FACULTY.SALARY },
+  { id: 'marks', label: 'Marks Entry', Icon: PenSquare, route: ROUTES.FACULTY.MARKS_ENTRY },
   {
     id: 'alerts',
     label: 'Alerts',
@@ -66,7 +66,7 @@ export const FACULTY_SYSTEM_ITEMS: FacultySystemItem[] = [
     id: 'settings',
     label: 'Settings',
     Icon: Settings,
-    route: ROUTES.FACULTY.PROFILE,
+    route: ROUTES.FACULTY.SETTINGS,
   },
   { id: 'help', label: 'Help & Support', Icon: HelpCircle },
   { id: 'logout', label: 'Logout', Icon: LogOut, destructive: true },

@@ -1,19 +1,26 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import { router } from 'expo-router';
 import { ArrowLeft, School } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Avatar, colors, spacing, typography } from '@piiaura/ui';
 import { APP_CONFIG, ROUTES } from '@piiaura/constants';
-import { useAuth } from '@piiaura/hooks';
+import { useAuth, useFacultyProfile } from '@piiaura/hooks';
 
 interface FacultyHeaderProps {
   title?: string;
+  subtitle?: string;
   showBack?: boolean;
   onProfilePress?: () => void;
 }
 
-export function FacultyHeader({ title, showBack, onProfilePress }: FacultyHeaderProps) {
+export function FacultyHeader({
+  title,
+  subtitle,
+  showBack,
+  onProfilePress,
+}: FacultyHeaderProps) {
   const { user } = useAuth();
+  const { data: profile } = useFacultyProfile();
   const insets = useSafeAreaInsets();
   const headerTitle = title ?? APP_CONFIG.APP_NAME;
 
@@ -25,23 +32,78 @@ export function FacultyHeader({ title, showBack, onProfilePress }: FacultyHeader
     router.replace(ROUTES.FACULTY.MORE);
   };
 
+  const handleProfilePress = () => {
+    if (onProfilePress) {
+      onProfilePress();
+      return;
+    }
+    router.push(ROUTES.FACULTY.PROFILE as never);
+  };
+
   return (
-    <View style={[styles.container, { paddingTop: insets.top + spacing.sm }]}>
+    <View
+      style={[
+        styles.container,
+        {
+          paddingTop: insets.top + spacing.sm,
+          paddingBottom: spacing.md,
+        },
+      ]}
+    >
       <View style={styles.left}>
         {showBack ? (
-          <Pressable onPress={handleBack} hitSlop={8} style={styles.backBtn}>
-            <ArrowLeft size={20} color={colors.primary} />
+          <Pressable
+            onPress={handleBack}
+            hitSlop={8}
+            style={styles.backBtn}
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+            accessibilityHint="Returns to the previous screen"
+          >
+            <View accessibilityElementsHidden importantForAccessibility="no">
+              <ArrowLeft size={20} color={colors.primary} />
+            </View>
           </Pressable>
         ) : null}
-        {!showBack && user ? <Avatar name={user.name} size="sm" tone="dark" /> : null}
-        <Text style={styles.brand}>{headerTitle}</Text>
+        <View style={styles.titleBlock}>
+          <Text style={styles.brand} accessibilityRole="header">
+            {headerTitle}
+          </Text>
+          {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+        </View>
       </View>
 
       <View style={styles.right}>
-        <View style={styles.schoolChip}>
-          <School size={14} color={colors.textSecondary} />
+        <View
+          style={styles.schoolChip}
+          accessibilityRole="text"
+          accessibilityLabel="School scope"
+        >
+          <View accessibilityElementsHidden importantForAccessibility="no">
+            <School size={14} color={colors.textSecondary} />
+          </View>
           <Text style={styles.schoolText}>School</Text>
         </View>
+
+        {user ? (
+          <Pressable
+            onPress={handleProfilePress}
+            hitSlop={8}
+            style={styles.profileBtn}
+            accessibilityRole="button"
+            accessibilityLabel="Open profile"
+            accessibilityHint="Opens your faculty profile"
+          >
+            {profile?.avatarUrl ? (
+              <Image
+                source={{ uri: profile.avatarUrl }}
+                style={styles.profileAvatar}
+              />
+            ) : (
+              <Avatar name={user.name} size="sm" tone="dark" />
+            )}
+          </Pressable>
+        ) : null}
       </View>
     </View>
   );
@@ -53,8 +115,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    backgroundColor: colors.background,
+    backgroundColor: colors.surface,
     borderBottomWidth: 1,
     borderBottomColor: colors.outlineVariant,
   },
@@ -67,10 +128,18 @@ const styles = StyleSheet.create({
   backBtn: {
     padding: spacing.xs,
   },
+  titleBlock: {
+    flex: 1,
+    gap: 2,
+  },
   brand: {
     fontSize: typography.fontSize.lg,
     fontWeight: typography.fontWeight.bold,
-    color: colors.text,
+    color: colors.primary,
+  },
+  subtitle: {
+    fontSize: typography.fontSize.sm,
+    color: colors.textSecondary,
   },
   right: {
     flexDirection: 'row',
@@ -92,5 +161,17 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.sm,
     fontWeight: typography.fontWeight.medium,
     color: colors.textSecondary,
+  },
+  profileBtn: {
+    borderRadius: 999,
+    overflow: 'hidden',
+  },
+  profileAvatar: {
+    width: 32,
+    height: 32,
+    borderRadius: 999,
+    backgroundColor: '#AFEFDD',
+    borderWidth: 1,
+    borderColor: colors.outlineVariant,
   },
 });

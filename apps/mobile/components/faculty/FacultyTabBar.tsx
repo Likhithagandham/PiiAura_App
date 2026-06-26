@@ -1,8 +1,10 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { usePathname } from 'expo-router';
 import { Home, ClipboardCheck, Calendar, MoreHorizontal } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, spacing, typography, radii } from '@piiaura/ui';
+import { getFacultyParentTab } from '@/components/faculty/facultyRouteMeta';
 
 const TAB_CONFIG = {
   dashboard: { label: 'Home', Icon: Home },
@@ -15,6 +17,8 @@ type TabRouteName = keyof typeof TAB_CONFIG;
 
 export function FacultyTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const pathname = usePathname();
+  const activeTab = getFacultyParentTab(pathname);
 
   return (
     <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, spacing.sm) }]}>
@@ -22,7 +26,7 @@ export function FacultyTabBar({ state, navigation }: BottomTabBarProps) {
         const config = TAB_CONFIG[route.name as TabRouteName];
         if (!config) return null;
 
-        const isFocused = state.index === index;
+        const isFocused = route.name === activeTab;
         const { Icon, label } = config;
 
         const onPress = () => {
@@ -52,6 +56,9 @@ export function FacultyTabBar({ state, navigation }: BottomTabBarProps) {
                 fill={isFocused && route.name === 'more' ? '#576867' : 'transparent'}
               />
               <Text
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.8}
                 style={[
                   styles.label,
                   isFocused && styles.labelActive,
@@ -78,25 +85,25 @@ const styles = StyleSheet.create({
   tab: {
     flex: 1,
     alignItems: 'center',
+    minWidth: 0,
   },
   tabInner: {
     alignItems: 'center',
     justifyContent: 'center',
     gap: 2,
     paddingVertical: 6,
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: spacing.xs,
     borderRadius: radii.full,
-    minWidth: 70,
+    width: '100%',
+    maxWidth: '100%',
   },
   tabInnerActive: {
     backgroundColor: 'rgba(255,255,255,0.2)',
-    paddingHorizontal: spacing.xl,
-    minWidth: 96,
+    paddingHorizontal: spacing.sm,
   },
   tabInnerMoreActive: {
     backgroundColor: colors.secondaryContainer,
-    paddingHorizontal: spacing.xl,
-    minWidth: 96,
+    paddingHorizontal: spacing.sm,
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.12,
@@ -107,6 +114,8 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.xs,
     fontWeight: typography.fontWeight.medium,
     color: 'rgba(255,255,255,0.72)',
+    textAlign: 'center',
+    width: '100%',
   },
   labelActive: {
     color: colors.white,

@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FacultyHeader } from '@/components/faculty/FacultyHeader';
 import { colors, spacing, typography } from '@piiaura/ui';
 
 interface ScreenPlaceholderProps {
@@ -12,7 +11,6 @@ export function ScreenPlaceholder({ title, role }: ScreenPlaceholderProps) {
   if (role === 'faculty') {
     return (
       <View style={styles.facultyScreen}>
-        <FacultyHeader title={title} />
         <View style={styles.container}>
           <Text style={styles.subtitle}>
             Screen skeleton ready — awaiting Stitch design reference.

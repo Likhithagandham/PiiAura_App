@@ -1,14 +1,10 @@
 import { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Alert } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
-import { ArrowLeft } from 'lucide-react-native';
 import { useFacultyAttendanceSession } from '@piiaura/hooks';
 import { Button, IosToggle, colors, spacing, typography, radii } from '@piiaura/ui';
 import { useToast } from '@/components/toast/ToastProvider';
 
 export default function FacultyAttendanceScreen() {
-  const insets = useSafeAreaInsets();
   const { data: session, isLoading } = useFacultyAttendanceSession();
   const [presentIds, setPresentIds] = useState<Record<string, boolean>>({});
   const toast = useToast();
@@ -46,31 +42,8 @@ export default function FacultyAttendanceScreen() {
 
   return (
     <View style={styles.screen}>
-      <View style={[styles.topBar, { paddingTop: insets.top + spacing.sm }]}>
-        <View style={styles.topLeft}>
-          <Pressable
-            onPress={() =>
-              router.canGoBack() ? router.back() : router.replace('/(faculty)/dashboard')
-            }
-            hitSlop={8}
-            style={styles.backButton}
-          >
-            <ArrowLeft size={18} color={colors.primary} />
-          </Pressable>
-          <View style={styles.topTitles}>
-            <Text style={styles.topTitle}>Attendance</Text>
-            <Text style={styles.topSubtitle}>Grade 10 - Mathematics</Text>
-          </View>
-        </View>
-
-        <View style={styles.avatar} />
-      </View>
-
       <ScrollView
-        contentContainerStyle={[
-          styles.content,
-          { paddingBottom: 32 + Math.max(insets.bottom, spacing.lg) },
-        ]}
+        contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.summaryCard}>
@@ -149,53 +122,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  topBar: {
-    backgroundColor: colors.surface,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.outlineVariant,
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.md,
-    paddingTop: spacing.sm,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  topLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    flex: 1,
-  },
-  backButton: {
-    width: 28,
-    height: 28,
-    borderRadius: radii.full,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  topTitles: {
-    gap: 2,
-    flex: 1,
-  },
-  topTitle: {
-    fontSize: typography.fontSize.lg,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.primary,
-  },
-  topSubtitle: {
-    fontSize: typography.fontSize.xs,
-    color: colors.textSecondary,
-  },
-  avatar: {
-    width: 32,
-    height: 32,
-    borderRadius: radii.full,
-    borderWidth: 1,
-    borderColor: colors.outlineVariant,
-    backgroundColor: colors.surfaceContainerHigh,
-  },
   content: {
     padding: spacing.lg,
+    paddingBottom: spacing['4xl'],
     gap: spacing.lg,
   },
   summaryCard: {

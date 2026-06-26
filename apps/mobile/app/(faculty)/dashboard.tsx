@@ -19,7 +19,6 @@ import {
 } from '@piiaura/ui';
 import { ROUTES } from '@piiaura/constants';
 import { useAuth, useFacultyDashboard } from '@piiaura/hooks';
-import { FacultyHeader } from '@/components/faculty/FacultyHeader';
 import { CircularProgressRing } from '@/components/faculty/CircularProgressRing';
 import { EmptyScheduleState } from '@/components/faculty/EmptyScheduleState';
 import { PriorityAlertsCard } from '@/components/faculty/PriorityAlertsCard';
@@ -36,7 +35,6 @@ export default function FacultyDashboardScreen() {
   if (isLoading || !dashboard) {
     return (
       <View style={styles.loading}>
-        <FacultyHeader />
         <Text style={styles.loadingText}>Loading dashboard...</Text>
       </View>
     );
@@ -54,7 +52,6 @@ export default function FacultyDashboardScreen() {
 
   return (
     <View style={styles.screen}>
-      <FacultyHeader />
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.content}

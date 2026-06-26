@@ -6,6 +6,16 @@ import {
   mockFacultyAttendanceSession,
   mockFacultyScheduleData,
   mockFacultyLeaveData,
+  mockFacultyStudyMaterialData,
+  mockFacultyAssignmentsData,
+  mockFacultyAiToolsData,
+  mockFacultyMarksEntryData,
+  mockFacultySyllabusData,
+  mockFacultyInvigilationData,
+  mockFacultySalaryData,
+  mockFacultyAlertsData,
+  mockFacultyProfileData,
+  mockFacultySettingsData,
   mockStudentDashboardStats,
   mockStudentAnnouncements,
   mockStudentAttendance,
@@ -103,6 +113,86 @@ export function useFacultyLeave() {
   return useQuery({
     queryKey: ['faculty', 'leave'],
     queryFn: async () => mockFacultyLeaveData,
+    staleTime,
+  });
+}
+
+export function useFacultyStudyMaterial() {
+  return useQuery({
+    queryKey: ['faculty', 'study-material'],
+    queryFn: async () => mockFacultyStudyMaterialData,
+    staleTime,
+  });
+}
+
+export function useFacultyAssignmentsScreen() {
+  return useQuery({
+    queryKey: ['faculty', 'assignments', 'screen'],
+    queryFn: async () => mockFacultyAssignmentsData,
+    staleTime,
+  });
+}
+
+export function useFacultyAiTools() {
+  return useQuery({
+    queryKey: ['faculty', 'ai-tools'],
+    queryFn: async () => mockFacultyAiToolsData,
+    staleTime,
+  });
+}
+
+export function useFacultyMarksEntry() {
+  return useQuery({
+    queryKey: ['faculty', 'marks-entry'],
+    queryFn: async () => mockFacultyMarksEntryData,
+    staleTime,
+  });
+}
+
+export function useFacultySyllabus() {
+  return useQuery({
+    queryKey: ['faculty', 'syllabus'],
+    queryFn: async () => mockFacultySyllabusData,
+    staleTime,
+  });
+}
+
+export function useFacultyInvigilation() {
+  return useQuery({
+    queryKey: ['faculty', 'invigilation'],
+    queryFn: async () => mockFacultyInvigilationData,
+    staleTime,
+  });
+}
+
+export function useFacultySalary() {
+  return useQuery({
+    queryKey: ['faculty', 'salary'],
+    queryFn: async () => mockFacultySalaryData,
+    staleTime,
+  });
+}
+
+export function useFacultyAlerts() {
+  return useQuery({
+    queryKey: ['faculty', 'alerts'],
+    queryFn: async () => mockFacultyAlertsData,
+    staleTime,
+  });
+}
+
+export function useFacultyProfile() {
+  return useQuery({
+    queryKey: ['faculty', 'profile'],
+    queryFn: async () => mockFacultyProfileData,
+    staleTime,
+  });
+}
+
+export function useFacultySettings() {
+  return useQuery({
+    queryKey: ['faculty', 'settings'],
+    queryFn: async () => mockFacultySettingsData,
     staleTime,
   });
 }

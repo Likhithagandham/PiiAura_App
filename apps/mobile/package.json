@@ -4,11 +4,11 @@
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
-    "dev": "expo start",
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "dev": "expo start --offline --port 8082",
+    "start": "expo start --offline --port 8082",
+    "android": "expo start --offline --android",
+    "ios": "expo start --offline --ios",
+    "web": "expo start --offline --web",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "axios": "^1.10.0",
     "expo": "~54.0.0",
     "expo-constants": "~18.0.0",
+    "expo-document-picker": "~14.0.8",
     "expo-linking": "~8.0.0",
     "expo-router": "~6.0.0",
     "expo-status-bar": "~3.0.0",

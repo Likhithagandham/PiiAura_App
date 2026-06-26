@@ -26,6 +26,8 @@ export function Button({
   fullWidth = false,
   disabled,
   style,
+  accessibilityLabel,
+  accessibilityHint,
   ...props
 }: ButtonProps) {
   const isDisabled = disabled || loading;
@@ -34,6 +36,10 @@ export function Button({
     <TouchableOpacity
       activeOpacity={0.8}
       disabled={isDisabled}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel ?? label}
+      accessibilityHint={accessibilityHint}
+      accessibilityState={{ disabled: isDisabled, busy: loading }}
       style={[
         styles.base,
         styles[variant],

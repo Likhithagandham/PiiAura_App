@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react-native';
-import { FacultyHeader } from '@/components/faculty/FacultyHeader';
 import { SegmentTabs, type SegmentTabKey } from '@/components/faculty/SegmentTabs';
 import { FacultyCalendarGrid } from '@/components/faculty/FacultyCalendarGrid';
 import { WeeklyTimetableList } from '@/components/faculty/WeeklyTimetableList';
@@ -70,7 +69,6 @@ export default function FacultyScheduleScreen() {
 
   return (
     <View style={styles.screen}>
-      <FacultyHeader title="Schedule" />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <AlertBanner
           variant="leave"

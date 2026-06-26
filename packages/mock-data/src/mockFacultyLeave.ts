@@ -43,4 +43,35 @@ export const mockFacultyLeaveData: FacultyLeaveData = {
       metaLabel: 'Processed Sep 12',
     },
   ],
+  studentLeave: {
+    pendingCount: 2,
+    pendingDescription: 'Approve or reject student/guardian leave.',
+    pendingRequests: [
+      {
+        id: 'stu-req-1',
+        studentName: 'Priya Sharma',
+        classLabel: 'BCS III',
+        dateLabel: '2026-06-25',
+        reason: 'Medical appointment',
+        appliedBy: 'Mrs. Sharma (parent)',
+      },
+      {
+        id: 'stu-req-2',
+        studentName: 'Aarav Patel',
+        classLabel: 'BCS III',
+        dateLabel: '2026-05-27 → 28',
+        reason: 'Inter-school sports meet',
+        appliedBy: 'Aarav Patel (student)',
+      },
+    ],
+    recentDecisions: [
+      {
+        id: 'dec-1',
+        studentName: 'Sneha Reddy',
+        reviewedBy: 'School Admin',
+        status: 'approved',
+        timestampLabel: 'May 20, 4:30 PM',
+      },
+    ],
+  },
 };
