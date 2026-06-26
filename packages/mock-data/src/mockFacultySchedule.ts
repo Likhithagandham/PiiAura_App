@@ -1,0 +1,175 @@
+import type { FacultyDayAttendanceStatus, FacultyScheduleData } from '@piiaura/types';
+
+const june2026Attendance: Record<string, FacultyDayAttendanceStatus> = {
+  '2026-06-01': 'present',
+  '2026-06-02': 'present',
+  '2026-06-03': 'present',
+  '2026-06-04': 'present',
+  '2026-06-05': 'present',
+  '2026-06-06': 'present',
+  '2026-06-07': 'not_marked',
+  '2026-06-08': 'present',
+  '2026-06-09': 'not_marked',
+  '2026-06-10': 'present',
+  '2026-06-11': 'absent',
+  '2026-06-12': 'present',
+  '2026-06-13': 'present',
+  '2026-06-14': 'not_marked',
+  '2026-06-15': 'present',
+  '2026-06-16': 'present',
+  '2026-06-17': 'present',
+  '2026-06-18': 'present',
+  '2026-06-19': 'present',
+  '2026-06-20': 'present',
+  '2026-06-21': 'not_marked',
+  '2026-06-22': 'absent',
+  '2026-06-23': 'present',
+  '2026-06-24': 'present',
+  '2026-06-25': 'present',
+  '2026-06-26': 'holiday',
+  '2026-06-27': 'not_marked',
+  '2026-06-28': 'not_marked',
+  '2026-06-29': 'present',
+  '2026-06-30': 'present',
+};
+
+const week24Slots = [
+  {
+    id: 'slot-0900-mon',
+    time: '09:00',
+    dayLabel: 'MON • BCS III',
+    title: 'Engineering Mathematics I',
+    room: 'Lab A',
+    duration: '50m',
+    emphasized: true,
+    isActive: true,
+  },
+  {
+    id: 'slot-0900-tue',
+    time: '09:00',
+    dayLabel: 'TUE • BCS III',
+    title: 'Engineering Physics',
+    room: 'Room 201',
+  },
+  {
+    id: 'slot-0950-mon',
+    time: '09:50',
+    dayLabel: 'MON • BCS III',
+    title: 'Engineering Physics',
+    room: 'Room 201',
+  },
+  {
+    id: 'slot-0950-thu',
+    time: '09:50',
+    dayLabel: 'THU • BCS III',
+    title: 'Engineering Mathematics I',
+    room: 'Room 201',
+    emphasized: true,
+  },
+  {
+    id: 'slot-1040-break',
+    time: '10:40',
+    dayLabel: '',
+    title: 'Tea Break',
+    room: '',
+  },
+  {
+    id: 'slot-1130-wed',
+    time: '11:30',
+    dayLabel: 'WED • BCS II',
+    title: 'Engineering Mathematics I',
+    room: 'Lab A',
+  },
+];
+
+const week23Slots = [
+  {
+    id: 'w23-0900-mon',
+    time: '09:00',
+    dayLabel: 'MON • BCS II',
+    title: 'Data Structures',
+    room: 'Room 105',
+    duration: '50m',
+    emphasized: true,
+  },
+  {
+    id: 'w23-0950-wed',
+    time: '09:50',
+    dayLabel: 'WED • BCS II',
+    title: 'Operating Systems',
+    room: 'Lab B',
+  },
+  {
+    id: 'w23-1040-break',
+    time: '10:40',
+    dayLabel: '',
+    title: 'Tea Break',
+    room: '',
+  },
+  {
+    id: 'w23-1130-fri',
+    time: '11:30',
+    dayLabel: 'FRI • BCS III',
+    title: 'Engineering Physics',
+    room: 'Room 201',
+  },
+];
+
+const week25Slots = [
+  {
+    id: 'w25-0900-tue',
+    time: '09:00',
+    dayLabel: 'TUE • BCS III',
+    title: 'Engineering Mathematics I',
+    room: 'Lab A',
+    duration: '50m',
+    emphasized: true,
+  },
+  {
+    id: 'w25-0950-thu',
+    time: '09:50',
+    dayLabel: 'THU • BCS III',
+    title: 'Engineering Physics',
+    room: 'Room 201',
+  },
+  {
+    id: 'w25-1040-break',
+    time: '10:40',
+    dayLabel: '',
+    title: 'Tea Break',
+    room: '',
+  },
+  {
+    id: 'w25-1130-wed',
+    time: '11:30',
+    dayLabel: 'WED • BCS II',
+    title: 'Discrete Mathematics',
+    room: 'Room 302',
+  },
+];
+
+export const mockFacultyScheduleData: FacultyScheduleData = {
+  heading: 'My Timetable',
+  description:
+    'Weekly view shows your teaching schedule. Calendar view tracks your personal attendance.',
+  alertCount: 2,
+  attendanceOverview: {
+    presentDays: 18,
+    absentDays: 1,
+    leaveDays: 0,
+    attendancePercent: 95,
+    monthLabel: 'June 2026',
+  },
+  attendanceByDate: june2026Attendance,
+  calendarAnchor: { year: 2026, month: 5 },
+  weekly: {
+    title: 'Teaching Schedule',
+    semesterLabel: 'Academic Semester',
+    defaultWeekIndex: 1,
+    weeks: [
+      { weekNumber: 23, slots: week23Slots },
+      { weekNumber: 24, slots: week24Slots },
+      { weekNumber: 25, slots: week25Slots },
+    ],
+  },
+};

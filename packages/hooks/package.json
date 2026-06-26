@@ -1,0 +1,27 @@
+{
+  "name": "@piiaura/hooks",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@piiaura/constants": "workspace:*",
+    "@piiaura/mock-data": "workspace:*",
+    "@piiaura/types": "workspace:*",
+    "@tanstack/react-query": "^5.81.5",
+    "axios": "^1.10.0",
+    "zustand": "^5.0.6"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "@react-native-async-storage/async-storage": "*"
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.0",
+    "typescript": "^5.8.3"
+  }
+}
