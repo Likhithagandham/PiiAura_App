@@ -1,21 +1,21 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { usePathname } from 'expo-router';
-import { Home, ClipboardCheck, Calendar, Menu } from 'lucide-react-native';
+import { Home, GraduationCap, Calendar, Menu } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, spacing, typography, radii } from '@piiaura/ui';
 import { getStudentParentTab } from '@/components/student/studentRouteMeta';
 
 const TAB_CONFIG = {
   dashboard: { label: 'Home', Icon: Home },
-  attendance: { label: 'Attendance', Icon: ClipboardCheck },
+  learn: { label: 'Learn', Icon: GraduationCap },
   timetable: { label: 'Schedule', Icon: Calendar },
   more: { label: 'More', Icon: Menu },
 } as const;
 
 type TabRouteName = keyof typeof TAB_CONFIG;
 
-const TAB_BAR_BG = '#00332b';
+const TAB_BAR_BG = '#004D40';
 
 export function StudentTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
@@ -23,7 +23,7 @@ export function StudentTabBar({ state, navigation }: BottomTabBarProps) {
   const activeTab = getStudentParentTab(pathname);
 
   return (
-    <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, spacing.sm) }]}>
+    <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, spacing.md) }]}>
       {state.routes.map((route) => {
         const config = TAB_CONFIG[route.name as TabRouteName];
         if (!config) return null;
@@ -47,10 +47,10 @@ export function StudentTabBar({ state, navigation }: BottomTabBarProps) {
           <Pressable key={route.key} onPress={onPress} style={styles.tab}>
             <View style={[styles.tabInner, isFocused && styles.tabInnerActive]}>
               <Icon
-                size={22}
-                color={isFocused ? colors.primaryContainer : colors.white}
+                size={24}
+                color={isFocused ? '#065043' : colors.white}
                 strokeWidth={isFocused ? 2.5 : 2}
-                fill={isFocused ? colors.primaryContainer : 'transparent'}
+                fill={isFocused ? '#065043' : 'transparent'}
               />
               <Text style={[styles.label, isFocused && styles.labelActive]}>{label}</Text>
             </View>
@@ -65,27 +65,28 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: TAB_BAR_BG,
-    paddingTop: spacing.sm,
+    paddingTop: spacing.lg,
     paddingHorizontal: spacing.md,
     borderTopWidth: 1,
-    borderTopColor: colors.primaryContainer,
+    borderTopColor: 'rgba(255,255,255,0.1)',
   },
   tab: {
     flex: 1,
     alignItems: 'center',
     minWidth: 0,
+    paddingHorizontal: spacing.xs,
   },
   tabInner: {
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 2,
-    paddingVertical: 6,
-    paddingHorizontal: spacing.sm,
+    gap: spacing.sm,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.lg,
     borderRadius: radii.xl,
     opacity: 0.72,
   },
   tabInnerActive: {
-    backgroundColor: '#F0FDFA',
+    backgroundColor: '#AFEFDD',
     opacity: 1,
   },
   label: {
@@ -96,6 +97,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
   },
   labelActive: {
-    color: colors.primaryContainer,
+    color: '#065043',
   },
 });

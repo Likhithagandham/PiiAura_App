@@ -47,7 +47,7 @@ export default function StudentDashboardScreen() {
           attendance={data.attendance}
           hallTicket={data.hallTicket}
           assignments={data.assignments}
-          onAssignmentsPress={() => router.push(ROUTES.STUDENT.ASSIGNMENTS as never)}
+          onAssignmentsPress={() => router.push(ROUTES.STUDENT.LEARN as never)}
         />
 
         <StudentUpcomingExamsSection

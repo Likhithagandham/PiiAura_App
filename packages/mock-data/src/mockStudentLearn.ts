@@ -1,0 +1,78 @@
+import type { StudentLearnData } from '@piiaura/types';
+
+export const mockStudentLearnData: StudentLearnData = {
+  searchPlaceholder: 'Search for courses or tasks...',
+  studyTabLabel: 'Study material',
+  assignmentsTabLabel: 'Assignments',
+  assignmentsDescription: 'Submit assignments with file upload (mock S3).',
+  categories: [
+    { id: 'all', label: 'All Subjects' },
+    { id: 'math', label: 'Mathematics' },
+    { id: 'physics', label: 'Physics' },
+    { id: 'chemistry', label: 'Chemistry' },
+  ],
+  selectedCategoryId: 'all',
+  heroMaterial: {
+    id: 'hero-1',
+    badgeLabel: 'New Release',
+    title: 'Organic Chemistry',
+    subtitle: 'Full Lecture Notes & Video',
+    imageUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuBK36uZiknS6c9Xtr4LOC7UJh5MElTAmGrsEcsqHiZjnLeyyZYUpfXi96AdR-dcjW6p1AoTb72A1gG7ssCXzXyC1fLffvi5fW5sVdur_Tkp0456A_fw6q-4uGSBw89vDrgqlJZCwZpZDJBEa8Rf3Lrf4j1s6uMsU3qczrWhJOUJSsJP7o_mmyuGXbCoze74WAU7fCPquQJiV7Teq9ydBHxWgfK9N_Rzz2epLV_BroAUtZl4RU9kr6tu-2BLvb_KgmI8t1WxwmuKbMVv',
+  },
+  recentMaterialsTitle: 'Recent Materials',
+  viewAllLabel: 'View All',
+  recentMaterials: [
+    {
+      id: 'mat-1',
+      title: 'Vector Calculus II',
+      fileType: 'pdf',
+      sizeLabel: '4.2 MB',
+      updatedLabel: 'Updated 2h ago',
+    },
+    {
+      id: 'mat-2',
+      title: 'Quantum Mechanics Summary',
+      fileType: 'doc',
+      sizeLabel: '1.1 MB',
+      updatedLabel: 'Updated yesterday',
+    },
+  ],
+  uploadAssignments: [
+    {
+      id: 'asg-1',
+      status: 'pending',
+      title: 'Chapter review worksheet',
+      subject: 'Engineering Mathematics I',
+      dueLabel: 'Due: 6/27/2026, 6:00 PM',
+      dueIcon: 'calendar',
+      description: 'Complete exercises 1–5 before class tomorrow.',
+      selectedFileName: 'assignment.pdf',
+      uploadLabel: 'Upload',
+    },
+    {
+      id: 'asg-2',
+      status: 'pending',
+      title: 'Science lab prep',
+      subject: 'Engineering Physics II',
+      dueLabel: 'Due: 6/28/2026, 9:00 AM',
+      dueIcon: 'calendar',
+      description: 'Read pages 42–48 and note the experiment steps.',
+      filePlaceholder: 'Select file...',
+      uploadLabel: 'Upload',
+    },
+    {
+      id: 'asg-3',
+      status: 'submitted',
+      title: 'Algebra practice set',
+      subject: 'Engineering Mathematics I',
+      dueLabel: 'Due: 6/30/2026',
+      dueIcon: 'event_available',
+      description: '',
+      submittedAtLabel: 'Submitted 6/27/2026, 11:41 AM',
+      submittedFileName: 'Aarav-worksheet.pdf',
+      viewSubmissionLabel: 'View Submission',
+      uploadLabel: 'Upload',
+    },
+  ],
+};

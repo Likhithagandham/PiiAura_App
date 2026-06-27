@@ -246,6 +246,443 @@ export interface StudentDashboardData {
   announcementsEmpty: StudentDashboardEmptyState;
 }
 
+export type StudentTimetableSlotCategory = 'core' | 'lab' | 'elective';
+
+export interface StudentTimetableDayOption {
+  id: string;
+  weekdayShort: string;
+  dayNumber: number;
+}
+
+export interface StudentTimetableDailySlot {
+  id: string;
+  kind: 'class' | 'break';
+  startTime: string;
+  durationLabel?: string;
+  subject?: string;
+  category?: StudentTimetableSlotCategory;
+  categoryLabel?: string;
+  location?: string;
+  locationIcon?: 'location' | 'science' | 'room';
+  facultyName?: string;
+  facultyInitials?: string;
+  isActive?: boolean;
+  breakLabel?: string;
+}
+
+export interface StudentTimetableWeeklyCell {
+  code: string;
+  category: StudentTimetableSlotCategory;
+}
+
+export interface StudentTimetableWeeklyRow {
+  timeLabel: string;
+  cells: (StudentTimetableWeeklyCell | null)[];
+}
+
+export interface StudentTimetableLegendItem {
+  id: string;
+  label: string;
+  category: StudentTimetableSlotCategory;
+}
+
+export interface StudentTimetableData {
+  title: string;
+  days: StudentTimetableDayOption[];
+  selectedDayId: string;
+  dailySlotsByDay: Record<string, StudentTimetableDailySlot[]>;
+  showNowIndicator: boolean;
+  nowIndicatorLabel: string;
+  weeklyDayHeaders: string[];
+  weeklyRows: StudentTimetableWeeklyRow[];
+  legendTitle: string;
+  legend: StudentTimetableLegendItem[];
+}
+
+export type StudentLearnMainTab = 'study' | 'assignments';
+export type StudentLearnMaterialType = 'pdf' | 'doc';
+export type StudentLearnAssignmentStatus = 'pending' | 'submitted';
+export type StudentLearnAssignmentDueIcon = 'calendar' | 'event_available';
+
+export interface StudentLearnCategory {
+  id: string;
+  label: string;
+}
+
+export interface StudentLearnHeroMaterial {
+  id: string;
+  badgeLabel: string;
+  title: string;
+  subtitle: string;
+  imageUrl: string;
+}
+
+export interface StudentLearnMaterialItem {
+  id: string;
+  title: string;
+  fileType: StudentLearnMaterialType;
+  sizeLabel: string;
+  updatedLabel: string;
+}
+
+export interface StudentLearnUploadAssignment {
+  id: string;
+  status: StudentLearnAssignmentStatus;
+  title: string;
+  subject: string;
+  dueLabel: string;
+  dueIcon: StudentLearnAssignmentDueIcon;
+  description: string;
+  selectedFileName?: string;
+  filePlaceholder?: string;
+  uploadLabel: string;
+  submittedAtLabel?: string;
+  submittedFileName?: string;
+  viewSubmissionLabel?: string;
+}
+
+export interface StudentLearnData {
+  searchPlaceholder: string;
+  studyTabLabel: string;
+  assignmentsTabLabel: string;
+  assignmentsDescription: string;
+  categories: StudentLearnCategory[];
+  selectedCategoryId: string;
+  heroMaterial: StudentLearnHeroMaterial;
+  recentMaterialsTitle: string;
+  viewAllLabel: string;
+  recentMaterials: StudentLearnMaterialItem[];
+  uploadAssignments: StudentLearnUploadAssignment[];
+}
+
+export interface StudentMoreHubTile {
+  id: string;
+  label: string;
+  subtitle: string;
+}
+
+export interface StudentMoreSystemItem {
+  id: string;
+  label: string;
+}
+
+export interface StudentMoreData {
+  heroTitle: string;
+  heroDescription: string;
+  academicSectionTitle: string;
+  academicTiles: StudentMoreHubTile[];
+  campusSectionTitle: string;
+  campusTiles: StudentMoreHubTile[];
+  systemSectionTitle: string;
+  systemItems: StudentMoreSystemItem[];
+}
+
+export interface StudentHomeworkOverview {
+  progressLabel: string;
+  title: string;
+  progressPercent: number;
+  summaryLabel: string;
+  pendingLabel: string;
+  pendingValue: string;
+  nextDueLabel: string;
+  nextDueValue: string;
+}
+
+export interface StudentHomeworkDayOption {
+  id: string;
+  weekdayShort: string;
+  dayNumber: number;
+}
+
+export type StudentHomeworkEntryKind = 'task' | 'teacher_note';
+export type StudentHomeworkTaskStatus = 'done' | 'pending';
+export type StudentHomeworkIconVariant = 'math' | 'science' | 'literature' | 'note';
+
+export interface StudentHomeworkEntry {
+  id: string;
+  kind: StudentHomeworkEntryKind;
+  metaLabel: string;
+  status?: StudentHomeworkTaskStatus;
+  statusLabel?: string;
+  title?: string;
+  description: string;
+  attachmentLabel?: string;
+  submitLabel?: string;
+  detailsLabel?: string;
+  iconVariant: StudentHomeworkIconVariant;
+  authorAvatarUrl?: string;
+  noteTimeLabel?: string;
+}
+
+export interface StudentHomeworkData {
+  overview: StudentHomeworkOverview;
+  diarySectionTitle: string;
+  monthLabel: string;
+  days: StudentHomeworkDayOption[];
+  selectedDayId: string;
+  entriesByDay: Record<string, StudentHomeworkEntry[]>;
+}
+
+export type StudentExamsTab = 'schedule' | 'results';
+
+export interface StudentExamTrendBar {
+  id: string;
+  heightPercent: number;
+  hoverLabel?: string;
+}
+
+export interface StudentExamFeatured {
+  trendsTitle: string;
+  growthLabel: string;
+  trendBars: StudentExamTrendBar[];
+  yourScoreLabel: string;
+  yourScoreValue: string;
+  classAvgLabel: string;
+  classAvgValue: string;
+  nextPaperBadge: string;
+  nextPaperTitle: string;
+  dateLabel: string;
+  locationLabel: string;
+}
+
+export interface StudentExamScheduleItem {
+  id: string;
+  monthShort: string;
+  dayNumber: number;
+  subject: string;
+  detailsLabel: string;
+  dimmed?: boolean;
+}
+
+export interface StudentExamResultsOverview {
+  averagePercent: number;
+  accentPercent: number;
+  averageLabel: string;
+  barStats: StudentExamBarStat[];
+  barCaption: string;
+}
+
+export interface StudentExamBarStat {
+  id: string;
+  shortLabel: string;
+  percent: number;
+  variant: 'primary' | 'accent';
+}
+
+export interface StudentExamUnitScore {
+  unitLabel: string;
+  percent: number;
+  isActive: boolean;
+}
+
+export interface StudentExamSubjectBreakdown {
+  id: string;
+  subject: string;
+  unitScores?: StudentExamUnitScore[];
+  sparklinePath: string;
+  sparklineFillPath: string;
+  strokeColor: string;
+  fillColor: string;
+  pendingMessage?: string;
+  dimmed?: boolean;
+}
+
+export interface StudentExamUnitResults {
+  id: string;
+  label: string;
+  overview: StudentExamResultsOverview;
+  breakdown: StudentExamSubjectBreakdown[];
+}
+
+export interface StudentExamsResultsData {
+  overviewTitle: string;
+  breakdownTitle: string;
+  units: StudentExamUnitResults[];
+}
+
+export interface StudentExamsData {
+  scheduleTabLabel: string;
+  resultsTabLabel: string;
+  upcomingExamsTitle: string;
+  hallTicketLabel: string;
+  featuredExam: StudentExamFeatured;
+  upcomingExams: StudentExamScheduleItem[];
+  results: StudentExamsResultsData;
+}
+
+export type StudentFeePaymentStatus = 'success' | 'completed';
+
+export interface StudentFeesBanner {
+  badgeLabel: string;
+  sessionTitle: string;
+}
+
+export interface StudentFeesBalanceSummary {
+  paidPercent: number;
+  paidLabel: string;
+  progressLabel: string;
+  totalDueLabel: string;
+  totalDueAmount: string;
+  balanceDueLabel: string;
+  balanceDueAmount: string;
+}
+
+export interface StudentFeesBalanceDetail {
+  paidAmountLabel: string;
+  paidAmount: string;
+  nextInstallmentLabel: string;
+  nextInstallmentDate: string;
+}
+
+export interface StudentFeesQuickPay {
+  title: string;
+  amountLabel: string;
+  defaultAmount: number;
+  currencyLabel: string;
+  payNowLabel: string;
+  secureLabel: string;
+}
+
+export interface StudentFeeTransaction {
+  id: string;
+  date: string;
+  status: StudentFeePaymentStatus;
+  statusLabel: string;
+  transactionId: string;
+  amount: string;
+  dimmed?: boolean;
+}
+
+export interface StudentFeesSupport {
+  message: string;
+  buttonLabel: string;
+}
+
+export interface StudentFeesData {
+  banner: StudentFeesBanner;
+  balanceSummary: StudentFeesBalanceSummary;
+  balanceDetailsTitle: string;
+  balanceDetail: StudentFeesBalanceDetail;
+  quickPay: StudentFeesQuickPay;
+  paymentHistoryTitle: string;
+  viewAllLabel: string;
+  transactions: StudentFeeTransaction[];
+  support: StudentFeesSupport;
+}
+
+export type StudentLeaveRequestStatus = 'pending' | 'approved' | 'rejected';
+
+export interface StudentLeaveRequest {
+  id: string;
+  dateRange: string;
+  durationLabel: string;
+  leaveType: string;
+  reason: string;
+  status: StudentLeaveRequestStatus;
+  statusLabel: string;
+}
+
+export interface StudentLeaveStats {
+  remainingCount: number;
+  remainingLabel: string;
+  availedCount: number;
+  availedLabel: string;
+}
+
+export interface StudentLeaveData {
+  title: string;
+  description: string;
+  leaveTypes: string[];
+  formSubmitLabel: string;
+  requestsTitle: string;
+  viewAllLabel: string;
+  tableHeaders: {
+    dates: string;
+    typeReason: string;
+    status: string;
+  };
+  requests: StudentLeaveRequest[];
+  stats: StudentLeaveStats;
+}
+
+export type StudentNoticeCategory = 'all' | 'academic' | 'fees' | 'events' | 'administrative';
+
+export type StudentNoticeVariant = 'urgent' | 'standard' | 'event' | 'administrative';
+
+export interface StudentNoticeCategoryChip {
+  id: StudentNoticeCategory;
+  label: string;
+}
+
+export interface StudentNoticeItem {
+  id: string;
+  category: Exclude<StudentNoticeCategory, 'all'>;
+  categoryLabel: string;
+  dateLabel: string;
+  title: string;
+  excerpt: string;
+  variant: StudentNoticeVariant;
+  ctaLabel: string;
+  imageUrl?: string;
+  urgentBadge?: string;
+}
+
+export interface StudentNoticesData {
+  title: string;
+  description: string;
+  categories: StudentNoticeCategoryChip[];
+  notices: StudentNoticeItem[];
+  loadMoreLabel: string;
+}
+
+export type StudentAlertPingType = 'urgent' | 'warning' | 'info';
+
+export interface StudentAlertPing {
+  id: string;
+  type: StudentAlertPingType;
+  typeLabel: string;
+  dateLabel: string;
+  title: string;
+  message: string;
+  ctaLabel: string;
+  unread?: boolean;
+}
+
+export interface StudentAlertsData {
+  title: string;
+  description: string;
+  unreadLabel: string;
+  pings: StudentAlertPing[];
+  loadMoreLabel: string;
+}
+
+export interface StudentProfilePersonalField {
+  id: string;
+  label: string;
+  value: string;
+  inputType: 'text' | 'email' | 'tel';
+}
+
+export interface StudentProfileSecurityItem {
+  id: string;
+  label: string;
+  type: 'action' | 'toggle';
+  defaultEnabled?: boolean;
+}
+
+export interface StudentProfileData {
+  name: string;
+  rollLabel: string;
+  programBadge: string;
+  avatarUrl: string;
+  personalSectionTitle: string;
+  personalFields: StudentProfilePersonalField[];
+  securitySectionTitle: string;
+  securityItems: StudentProfileSecurityItem[];
+  saveLabel: string;
+  lastUpdatedLabel: string;
+}
+
 export type FacultyLeaveRequestStatus = 'approved' | 'pending' | 'completed' | 'rejected';
 
 export interface FacultyLeaveBalance {
@@ -671,3 +1108,5 @@ export interface FacultyHelpSupportData {
   submitTicketLabel: string;
   submitTicketFootnote: string;
 }
+
+export type StudentHelpCenterData = FacultyHelpSupportData;

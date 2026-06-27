@@ -1,64 +1,83 @@
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { router } from 'expo-router';
-import {
-  BookOpen,
-  Bell,
-  GraduationCap,
-  ClipboardList,
-  User,
-  ChevronRight,
-  LogOut,
-} from 'lucide-react-native';
 import { ROUTES } from '@piiaura/constants';
-import { useAuth } from '@piiaura/hooks';
-import { colors, spacing, typography, radii } from '@piiaura/ui';
-
-const MENU_ITEMS = [
-  { id: 'assignments', label: 'Assignments', Icon: ClipboardList, route: ROUTES.STUDENT.ASSIGNMENTS },
-  { id: 'grades', label: 'Grades', Icon: GraduationCap, route: ROUTES.STUDENT.GRADES },
-  { id: 'announcements', label: 'Announcements', Icon: Bell, route: ROUTES.STUDENT.ANNOUNCEMENTS },
-  { id: 'profile', label: 'Profile', Icon: User, route: ROUTES.STUDENT.PROFILE },
-] as const;
+import { useAuth, useStudentMore } from '@piiaura/hooks';
+import type { StudentMoreHubTile, StudentMoreSystemItem } from '@piiaura/types';
+import { colors, spacing, typography } from '@piiaura/ui';
+import {
+  StudentMoreHeroBanner,
+  StudentMoreModuleGrid,
+  StudentMoreSystemList,
+  getStudentMoreTileRoute,
+  getStudentMoreSystemRoute,
+  navigateStudentPortal,
+} from '@/components/student/more/studentMoreSections';
+import { useToast } from '@/components/toast/ToastProvider';
 
 export default function StudentMoreScreen() {
-  const { user, logout } = useAuth();
+  const { data, isLoading } = useStudentMore();
+  const { logout } = useAuth();
+  const toast = useToast();
 
-  const handleLogout = () => {
-    logout();
-    router.replace(ROUTES.AUTH.LOGIN);
+  if (isLoading || !data) {
+    return (
+      <View style={styles.screen}>
+        <View style={styles.loading}>
+          <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  const handleTilePress = (tile: StudentMoreHubTile) => {
+    const route = getStudentMoreTileRoute(tile.id);
+    if (route) {
+      navigateStudentPortal(route);
+      return;
+    }
+    toast.show(`${tile.label} coming soon`, 'info');
+  };
+
+  const handleSystemPress = (item: StudentMoreSystemItem) => {
+    if (item.id === 'logout') {
+      logout();
+      router.replace(ROUTES.AUTH.LOGIN);
+      return;
+    }
+
+    const route = getStudentMoreSystemRoute(item.id);
+    if (route) {
+      navigateStudentPortal(route);
+      return;
+    }
+
+    toast.show(`${item.label} coming soon`, 'info');
   };
 
   return (
     <View style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={styles.intro}>
-          <BookOpen size={28} color={colors.primaryContainer} />
-          <Text style={styles.title}>Student Portal</Text>
-          <Text style={styles.subtitle}>{user?.className ?? 'Student'}</Text>
-        </View>
+        <StudentMoreHeroBanner title={data.heroTitle} description={data.heroDescription} />
 
-        <View style={styles.list}>
-          {MENU_ITEMS.map((item, index) => (
-            <Pressable
-              key={item.id}
-              style={[styles.row, index < MENU_ITEMS.length - 1 && styles.rowBorder]}
-              onPress={() => router.push(item.route as never)}
-            >
-              <View style={styles.rowLeft}>
-                <View style={styles.iconWrap}>
-                  <item.Icon size={20} color={colors.primaryContainer} />
-                </View>
-                <Text style={styles.rowLabel}>{item.label}</Text>
-              </View>
-              <ChevronRight size={18} color={colors.textSecondary} />
-            </Pressable>
-          ))}
-        </View>
+        <StudentMoreModuleGrid
+          title={data.academicSectionTitle}
+          tiles={data.academicTiles}
+          variant="academic"
+          onTilePress={handleTilePress}
+        />
 
-        <Pressable style={styles.logoutBtn} onPress={handleLogout}>
-          <LogOut size={20} color={colors.error} />
-          <Text style={styles.logoutText}>Logout</Text>
-        </Pressable>
+        <StudentMoreModuleGrid
+          title={data.campusSectionTitle}
+          tiles={data.campusTiles}
+          variant="campus"
+          onTilePress={handleTilePress}
+        />
+
+        <StudentMoreSystemList
+          title={data.systemSectionTitle}
+          items={data.systemItems}
+          onItemPress={handleSystemPress}
+        />
       </ScrollView>
     </View>
   );
@@ -67,75 +86,20 @@ export default function StudentMoreScreen() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: '#F8F9FA',
+  },
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingText: {
+    fontSize: typography.fontSize.sm,
+    color: colors.textSecondary,
   },
   content: {
     padding: spacing.lg,
     paddingBottom: spacing['4xl'],
     gap: spacing['2xl'],
-  },
-  intro: {
-    alignItems: 'center',
-    gap: spacing.sm,
-    paddingVertical: spacing.lg,
-  },
-  title: {
-    fontSize: typography.fontSize.xl,
-    fontWeight: typography.fontWeight.bold,
-    color: colors.primaryContainer,
-  },
-  subtitle: {
-    fontSize: typography.fontSize.sm,
-    color: colors.textSecondary,
-  },
-  list: {
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.borderLight,
-    borderRadius: radii.xl,
-    overflow: 'hidden',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: spacing.lg,
-  },
-  rowBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
-  },
-  rowLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-  },
-  iconWrap: {
-    width: 36,
-    height: 36,
-    borderRadius: radii.lg,
-    backgroundColor: colors.secondaryContainer,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  rowLabel: {
-    fontSize: typography.fontSize.md,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.text,
-  },
-  logoutBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.sm,
-    padding: spacing.lg,
-    borderWidth: 1,
-    borderColor: colors.error,
-    borderRadius: radii.xl,
-  },
-  logoutText: {
-    fontSize: typography.fontSize.md,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.error,
   },
 });

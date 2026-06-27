@@ -1,5 +1,6 @@
-import { ScreenPlaceholder } from '@/components/ScreenPlaceholder';
+import { Redirect } from 'expo-router';
+import { ROUTES } from '@piiaura/constants';
 
 export default function StudentAnnouncementsScreen() {
-  return <ScreenPlaceholder title="Announcements" role="student" />;
+  return <Redirect href={ROUTES.STUDENT.NOTICES} />;
 }

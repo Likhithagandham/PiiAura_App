@@ -3,7 +3,6 @@ import type {
   Announcement,
   Assignment,
   Grade,
-  TimetableSlot,
   AttendanceRecord,
 } from '@piiaura/types';
 
@@ -65,27 +64,6 @@ export const mockStudentGrades: Grade[] = [
     maxMarks: 20,
     grade: 'A+',
     date: '2026-05-28',
-  },
-];
-
-export const mockStudentTimetable: TimetableSlot[] = [
-  {
-    id: 'tt-001',
-    day: 'Monday',
-    startTime: '09:00',
-    endTime: '10:00',
-    subject: 'Data Structures',
-    room: 'CS-201',
-    facultyName: 'Dr. Priya Sharma',
-  },
-  {
-    id: 'tt-002',
-    day: 'Monday',
-    startTime: '10:15',
-    endTime: '11:15',
-    subject: 'Operating Systems',
-    room: 'CS-105',
-    facultyName: 'Prof. Anil Mehta',
   },
 ];
 

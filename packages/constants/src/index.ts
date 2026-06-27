@@ -43,6 +43,14 @@ export const ROUTES = {
     PROFILE: '/(student)/profile',
     MORE: '/(student)/more',
     SCHEDULE: '/(student)/timetable',
+    LEARN: '/(student)/learn',
+    HOMEWORK: '/(student)/homework',
+    EXAMS: '/(student)/exams',
+    FEES: '/(student)/fees',
+    LEAVE: '/(student)/leave',
+    ALERTS: '/(student)/alerts',
+    NOTICES: '/(student)/notices',
+    HELP: '/(student)/help',
   },
 } as const;
 

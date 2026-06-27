@@ -23,7 +23,17 @@ import {
   mockStudentAttendance,
   mockStudentAssignments,
   mockStudentGrades,
-  mockStudentTimetable,
+  mockStudentTimetableData,
+  mockStudentLearnData,
+  mockStudentMoreData,
+  mockStudentHomeworkData,
+  mockStudentExamsData,
+  mockStudentFeesData,
+  mockStudentLeaveData,
+  mockStudentAlertsData,
+  mockStudentNoticesData,
+  mockStudentProfileData,
+  mockStudentHelpCenterData,
   mockFacultyAssignments,
 } from '@piiaura/mock-data';
 import { APP_CONFIG } from '@piiaura/constants';
@@ -78,7 +88,91 @@ export function useGrades() {
 export function useTimetable() {
   return useQuery({
     queryKey: ['student', 'timetable'],
-    queryFn: async () => mockStudentTimetable,
+    queryFn: async () => mockStudentTimetableData,
+    staleTime,
+  });
+}
+
+export function useStudentTimetable() {
+  return useTimetable();
+}
+
+export function useStudentLearn() {
+  return useQuery({
+    queryKey: ['student', 'learn'],
+    queryFn: async () => mockStudentLearnData,
+    staleTime,
+  });
+}
+
+export function useStudentMore() {
+  return useQuery({
+    queryKey: ['student', 'more'],
+    queryFn: async () => mockStudentMoreData,
+    staleTime,
+  });
+}
+
+export function useStudentHomework() {
+  return useQuery({
+    queryKey: ['student', 'homework'],
+    queryFn: async () => mockStudentHomeworkData,
+    staleTime,
+  });
+}
+
+export function useStudentExams() {
+  return useQuery({
+    queryKey: ['student', 'exams'],
+    queryFn: async () => mockStudentExamsData,
+    staleTime,
+  });
+}
+
+export function useStudentFees() {
+  return useQuery({
+    queryKey: ['student', 'fees'],
+    queryFn: async () => mockStudentFeesData,
+    staleTime,
+  });
+}
+
+export function useStudentLeave() {
+  return useQuery({
+    queryKey: ['student', 'leave'],
+    queryFn: async () => mockStudentLeaveData,
+    staleTime,
+  });
+}
+
+export function useStudentAlerts() {
+  return useQuery({
+    queryKey: ['student', 'alerts'],
+    queryFn: async () => mockStudentAlertsData,
+    staleTime,
+  });
+}
+
+export function useStudentNotices() {
+  return useQuery({
+    queryKey: ['student', 'notices'],
+    queryFn: async () => mockStudentNoticesData,
+    staleTime,
+  });
+}
+
+export function useStudentProfile() {
+  return useQuery({
+    queryKey: ['student', 'profile'],
+    queryFn: async () => mockStudentProfileData,
+    staleTime,
+  });
+}
+
+export function useStudentHelpCenter() {
+  return useQuery({
+    queryKey: ['student', 'help'],
+    queryFn: async () => mockStudentHelpCenterData,
     staleTime,
   });
 }
