@@ -14,4 +14,6 @@ export * from './mockFacultySalary';
 export * from './mockFacultyAlerts';
 export * from './mockFacultyProfile';
 export * from './mockFacultySettings';
+export * from './mockFacultyHelpSupport';
 export * from './mockStudentGrades';
+export * from './mockStudentDashboard';

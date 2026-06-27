@@ -16,7 +16,9 @@ import {
   mockFacultyAlertsData,
   mockFacultyProfileData,
   mockFacultySettingsData,
+  mockFacultyHelpSupportData,
   mockStudentDashboardStats,
+  mockStudentDashboardData,
   mockStudentAnnouncements,
   mockStudentAttendance,
   mockStudentAssignments,
@@ -43,10 +45,7 @@ export function useFacultyDashboard() {
 export function useStudentDashboard() {
   return useQuery({
     queryKey: ['student', 'dashboard'],
-    queryFn: async () => ({
-      stats: mockStudentDashboardStats,
-      announcements: mockStudentAnnouncements.slice(0, 2),
-    }),
+    queryFn: async () => mockStudentDashboardData,
     staleTime,
   });
 }
@@ -193,6 +192,14 @@ export function useFacultySettings() {
   return useQuery({
     queryKey: ['faculty', 'settings'],
     queryFn: async () => mockFacultySettingsData,
+    staleTime,
+  });
+}
+
+export function useFacultyHelpSupport() {
+  return useQuery({
+    queryKey: ['faculty', 'help-support'],
+    queryFn: async () => mockFacultyHelpSupportData,
     staleTime,
   });
 }

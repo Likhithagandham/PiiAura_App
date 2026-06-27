@@ -31,6 +31,7 @@ export const ROUTES = {
     SYLLABUS: '/(faculty)/syllabus',
     INVIGILATION: '/(faculty)/invigilation',
     SALARY: '/(faculty)/salary',
+    HELP: '/(faculty)/help-support',
   },
   STUDENT: {
     DASHBOARD: '/(student)/dashboard',
@@ -40,6 +41,8 @@ export const ROUTES = {
     GRADES: '/(student)/grades',
     ANNOUNCEMENTS: '/(student)/announcements',
     PROFILE: '/(student)/profile',
+    MORE: '/(student)/more',
+    SCHEDULE: '/(student)/timetable',
   },
 } as const;
 

@@ -68,7 +68,7 @@ export const FACULTY_SYSTEM_ITEMS: FacultySystemItem[] = [
     Icon: Settings,
     route: ROUTES.FACULTY.SETTINGS,
   },
-  { id: 'help', label: 'Help & Support', Icon: HelpCircle },
+  { id: 'help', label: 'Help & Support', Icon: HelpCircle, route: ROUTES.FACULTY.HELP },
   { id: 'logout', label: 'Logout', Icon: LogOut, destructive: true },
 ];
 

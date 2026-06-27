@@ -34,6 +34,7 @@ export default function FacultyLayout() {
       <Tabs.Screen name="syllabus" options={{ href: null }} />
       <Tabs.Screen name="invigilation" options={{ href: null }} />
       <Tabs.Screen name="salary" options={{ href: null }} />
+      <Tabs.Screen name="help-support" options={{ href: null }} />
     </Tabs>
   );
 }

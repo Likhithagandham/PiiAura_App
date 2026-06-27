@@ -21,4 +21,5 @@ export {
   useFacultyAlerts,
   useFacultyProfile,
   useFacultySettings,
+  useFacultyHelpSupport,
 } from './useData';

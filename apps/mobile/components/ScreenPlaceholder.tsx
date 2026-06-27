@@ -8,9 +8,9 @@ interface ScreenPlaceholderProps {
 }
 
 export function ScreenPlaceholder({ title, role }: ScreenPlaceholderProps) {
-  if (role === 'faculty') {
+  if (role === 'faculty' || role === 'student') {
     return (
-      <View style={styles.facultyScreen}>
+      <View style={styles.tabScreen}>
         <View style={styles.container}>
           <Text style={styles.subtitle}>
             Screen skeleton ready — awaiting Stitch design reference.
@@ -34,9 +34,9 @@ export function ScreenPlaceholder({ title, role }: ScreenPlaceholderProps) {
 }
 
 const styles = StyleSheet.create({
-  facultyScreen: {
+  tabScreen: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: '#F8FAFC',
   },
   safe: {
     flex: 1,

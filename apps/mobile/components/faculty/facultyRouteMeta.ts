@@ -29,6 +29,7 @@ const ROUTE_META: Record<string, FacultyRouteMeta> = {
   syllabus: { title: 'Syllabus completion', showBack: true, parentTab: 'more' },
   invigilation: { title: 'Invigilation', showBack: true, parentTab: 'more' },
   salary: { title: 'My Salary', showBack: true, parentTab: 'more' },
+  'help-support': { title: 'Help & Support', showBack: true, parentTab: 'more' },
 };
 
 export function getRouteSegment(pathname: string): string {

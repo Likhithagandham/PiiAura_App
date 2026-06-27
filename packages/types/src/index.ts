@@ -201,6 +201,51 @@ export interface StudentDashboardStats {
   averageGrade: string;
 }
 
+export interface StudentFeeAlert {
+  amountLabel: string;
+  detailsLabel: string;
+  payNowLabel: string;
+}
+
+export interface StudentDashboardStatTile {
+  label: string;
+  percent?: number;
+  badgeLabel?: string;
+  status?: string;
+  count?: number;
+  countLabel?: string;
+}
+
+export interface StudentUpcomingExam {
+  id: string;
+  subject: string;
+  dateTimeLabel: string;
+  iconLetter: string;
+}
+
+export interface StudentDashboardEmptyState {
+  title: string;
+  subtitle: string;
+}
+
+export interface StudentDashboardData {
+  welcomeName: string;
+  portalLabel: string;
+  avatarUrl: string;
+  feeAlert: StudentFeeAlert;
+  attendance: StudentDashboardStatTile;
+  hallTicket: StudentDashboardStatTile;
+  assignments: StudentDashboardStatTile;
+  upcomingExamsTitle: string;
+  upcomingExamsCount: number;
+  featuredExam: StudentUpcomingExam;
+  nextExamLabel: string;
+  todayScheduleTitle: string;
+  todayScheduleEmpty: StudentDashboardEmptyState;
+  announcementsTitle: string;
+  announcementsEmpty: StudentDashboardEmptyState;
+}
+
 export type FacultyLeaveRequestStatus = 'approved' | 'pending' | 'completed' | 'rejected';
 
 export interface FacultyLeaveBalance {
@@ -593,4 +638,36 @@ export interface FacultySettingsData {
   saveFootnote: string;
   privacyTitle: string;
   privacyDescription: string;
+}
+
+export interface FacultyHelpFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+export interface FacultyHelpContact {
+  id: string;
+  label: string;
+  value: string;
+  hint: string;
+}
+
+export interface FacultyHelpQuickLink {
+  id: string;
+  label: string;
+  description: string;
+}
+
+export interface FacultyHelpSupportData {
+  title: string;
+  description: string;
+  faqSectionTitle: string;
+  faqs: FacultyHelpFaqItem[];
+  contactSectionTitle: string;
+  contacts: FacultyHelpContact[];
+  quickLinksTitle: string;
+  quickLinks: FacultyHelpQuickLink[];
+  submitTicketLabel: string;
+  submitTicketFootnote: string;
 }
