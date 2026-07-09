@@ -7,8 +7,10 @@ import { colors, spacing, typography } from '@piiaura/ui';
 import { StudentAlertsCategoryChips } from '@/components/student/alerts/StudentAlertsCategoryChips';
 import { StudentAlertsNoticeCard } from '@/components/student/alerts/StudentAlertsNoticeCard';
 import { useToast } from '@/components/toast/ToastProvider';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function StudentNoticesScreen() {
+  useModuleWalkthrough('notices');
   const { data, isLoading } = useStudentNotices();
   const toast = useToast();
   const [selectedCategory, setSelectedCategory] = useState<StudentNoticeCategory>('all');

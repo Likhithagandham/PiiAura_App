@@ -1,13 +1,16 @@
 import { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useFacultyMarksEntry } from '@piiaura/hooks';
 import { colors, spacing, typography, radii } from '@piiaura/ui';
 import { MarksEntryConfigForm } from '@/components/faculty/marks-entry/MarksEntryConfigForm';
 import { MarksStudentRow } from '@/components/faculty/marks-entry/MarksStudentRow';
 import { SaveMarksFab } from '@/components/faculty/marks-entry/SaveMarksFab';
 import { useToast } from '@/components/toast/ToastProvider';
+import { WalkthroughTarget, useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function FacultyMarksEntryScreen() {
+  useModuleWalkthrough('marks-entry');
   const { data, isLoading } = useFacultyMarksEntry();
   const toast = useToast();
   const [marksByStudent, setMarksByStudent] = useState<Record<string, string>>({});
@@ -58,21 +61,23 @@ export default function FacultyMarksEntryScreen() {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.intro}>
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.MARKS_INTRO} style={styles.intro}>
           <Text style={styles.title}>{data.title}</Text>
           <Text style={styles.description}>{data.description}</Text>
-        </View>
+        </WalkthroughTarget>
 
-        <MarksEntryConfigForm
-          classes={data.classes}
-          subjects={data.subjects}
-          examinations={data.examinations}
-          defaultClass={data.defaultClass}
-          defaultSubject={data.defaultSubject}
-          defaultExamination={data.defaultExamination}
-        />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.MARKS_CONFIG}>
+          <MarksEntryConfigForm
+            classes={data.classes}
+            subjects={data.subjects}
+            examinations={data.examinations}
+            defaultClass={data.defaultClass}
+            defaultSubject={data.defaultSubject}
+            defaultExamination={data.defaultExamination}
+          />
+        </WalkthroughTarget>
 
-        <View style={styles.listSection}>
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.MARKS_LIST} style={styles.listSection}>
           <View style={styles.listHeader}>
             <Text style={styles.enrolledLabel}>
               {data.enrolledCount} Students Enrolled
@@ -92,15 +97,17 @@ export default function FacultyMarksEntryScreen() {
               />
             ))}
           </View>
-        </View>
+        </WalkthroughTarget>
       </ScrollView>
 
-      <SaveMarksFab
-        label={data.saveLabel}
-        onPress={handleSave}
-        loading={saving}
-        disabled={hasInvalidMarks}
-      />
+      <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.MARKS_SAVE}>
+        <SaveMarksFab
+          label={data.saveLabel}
+          onPress={handleSave}
+          loading={saving}
+          disabled={hasInvalidMarks}
+        />
+      </WalkthroughTarget>
     </View>
   );
 }

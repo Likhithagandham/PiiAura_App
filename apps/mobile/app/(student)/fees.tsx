@@ -9,8 +9,10 @@ import { StudentFeesQuickPayCard } from '@/components/student/fees/StudentFeesQu
 import { StudentFeesPaymentHistory } from '@/components/student/fees/StudentFeesPaymentHistory';
 import { StudentFeesSupportBanner } from '@/components/student/fees/StudentFeesSupportBanner';
 import { useToast } from '@/components/toast/ToastProvider';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function StudentFeesScreen() {
+  useModuleWalkthrough('fees');
   const { data, isLoading } = useStudentFees();
   const toast = useToast();
   const [paymentAmount, setPaymentAmount] = useState('');

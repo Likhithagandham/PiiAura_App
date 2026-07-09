@@ -1,11 +1,13 @@
 import { Tabs } from 'expo-router';
 import { StudentChromeHeader } from '@/components/student/StudentChromeHeader';
 import { StudentTabBar } from '@/components/student/StudentTabBar';
+import { WalkthroughProvider } from '@/components/walkthrough/WalkthroughProvider';
 import { colors } from '@piiaura/ui';
 
 export default function StudentLayout() {
   return (
-    <Tabs
+    <WalkthroughProvider role="student">
+      <Tabs
       tabBar={(props) => <StudentTabBar {...props} />}
       screenOptions={{
         headerShown: true,
@@ -40,5 +42,6 @@ export default function StudentLayout() {
       <Tabs.Screen name="notices" options={{ href: null }} />
       <Tabs.Screen name="help" options={{ href: null }} />
     </Tabs>
+    </WalkthroughProvider>
   );
 }

@@ -18,3 +18,4 @@ export { SectionCard } from './components/SectionCard';
 export { HolidayRow } from './components/HolidayRow';
 export { StatusPill } from './components/StatusPill';
 export { IosToggle } from './components/IosToggle';
+export { WalkthroughOverlay } from './components/WalkthroughOverlay';

@@ -5,8 +5,10 @@ import { StudyMaterialUploadForm } from '@/components/faculty/study-material/Stu
 import { StudyMaterialEmptyState } from '@/components/faculty/study-material/StudyMaterialEmptyState';
 import { StudyMaterialTips } from '@/components/faculty/study-material/StudyMaterialTips';
 import { useToast } from '@/components/toast/ToastProvider';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function FacultyStudyMaterialScreen() {
+  useModuleWalkthrough('study-material');
   const { data, isLoading } = useFacultyStudyMaterial();
   const toast = useToast();
 

@@ -5,6 +5,7 @@ import { SegmentTabs, type SegmentTabKey } from '@/components/faculty/SegmentTab
 import { FacultyCalendarGrid } from '@/components/faculty/FacultyCalendarGrid';
 import { WeeklyTimetableList } from '@/components/faculty/WeeklyTimetableList';
 import { AttendanceOverviewBar } from '@/components/faculty/AttendanceOverviewBar';
+import { WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useFacultySchedule } from '@piiaura/hooks';
 import {
   ATTENDANCE_STATUS_LABELS,
@@ -15,6 +16,8 @@ import {
   shiftMonth,
 } from '@piiaura/mock-data';
 import { AlertBanner, colors, spacing, typography, radii } from '@piiaura/ui';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
+import { WalkthroughTarget } from '@/components/walkthrough/WalkthroughProvider';
 
 const STATUS_ACCENT: Record<string, string> = {
   present: '#2E7D32',
@@ -25,6 +28,7 @@ const STATUS_ACCENT: Record<string, string> = {
 };
 
 export default function FacultyScheduleScreen() {
+  useModuleWalkthrough('schedule');
   const { data } = useFacultySchedule();
   const [tab, setTab] = useState<SegmentTabKey>('calendar');
 
@@ -70,20 +74,26 @@ export default function FacultyScheduleScreen() {
   return (
     <View style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <AlertBanner
-          variant="leave"
-          message="Students awaiting approval."
-          count={data?.alertCount ?? 2}
-          actionLabel="View details"
-          icon={<AlertCircle size={20} color="#6D3A00" />}
-        />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.SCHEDULE_ALERT}>
+          <AlertBanner
+            variant="leave"
+            message="Students awaiting approval."
+            count={data?.alertCount ?? 2}
+            actionLabel="View details"
+            icon={<AlertCircle size={20} color="#6D3A00" />}
+          />
+        </WalkthroughTarget>
 
-        <AttendanceOverviewBar overview={overview} />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.SCHEDULE_OVERVIEW}>
+          <AttendanceOverviewBar overview={overview} />
+        </WalkthroughTarget>
 
-        <SegmentTabs active={tab} onChange={setTab} />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.SCHEDULE_TABS}>
+          <SegmentTabs active={tab} onChange={setTab} />
+        </WalkthroughTarget>
 
         {tab === 'calendar' ? (
-          <View style={styles.panel}>
+          <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.SCHEDULE_CALENDAR} style={styles.panel}>
             <View style={styles.panelHeader}>
               <Text style={styles.panelTitle}>{calendar.monthLabel}</Text>
               <View style={styles.monthNav}>
@@ -134,9 +144,9 @@ export default function FacultyScheduleScreen() {
                 <Text style={styles.legendText}>Not Marked</Text>
               </View>
             </View>
-          </View>
+          </WalkthroughTarget>
         ) : (
-          <View style={styles.weeklyWrap}>
+          <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.SCHEDULE_CALENDAR} style={styles.weeklyWrap}>
             <View style={styles.weeklyHeader}>
               <View>
                 <Text style={styles.weeklyTitle}>{data?.weekly.title ?? 'Teaching Schedule'}</Text>
@@ -163,7 +173,7 @@ export default function FacultyScheduleScreen() {
             </View>
 
             <WeeklyTimetableList slots={currentWeek?.slots ?? []} />
-          </View>
+          </WalkthroughTarget>
         )}
       </ScrollView>
     </View>

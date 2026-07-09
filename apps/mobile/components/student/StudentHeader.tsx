@@ -2,10 +2,11 @@ import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import { router, usePathname } from 'expo-router';
 import { ArrowLeft, Bell, Search, Settings } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { APP_CONFIG, ROUTES } from '@piiaura/constants';
+import { APP_CONFIG, ROUTES, WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useAuth } from '@piiaura/hooks';
 import { Avatar, colors, spacing, typography } from '@piiaura/ui';
 import { useToast } from '@/components/toast/ToastProvider';
+import { WalkthroughTarget } from '@/components/walkthrough/WalkthroughProvider';
 import { getRouteSegment, getStudentParentTabRoute } from '@/components/student/studentRouteMeta';
 
 interface StudentHeaderProps {
@@ -39,19 +40,21 @@ export function StudentHeader({
   };
 
   const avatarButton = (
-    <Pressable
-      onPress={handleAvatarPress}
-      hitSlop={8}
-      accessibilityRole="button"
-      accessibilityLabel="Open profile"
-      style={styles.avatarBtn}
-    >
-      {photo ? (
-        <Image source={{ uri: photo }} style={styles.avatar} accessibilityLabel="Profile photo" />
-      ) : user ? (
-        <Avatar name={user.name} size="sm" tone="dark" />
-      ) : null}
-    </Pressable>
+    <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.HEADER_PROFILE}>
+      <Pressable
+        onPress={handleAvatarPress}
+        hitSlop={8}
+        accessibilityRole="button"
+        accessibilityLabel="Open profile"
+        style={styles.avatarBtn}
+      >
+        {photo ? (
+          <Image source={{ uri: photo }} style={styles.avatar} accessibilityLabel="Profile photo" />
+        ) : user ? (
+          <Avatar name={user.name} size="sm" tone="dark" />
+        ) : null}
+      </Pressable>
+    </WalkthroughTarget>
   );
 
   return (
@@ -85,7 +88,7 @@ export function StudentHeader({
         )}
       </View>
 
-      <View style={styles.actions}>
+      <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.HEADER_ACTIONS} style={styles.actions}>
         {showSettings ? (
           <Pressable
             onPress={() => toast.show('Settings coming soon', 'info')}
@@ -117,7 +120,7 @@ export function StudentHeader({
             ) : null}
           </>
         )}
-      </View>
+      </WalkthroughTarget>
     </View>
   );
 }

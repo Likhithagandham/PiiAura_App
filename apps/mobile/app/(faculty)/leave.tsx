@@ -13,8 +13,10 @@ import {
 import { StudentLeavePendingCard } from '@/components/faculty/leave/StudentLeavePendingCard';
 import { StudentLeaveDecisionCard } from '@/components/faculty/leave/StudentLeaveDecisionCard';
 import { useToast } from '@/components/toast/ToastProvider';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function FacultyLeaveScreen() {
+  useModuleWalkthrough('leave');
   const { data, isLoading, refetch, isFetching } = useFacultyLeave();
   const toast = useToast();
   const [tab, setTab] = useState<LeaveTabKey>('my');

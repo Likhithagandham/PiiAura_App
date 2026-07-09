@@ -4,7 +4,9 @@ import { usePathname } from 'expo-router';
 import { Home, GraduationCap, Calendar, Menu } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, spacing, typography, radii } from '@piiaura/ui';
+import { WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { getStudentParentTab } from '@/components/student/studentRouteMeta';
+import { WalkthroughTarget } from '@/components/walkthrough/WalkthroughProvider';
 
 const TAB_CONFIG = {
   dashboard: { label: 'Home', Icon: Home },
@@ -23,7 +25,10 @@ export function StudentTabBar({ state, navigation }: BottomTabBarProps) {
   const activeTab = getStudentParentTab(pathname);
 
   return (
-    <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, spacing.md) }]}>
+    <WalkthroughTarget
+      id={WALKTHROUGH_TARGETS.STUDENT.TAB_BAR}
+      style={[styles.container, { paddingBottom: Math.max(insets.bottom, spacing.md) }]}
+    >
       {state.routes.map((route) => {
         const config = TAB_CONFIG[route.name as TabRouteName];
         if (!config) return null;
@@ -57,7 +62,7 @@ export function StudentTabBar({ state, navigation }: BottomTabBarProps) {
           </Pressable>
         );
       })}
-    </View>
+    </WalkthroughTarget>
   );
 }
 

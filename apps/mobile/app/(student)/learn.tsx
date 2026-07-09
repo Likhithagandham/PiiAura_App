@@ -12,6 +12,7 @@ import { StudentLearnMaterialList } from '@/components/student/learn/StudentLear
 import { StudentLearnUploadAssignmentCard } from '@/components/student/learn/StudentLearnUploadAssignmentCard';
 import { StudentLearnFab } from '@/components/student/learn/StudentLearnFab';
 import { useToast } from '@/components/toast/ToastProvider';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 const ACCEPTED_MIME_TYPES = [
   'application/pdf',
@@ -20,6 +21,7 @@ const ACCEPTED_MIME_TYPES = [
 ] as const;
 
 export default function StudentLearnScreen() {
+  useModuleWalkthrough('learn');
   const { data, isLoading } = useStudentLearn();
   const toast = useToast();
   const [mainTab, setMainTab] = useState<StudentLearnMainTab>('study');

@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Calendar, Megaphone } from 'lucide-react-native';
-import { ROUTES } from '@piiaura/constants';
+import { ROUTES, WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useStudentDashboard } from '@piiaura/hooks';
 import { colors, spacing, typography } from '@piiaura/ui';
+import { WalkthroughTarget, useWalkthroughScrollRef } from '@/components/walkthrough/WalkthroughProvider';
 import { StudentFeeAlertCard } from '@/components/student/dashboard/StudentFeeAlertCard';
 import { StudentStatsGrid } from '@/components/student/dashboard/StudentStatsGrid';
 import {
@@ -15,6 +16,7 @@ import { useToast } from '@/components/toast/ToastProvider';
 export default function StudentDashboardScreen() {
   const { data, isLoading } = useStudentDashboard();
   const toast = useToast();
+  const scrollRef = useWalkthroughScrollRef();
 
   if (isLoading || !data) {
     return (
@@ -29,46 +31,53 @@ export default function StudentDashboardScreen() {
   return (
     <View style={styles.screen}>
       <ScrollView
+        ref={scrollRef}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.welcome}>
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.DASHBOARD_WELCOME} style={styles.welcome}>
           <Text style={styles.welcomeTitle}>Welcome, {data.welcomeName}</Text>
           <Text style={styles.welcomeSubtitle}>{data.portalLabel}</Text>
-        </View>
+        </WalkthroughTarget>
 
-        <StudentFeeAlertCard
-          alert={data.feeAlert}
-          onPayNow={() => toast.show('Fee payment coming soon', 'info')}
-          onViewDetails={() => toast.show('Fee details coming soon', 'info')}
-        />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.DASHBOARD_NOTIFICATIONS}>
+          <StudentFeeAlertCard
+            alert={data.feeAlert}
+            onPayNow={() => toast.show('Fee payment coming soon', 'info')}
+            onViewDetails={() => toast.show('Fee details coming soon', 'info')}
+          />
+        </WalkthroughTarget>
 
-        <StudentStatsGrid
-          attendance={data.attendance}
-          hallTicket={data.hallTicket}
-          assignments={data.assignments}
-          onAssignmentsPress={() => router.push(ROUTES.STUDENT.LEARN as never)}
-        />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.DASHBOARD_STATS}>
+          <StudentStatsGrid
+            attendance={data.attendance}
+            hallTicket={data.hallTicket}
+            assignments={data.assignments}
+            onAssignmentsPress={() => router.push(ROUTES.STUDENT.LEARN as never)}
+          />
+        </WalkthroughTarget>
 
-        <StudentUpcomingExamsSection
-          title={data.upcomingExamsTitle}
-          count={data.upcomingExamsCount}
-          exam={data.featuredExam}
-          nextExamLabel={data.nextExamLabel}
-        />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.DASHBOARD_ACTIVITY}>
+          <StudentUpcomingExamsSection
+            title={data.upcomingExamsTitle}
+            count={data.upcomingExamsCount}
+            exam={data.featuredExam}
+            nextExamLabel={data.nextExamLabel}
+          />
 
-        <StudentDashboardEmptyCard
-          title={data.todayScheduleTitle}
-          empty={data.todayScheduleEmpty}
-          Icon={Calendar}
-          dashed
-        />
+          <StudentDashboardEmptyCard
+            title={data.todayScheduleTitle}
+            empty={data.todayScheduleEmpty}
+            Icon={Calendar}
+            dashed
+          />
 
-        <StudentDashboardEmptyCard
-          title={data.announcementsTitle}
-          empty={data.announcementsEmpty}
-          Icon={Megaphone}
-        />
+          <StudentDashboardEmptyCard
+            title={data.announcementsTitle}
+            empty={data.announcementsEmpty}
+            Icon={Megaphone}
+          />
+        </WalkthroughTarget>
       </ScrollView>
     </View>
   );

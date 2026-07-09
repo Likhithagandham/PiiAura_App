@@ -4,8 +4,10 @@ import { useStudentAlerts } from '@piiaura/hooks';
 import { colors, spacing, typography, radii } from '@piiaura/ui';
 import { StudentAlertPingCard } from '@/components/student/alerts/StudentAlertPingCard';
 import { useToast } from '@/components/toast/ToastProvider';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function StudentAlertsScreen() {
+  useModuleWalkthrough('alerts');
   const { data, isLoading } = useStudentAlerts();
   const toast = useToast();
 

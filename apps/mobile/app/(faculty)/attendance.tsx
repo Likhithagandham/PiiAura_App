@@ -1,10 +1,13 @@
 import { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Alert } from 'react-native';
+import { WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useFacultyAttendanceSession } from '@piiaura/hooks';
 import { Button, IosToggle, colors, spacing, typography, radii } from '@piiaura/ui';
 import { useToast } from '@/components/toast/ToastProvider';
+import { WalkthroughTarget, useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function FacultyAttendanceScreen() {
+  useModuleWalkthrough('attendance');
   const { data: session, isLoading } = useFacultyAttendanceSession();
   const [presentIds, setPresentIds] = useState<Record<string, boolean>>({});
   const toast = useToast();
@@ -46,7 +49,10 @@ export default function FacultyAttendanceScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.summaryCard}>
+        <WalkthroughTarget
+          id={WALKTHROUGH_TARGETS.FACULTY.ATTENDANCE_SUMMARY}
+          style={styles.summaryCard}
+        >
           <View style={styles.summaryLeft}>
             <Text style={styles.summaryLabel}>SESSION STATUS</Text>
             <View style={styles.summaryRow}>
@@ -60,16 +66,18 @@ export default function FacultyAttendanceScreen() {
             <Text style={styles.summaryLabel}>PERIOD</Text>
             <Text style={styles.summaryPeriod}>09:30 AM - 10:30 AM</Text>
           </View>
-        </View>
+        </WalkthroughTarget>
 
         <View style={styles.listHeader}>
           <Text style={styles.listHeaderText}>Student Name</Text>
-          <Pressable onPress={markAllPresent} style={styles.markAll}>
-            <Text style={styles.markAllText}>Mark All Present</Text>
-          </Pressable>
+          <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.ATTENDANCE_MARK_ALL}>
+            <Pressable onPress={markAllPresent} style={styles.markAll}>
+              <Text style={styles.markAllText}>Mark All Present</Text>
+            </Pressable>
+          </WalkthroughTarget>
         </View>
 
-        <View style={styles.listCard}>
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.ATTENDANCE_LIST} style={styles.listCard}>
           {(session?.students ?? []).map((student, idx) => {
             const isOn = !!presentIds[student.id];
             const initials = student.name
@@ -103,15 +111,17 @@ export default function FacultyAttendanceScreen() {
               </View>
             );
           })}
-        </View>
+        </WalkthroughTarget>
 
-        <Button
-          label="Submit Attendance"
-          fullWidth
-          loading={isLoading}
-          onPress={submit}
-          style={styles.submitButton}
-        />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.ATTENDANCE_SUBMIT}>
+          <Button
+            label="Submit Attendance"
+            fullWidth
+            loading={isLoading}
+            onPress={submit}
+            style={styles.submitButton}
+          />
+        </WalkthroughTarget>
       </ScrollView>
     </View>
   );

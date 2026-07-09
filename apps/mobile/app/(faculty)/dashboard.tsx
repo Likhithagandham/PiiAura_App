@@ -17,11 +17,12 @@ import {
   typography,
   radii,
 } from '@piiaura/ui';
-import { ROUTES } from '@piiaura/constants';
+import { ROUTES, WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useAuth, useFacultyDashboard } from '@piiaura/hooks';
 import { CircularProgressRing } from '@/components/faculty/CircularProgressRing';
 import { EmptyScheduleState } from '@/components/faculty/EmptyScheduleState';
 import { PriorityAlertsCard } from '@/components/faculty/PriorityAlertsCard';
+import { WalkthroughTarget, useWalkthroughScrollRef } from '@/components/walkthrough/WalkthroughProvider';
 
 function GlassCard({ children, style }: { children: React.ReactNode; style?: object }) {
   return <View style={[styles.glassCard, style]}>{children}</View>;
@@ -30,6 +31,7 @@ function GlassCard({ children, style }: { children: React.ReactNode; style?: obj
 export default function FacultyDashboardScreen() {
   const { user } = useAuth();
   const { data, isLoading } = useFacultyDashboard();
+  const scrollRef = useWalkthroughScrollRef();
   const dashboard = data?.data;
 
   if (isLoading || !dashboard) {
@@ -53,14 +55,15 @@ export default function FacultyDashboardScreen() {
   return (
     <View style={styles.screen}>
       <ScrollView
+        ref={scrollRef}
         style={styles.scroll}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.greeting}>
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.DASHBOARD_GREETING} style={styles.greeting}>
           <Text style={styles.title}>Dashboard</Text>
           <Text style={styles.welcome}>Welcome back, {user?.name ?? 'Faculty'}</Text>
-        </View>
+        </WalkthroughTarget>
 
         {alert ? (
           <AlertBanner
@@ -71,12 +74,13 @@ export default function FacultyDashboardScreen() {
           />
         ) : null}
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.bentoRow}
-          style={styles.bentoScroll}
-        >
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.DASHBOARD_STATS}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.bentoRow}
+            style={styles.bentoScroll}
+          >
           <GlassCard style={styles.bentoCard}>
             <Text style={styles.bentoLabel}>ATTENDANCE</Text>
             <View style={styles.bentoValueRow}>
@@ -104,9 +108,10 @@ export default function FacultyDashboardScreen() {
               <Text style={styles.bentoValueMeta}>TODAY</Text>
             </View>
           </GlassCard>
-        </ScrollView>
+          </ScrollView>
+        </WalkthroughTarget>
 
-        <View style={styles.actionsRow}>
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.DASHBOARD_QUICK_ACTIONS} style={styles.actionsRow}>
           <Pressable
             style={[styles.quickAction, styles.quickActionPrimary]}
             onPress={() => router.push(ROUTES.FACULTY.ATTENDANCE)}
@@ -121,7 +126,7 @@ export default function FacultyDashboardScreen() {
             <Megaphone size={16} color={colors.primary} />
             <Text style={styles.quickActionTextSecondary}>Announcements</Text>
           </Pressable>
-        </View>
+        </WalkthroughTarget>
 
         <SectionCard
           title="Live attendance"
@@ -147,7 +152,9 @@ export default function FacultyDashboardScreen() {
           </View>
         </SectionCard>
 
-        <PriorityAlertsCard tasks={pendingTasks} />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.DASHBOARD_ALERTS}>
+          <PriorityAlertsCard tasks={pendingTasks} />
+        </WalkthroughTarget>
 
         <SectionCard
           title="Holiday calendar"

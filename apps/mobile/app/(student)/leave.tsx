@@ -5,8 +5,10 @@ import { StudentLeaveRequestForm } from '@/components/student/leave/StudentLeave
 import { StudentLeaveRequestsTable } from '@/components/student/leave/StudentLeaveRequestsTable';
 import { StudentLeaveStatsBento } from '@/components/student/leave/StudentLeaveStatsBento';
 import { useToast } from '@/components/toast/ToastProvider';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function StudentLeaveScreen() {
+  useModuleWalkthrough('leave');
   const { data, isLoading } = useStudentLeave();
   const toast = useToast();
 

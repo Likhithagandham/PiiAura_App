@@ -8,8 +8,10 @@ import { StudentHomeworkDayScroller } from '@/components/student/homework/Studen
 import { StudentHomeworkTimeline } from '@/components/student/homework/StudentHomeworkTimeline';
 import { StudentHomeworkFab } from '@/components/student/homework/StudentHomeworkFab';
 import { useToast } from '@/components/toast/ToastProvider';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function StudentHomeworkScreen() {
+  useModuleWalkthrough('homework');
   const { data, isLoading } = useStudentHomework();
   const toast = useToast();
   const [selectedDayId, setSelectedDayId] = useState<string | null>(null);

@@ -1,6 +1,13 @@
 export { useAuth, useAuthStore } from './useAuth';
 export { useRole } from './useRole';
 export {
+  fetchWalkthroughProgress,
+  saveWalkthroughProgress,
+  markDashboardWalkthroughComplete,
+  markModuleWalkthroughComplete,
+  isModuleWalkthroughComplete,
+} from './walkthroughProgress';
+export {
   useFacultyDashboard,
   useStudentDashboard,
   useAttendance,

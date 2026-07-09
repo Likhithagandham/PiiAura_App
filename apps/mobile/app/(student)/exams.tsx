@@ -10,8 +10,10 @@ import { StudentExamsScheduleList } from '@/components/student/exams/StudentExam
 import { StudentExamsPerformanceOverview } from '@/components/student/exams/StudentExamsPerformanceOverview';
 import { StudentExamsBreakdownList } from '@/components/student/exams/StudentExamsBreakdownList';
 import { useToast } from '@/components/toast/ToastProvider';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function StudentExamsScreen() {
+  useModuleWalkthrough('exams');
   const { data, isLoading } = useStudentExams();
   const toast = useToast();
   const [activeTab, setActiveTab] = useState<StudentExamsTab>('schedule');

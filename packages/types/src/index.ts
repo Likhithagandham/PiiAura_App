@@ -1110,3 +1110,43 @@ export interface FacultyHelpSupportData {
 }
 
 export type StudentHelpCenterData = FacultyHelpSupportData;
+
+export type WalkthroughTourKind = 'dashboard' | 'module';
+
+export type WalkthroughPlacement = 'top' | 'bottom' | 'center';
+
+export interface WalkthroughHighlightInset {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+}
+
+export interface WalkthroughStepConfig {
+  id: string;
+  targetId?: string;
+  title: string;
+  description: string;
+  placement?: WalkthroughPlacement;
+  highlightInset?: WalkthroughHighlightInset;
+}
+
+export interface WalkthroughProgressRecord {
+  userId: string;
+  hasCompletedWalkthrough: boolean;
+  moduleCompletions: Record<string, boolean>;
+  updatedAt: string;
+}
+
+export interface WalkthroughModuleOption {
+  id: string;
+  label: string;
+  description: string;
+}
+
+export interface WalkthroughTargetLayout {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}

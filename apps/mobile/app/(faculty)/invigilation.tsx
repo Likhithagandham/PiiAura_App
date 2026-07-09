@@ -8,8 +8,10 @@ import { InvigilationAlertBanner } from '@/components/faculty/invigilation/Invig
 import { InvigilationDutiesSection } from '@/components/faculty/invigilation/InvigilationDutiesSection';
 import { InvigilationStatsGrid } from '@/components/faculty/invigilation/InvigilationStatsGrid';
 import { useToast } from '@/components/toast/ToastProvider';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function FacultyInvigilationScreen() {
+  useModuleWalkthrough('invigilation');
   const { data, isLoading, refetch } = useFacultyInvigilation();
   const toast = useToast();
 

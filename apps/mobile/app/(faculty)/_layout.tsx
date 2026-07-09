@@ -1,11 +1,13 @@
 import { Tabs } from 'expo-router';
 import { FacultyChromeHeader } from '@/components/faculty/FacultyChromeHeader';
 import { FacultyTabBar } from '@/components/faculty/FacultyTabBar';
+import { WalkthroughProvider } from '@/components/walkthrough/WalkthroughProvider';
 import { colors } from '@piiaura/ui';
 
 export default function FacultyLayout() {
   return (
-    <Tabs
+    <WalkthroughProvider role="faculty">
+      <Tabs
       tabBar={(props) => <FacultyTabBar {...props} />}
       screenOptions={{
         headerShown: true,
@@ -36,5 +38,6 @@ export default function FacultyLayout() {
       <Tabs.Screen name="salary" options={{ href: null }} />
       <Tabs.Screen name="help-support" options={{ href: null }} />
     </Tabs>
+    </WalkthroughProvider>
   );
 }

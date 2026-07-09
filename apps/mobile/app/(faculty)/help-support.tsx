@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import type { FacultyHelpContact, FacultyHelpQuickLink } from '@piiaura/types';
+import { getModuleWalkthroughOptions } from '@piiaura/constants';
 import { useFacultyHelpSupport } from '@piiaura/hooks';
 import { colors, spacing, typography } from '@piiaura/ui';
 import { HelpSupportIntro } from '@/components/faculty/help-support/HelpSupportIntro';
@@ -9,17 +10,25 @@ import {
   HelpQuickLinksSection,
   HelpSubmitTicketButton,
 } from '@/components/faculty/help-support/HelpQuickLinksSection';
+import { ProductTourSection } from '@/components/walkthrough/ProductTourSection';
+import { useWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 import { useToast } from '@/components/toast/ToastProvider';
 
 export default function FacultyHelpSupportScreen() {
   const { data, isLoading } = useFacultyHelpSupport();
   const toast = useToast();
+  const { replayDashboardTour } = useWalkthrough();
+  const moduleOptions = getModuleWalkthroughOptions('faculty');
 
   const handleContactPress = (contact: FacultyHelpContact) => {
     toast.show(`Contacting ${contact.label}`, 'info');
   };
 
   const handleLinkPress = (link: FacultyHelpQuickLink) => {
+    if (link.id === 'guide') {
+      replayDashboardTour();
+      return;
+    }
     toast.show(`Opening ${link.label}`, 'info');
   };
 
@@ -44,6 +53,8 @@ export default function FacultyHelpSupportScreen() {
         showsVerticalScrollIndicator={false}
       >
         <HelpSupportIntro title={data.title} description={data.description} />
+
+        <ProductTourSection modules={moduleOptions} />
 
         <HelpFaqSection title={data.faqSectionTitle} faqs={data.faqs} />
 

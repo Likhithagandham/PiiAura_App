@@ -3,8 +3,9 @@ import { router } from 'expo-router';
 import { ArrowLeft, School } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Avatar, colors, spacing, typography } from '@piiaura/ui';
-import { APP_CONFIG, ROUTES } from '@piiaura/constants';
+import { APP_CONFIG, ROUTES, WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useAuth, useFacultyProfile } from '@piiaura/hooks';
+import { WalkthroughTarget } from '@/components/walkthrough/WalkthroughProvider';
 
 interface FacultyHeaderProps {
   title?: string;
@@ -86,23 +87,25 @@ export function FacultyHeader({
         </View>
 
         {user ? (
-          <Pressable
-            onPress={handleProfilePress}
-            hitSlop={8}
-            style={styles.profileBtn}
-            accessibilityRole="button"
-            accessibilityLabel="Open profile"
-            accessibilityHint="Opens your faculty profile"
-          >
-            {profile?.avatarUrl ? (
-              <Image
-                source={{ uri: profile.avatarUrl }}
-                style={styles.profileAvatar}
-              />
-            ) : (
-              <Avatar name={user.name} size="sm" tone="dark" />
-            )}
-          </Pressable>
+          <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.HEADER_PROFILE} style={styles.profileTarget}>
+            <Pressable
+              onPress={handleProfilePress}
+              hitSlop={8}
+              style={styles.profileBtn}
+              accessibilityRole="button"
+              accessibilityLabel="Open profile"
+              accessibilityHint="Opens your faculty profile"
+            >
+              {profile?.avatarUrl ? (
+                <Image
+                  source={{ uri: profile.avatarUrl }}
+                  style={styles.profileAvatar}
+                />
+              ) : (
+                <Avatar name={user.name} size="sm" tone="dark" />
+              )}
+            </Pressable>
+          </WalkthroughTarget>
         ) : null}
       </View>
     </View>
@@ -161,6 +164,12 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.sm,
     fontWeight: typography.fontWeight.medium,
     color: colors.textSecondary,
+  },
+  profileTarget: {
+    width: 36,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   profileBtn: {
     borderRadius: 999,

@@ -82,3 +82,11 @@ export const APP_CONFIG = {
   INSTITUTION_NAME: 'HORIZON ENGINEERING COLLEGE',
   QUERY_STALE_TIME_MS: 60_000,
 } as const;
+
+export {
+  WALKTHROUGH_STORAGE_KEY,
+  WALKTHROUGH_TARGETS,
+  getDashboardWalkthroughSteps,
+  getModuleWalkthroughSteps,
+  getModuleWalkthroughOptions,
+} from './walkthrough';

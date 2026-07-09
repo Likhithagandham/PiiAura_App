@@ -1,8 +1,9 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { router } from 'expo-router';
-import { ROUTES } from '@piiaura/constants';
+import { ROUTES, WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useAuth } from '@piiaura/hooks';
 import { colors, spacing } from '@piiaura/ui';
+import { WalkthroughTarget, useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 import {
   FACULTY_ACADEMIC_MODULES,
   FACULTY_ADMIN_MODULES,
@@ -16,6 +17,7 @@ import {
 } from '@/components/faculty/facultyPortalMenu';
 
 export default function FacultyMoreScreen() {
+  useModuleWalkthrough('more');
   const { logout } = useAuth();
 
   const handleModulePress = (item: FacultyModuleItem) => {
@@ -37,25 +39,33 @@ export default function FacultyMoreScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <FacultyAiAssistantCard onPress={() => router.push(ROUTES.FACULTY.AI_TOOLS as never)} />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.MORE_AI}>
+          <FacultyAiAssistantCard onPress={() => router.push(ROUTES.FACULTY.AI_TOOLS as never)} />
+        </WalkthroughTarget>
 
-        <FacultyModuleSection
-          title="Academic"
-          moduleCount={FACULTY_ACADEMIC_MODULES.length}
-          items={FACULTY_ACADEMIC_MODULES}
-          variant="academic"
-          onItemPress={handleModulePress}
-        />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.MORE_ACADEMIC}>
+          <FacultyModuleSection
+            title="Academic"
+            moduleCount={FACULTY_ACADEMIC_MODULES.length}
+            items={FACULTY_ACADEMIC_MODULES}
+            variant="academic"
+            onItemPress={handleModulePress}
+          />
+        </WalkthroughTarget>
 
-        <FacultyModuleSection
-          title="Administrative"
-          moduleCount={FACULTY_ADMIN_MODULES.length}
-          items={FACULTY_ADMIN_MODULES}
-          variant="admin"
-          onItemPress={handleModulePress}
-        />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.MORE_ADMIN}>
+          <FacultyModuleSection
+            title="Administrative"
+            moduleCount={FACULTY_ADMIN_MODULES.length}
+            items={FACULTY_ADMIN_MODULES}
+            variant="admin"
+            onItemPress={handleModulePress}
+          />
+        </WalkthroughTarget>
 
-        <FacultySystemList items={FACULTY_SYSTEM_ITEMS} onItemPress={handleSystemPress} />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.MORE_SYSTEM}>
+          <FacultySystemList items={FACULTY_SYSTEM_ITEMS} onItemPress={handleSystemPress} />
+        </WalkthroughTarget>
       </ScrollView>
     </View>
   );

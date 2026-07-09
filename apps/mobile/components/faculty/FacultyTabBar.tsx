@@ -1,10 +1,13 @@
+import { useEffect } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { usePathname } from 'expo-router';
 import { Home, ClipboardCheck, Calendar, MoreHorizontal } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, spacing, typography, radii } from '@piiaura/ui';
+import { WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { getFacultyParentTab } from '@/components/faculty/facultyRouteMeta';
+import { WalkthroughTarget, useWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 const TAB_CONFIG = {
   dashboard: { label: 'Home', Icon: Home },
@@ -19,9 +22,18 @@ export function FacultyTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const pathname = usePathname();
   const activeTab = getFacultyParentTab(pathname);
+  const { isTourActive, remeasureAllTargets } = useWalkthrough();
+
+  useEffect(() => {
+    if (!isTourActive) return;
+    remeasureAllTargets();
+  }, [isTourActive, remeasureAllTargets]);
 
   return (
-    <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, spacing.sm) }]}>
+    <WalkthroughTarget
+      id={WALKTHROUGH_TARGETS.FACULTY.TAB_BAR}
+      style={[styles.container, { paddingBottom: Math.max(insets.bottom, spacing.sm) }]}
+    >
       {state.routes.map((route, index) => {
         const config = TAB_CONFIG[route.name as TabRouteName];
         if (!config) return null;
@@ -71,7 +83,7 @@ export function FacultyTabBar({ state, navigation }: BottomTabBarProps) {
           </Pressable>
         );
       })}
-    </View>
+    </WalkthroughTarget>
   );
 }
 

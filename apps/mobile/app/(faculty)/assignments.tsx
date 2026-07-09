@@ -1,12 +1,15 @@
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useFacultyAssignmentsScreen } from '@piiaura/hooks';
 import { colors, spacing, typography } from '@piiaura/ui';
 import { CreateAssignmentForm } from '@/components/faculty/assignments/CreateAssignmentForm';
 import { AssignmentListCard } from '@/components/faculty/assignments/AssignmentListCard';
 import { AssignmentsReviewEmpty } from '@/components/faculty/assignments/AssignmentsReviewEmpty';
 import { useToast } from '@/components/toast/ToastProvider';
+import { WalkthroughTarget, useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function FacultyAssignmentsScreen() {
+  useModuleWalkthrough('assignments');
   const { data, isLoading, refetch } = useFacultyAssignmentsScreen();
   const toast = useToast();
 
@@ -50,20 +53,22 @@ export default function FacultyAssignmentsScreen() {
         showsVerticalScrollIndicator={false}
         accessibilityLabel="Assignments content"
       >
-        <View style={styles.intro} accessibilityRole="header">
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.ASSIGNMENTS_INTRO} style={styles.intro} accessibilityRole="header">
           <Text style={styles.title}>{data.title}</Text>
           <Text style={styles.description}>{data.description}</Text>
-        </View>
+        </WalkthroughTarget>
 
-        <CreateAssignmentForm
-          classes={data.classes}
-          subjects={data.subjects}
-          onPublish={handlePublish}
-          onAttach={handleAttach}
-          onAttachError={(message) => toast.show(message, 'danger')}
-        />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.ASSIGNMENTS_CREATE}>
+          <CreateAssignmentForm
+            classes={data.classes}
+            subjects={data.subjects}
+            onPublish={handlePublish}
+            onAttach={handleAttach}
+            onAttachError={(message) => toast.show(message, 'danger')}
+          />
+        </WalkthroughTarget>
 
-        <View style={styles.listSection} accessibilityLabel="Current assignments section">
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.ASSIGNMENTS_LIST} style={styles.listSection} accessibilityLabel="Current assignments section">
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle} accessibilityRole="header">
               Current Assignments
@@ -85,7 +90,7 @@ export default function FacultyAssignmentsScreen() {
               />
             ))}
           </View>
-        </View>
+        </WalkthroughTarget>
 
         <AssignmentsReviewEmpty
           title={data.reviewEmptyTitle}

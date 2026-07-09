@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useFacultySyllabus } from '@piiaura/hooks';
 import type { FacultySyllabusSubject } from '@piiaura/types';
 import { colors, spacing, typography } from '@piiaura/ui';
@@ -9,6 +10,7 @@ import { SyllabusSubjectDetailModal } from '@/components/faculty/syllabus/Syllab
 import { AddSubjectButton } from '@/components/faculty/syllabus/AddSubjectButton';
 import { AddSubjectModal } from '@/components/faculty/syllabus/AddSubjectModal';
 import { useToast } from '@/components/toast/ToastProvider';
+import { WalkthroughTarget, useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 function createSubject(payload: { name: string; classLabel: string }): FacultySyllabusSubject {
   return {
@@ -28,6 +30,7 @@ function createSubject(payload: { name: string; classLabel: string }): FacultySy
 }
 
 export default function FacultySyllabusScreen() {
+  useModuleWalkthrough('syllabus');
   const { data, isLoading } = useFacultySyllabus();
   const toast = useToast();
   const [subjects, setSubjects] = useState<FacultySyllabusSubject[]>([]);
@@ -73,14 +76,16 @@ export default function FacultySyllabusScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.intro}>
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.SYLLABUS_INTRO} style={styles.intro}>
           <Text style={styles.title}>{data.title}</Text>
           <Text style={styles.description}>{data.description}</Text>
-        </View>
+        </WalkthroughTarget>
 
-        <SyllabusFocusCard focus={data.currentFocus} onUpdateTopics={handleUpdateTopics} />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.SYLLABUS_FOCUS}>
+          <SyllabusFocusCard focus={data.currentFocus} onUpdateTopics={handleUpdateTopics} />
+        </WalkthroughTarget>
 
-        <View style={styles.listSection}>
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.SYLLABUS_LIST} style={styles.listSection}>
           <Text style={styles.sectionLabel}>{data.otherSubjectsLabel}</Text>
           <View style={styles.list}>
             {subjects.map((subject) => (
@@ -91,12 +96,14 @@ export default function FacultySyllabusScreen() {
               />
             ))}
           </View>
-        </View>
+        </WalkthroughTarget>
 
-        <AddSubjectButton
-          label={data.addSubjectLabel}
-          onPress={() => setAddModalOpen(true)}
-        />
+        <WalkthroughTarget id={WALKTHROUGH_TARGETS.FACULTY.SYLLABUS_ADD}>
+          <AddSubjectButton
+            label={data.addSubjectLabel}
+            onPress={() => setAddModalOpen(true)}
+          />
+        </WalkthroughTarget>
       </ScrollView>
 
       <SyllabusSubjectDetailModal

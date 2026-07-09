@@ -6,8 +6,10 @@ import { StudentTimetableViewTabs, type TimetableViewTab } from '@/components/st
 import { StudentTimetableDaySelector } from '@/components/student/timetable/StudentTimetableDaySelector';
 import { StudentTimetableDailyView } from '@/components/student/timetable/StudentTimetableDailyView';
 import { StudentTimetableWeeklyGrid } from '@/components/student/timetable/StudentTimetableWeeklyGrid';
+import { useModuleWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 
 export default function StudentTimetableScreen() {
+  useModuleWalkthrough('timetable');
   const { data, isLoading } = useStudentTimetable();
   const [viewTab, setViewTab] = useState<TimetableViewTab>('daily');
   const [selectedDayId, setSelectedDayId] = useState<string | null>(null);
