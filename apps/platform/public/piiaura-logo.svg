@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="PiiAura ERP Solutions">
+  <rect width="512" height="512" rx="96" fill="#0a0a0a"/>
+  <rect x="40" y="40" width="432" height="432" rx="72" fill="none" stroke="#ffffff" stroke-width="6"/>
+
+  <!-- Pii wordmark -->
+  <g fill="#ffffff">
+    <!-- P -->
+    <path d="M150 150 h78 a58 58 0 0 1 0 116 h-40 v94 h-38 z M188 186 v44 h40 a22 22 0 0 0 0-44 z"/>
+    <!-- i (first) -->
+    <rect x="270" y="206" width="34" height="154" rx="6"/>
+    <circle cx="287" cy="178" r="20"/>
+    <!-- i (second) -->
+    <rect x="322" y="206" width="34" height="154" rx="6"/>
+    <!-- pixel dissolve above the second i -->
+    <rect x="322" y="150" width="22" height="22"/>
+    <rect x="352" y="132" width="20" height="20"/>
+    <rect x="350" y="100" width="16" height="16"/>
+    <rect x="380" y="112" width="18" height="18"/>
+    <rect x="388" y="84" width="14" height="14"/>
+    <rect x="372" y="156" width="10" height="10"/>
+  </g>
+
+  <!-- AURA -->
+  <text x="256" y="408" fill="#ffffff" text-anchor="middle"
+        font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+        font-size="78" font-weight="500" letter-spacing="14">AURA</text>
+
+  <!-- ERP SOLUTIONS with flanking rules -->
+  <line x1="150" y1="446" x2="184" y2="446" stroke="#ffffff" stroke-width="4"/>
+  <line x1="328" y1="446" x2="362" y2="446" stroke="#ffffff" stroke-width="4"/>
+  <text x="256" y="454" fill="#ffffff" text-anchor="middle"
+        font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+        font-size="26" font-weight="500" letter-spacing="8">ERP SOLUTIONS</text>
+</svg>

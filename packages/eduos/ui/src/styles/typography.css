@@ -1,0 +1,86 @@
+/* Institutional Clarity — Google Stitch design system (Inter) */
+
+.eduos-display-lg {
+  font-family: var(--eduos-font);
+  font-size: var(--eduos-text-display-lg-size);
+  font-weight: var(--eduos-text-display-lg-weight);
+  line-height: var(--eduos-text-display-lg-line);
+  letter-spacing: var(--eduos-text-display-lg-tracking);
+}
+
+.eduos-headline-lg {
+  font-family: var(--eduos-font);
+  font-size: var(--eduos-text-headline-lg-size);
+  font-weight: var(--eduos-text-headline-lg-weight);
+  line-height: var(--eduos-text-headline-lg-line);
+  letter-spacing: var(--eduos-text-headline-lg-tracking);
+}
+
+.eduos-headline-md {
+  font-family: var(--eduos-font);
+  font-size: var(--eduos-text-headline-md-size);
+  font-weight: var(--eduos-text-headline-md-weight);
+  line-height: var(--eduos-text-headline-md-line);
+}
+
+.eduos-headline-sm {
+  font-family: var(--eduos-font);
+  font-size: var(--eduos-text-headline-sm-size);
+  font-weight: var(--eduos-text-headline-sm-weight);
+  line-height: var(--eduos-text-headline-sm-line);
+}
+
+.eduos-body-lg {
+  font-family: var(--eduos-font);
+  font-size: var(--eduos-text-body-lg-size);
+  font-weight: var(--eduos-text-body-lg-weight);
+  line-height: var(--eduos-text-body-lg-line);
+}
+
+.eduos-body-md {
+  font-family: var(--eduos-font);
+  font-size: var(--eduos-text-body-md-size);
+  font-weight: var(--eduos-text-body-md-weight);
+  line-height: var(--eduos-text-body-md-line);
+}
+
+.eduos-body-sm {
+  font-family: var(--eduos-font);
+  font-size: var(--eduos-text-body-sm-size);
+  font-weight: var(--eduos-text-body-sm-weight);
+  line-height: var(--eduos-text-body-sm-line);
+}
+
+.eduos-label-md {
+  font-family: var(--eduos-font);
+  font-size: var(--eduos-text-label-md-size);
+  font-weight: var(--eduos-text-label-md-weight);
+  line-height: var(--eduos-text-label-md-line);
+  letter-spacing: var(--eduos-text-label-md-tracking);
+  text-transform: uppercase;
+}
+
+.eduos-admin-page h1 {
+  font-family: var(--eduos-font);
+  font-size: var(--eduos-text-headline-md-size);
+  font-weight: var(--eduos-text-headline-md-weight);
+  line-height: var(--eduos-text-headline-md-line);
+  letter-spacing: -0.01em;
+}
+
+.eduos-panel__title,
+.eduos-panel > h2:first-child {
+  font-family: var(--eduos-font);
+  font-size: var(--eduos-text-headline-sm-size);
+  font-weight: var(--eduos-text-headline-sm-weight);
+  line-height: var(--eduos-text-headline-sm-line);
+}
+
+.eduos-kpi__value {
+  font-family: var(--eduos-font);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--eduos-kpi-value);
+}

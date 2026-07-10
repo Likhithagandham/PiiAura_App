@@ -1,0 +1,86 @@
+export {
+  LOGIN_IDENTIFIER_BY_ROLE,
+  PHONE_LOGIN_ROLES,
+  CUSTOM_ID_LOGIN_ROLES,
+  ROLE_LABELS,
+  DASHBOARD_PATH_BY_ROLE,
+  AUTH_COOKIE_NAMES,
+  ACCESS_TOKEN_MAX_AGE_SEC,
+  REFRESH_TOKEN_MAX_AGE_SEC,
+  RESET_TOKEN_TTL_MS,
+  AUTH_BROADCAST_CHANNEL,
+  AUTH_ERROR_ROLE_CHANGED,
+  ROLE_ROUTE_PREFIXES,
+  PLATFORM_AUTH_COOKIE_NAMES,
+  MOCK_OTP,
+  OTP_RESEND_COOLDOWN_SEC,
+  OTP_MAX_RESENDS,
+  OTP_TTL_MIN,
+} from "./auth";
+export { isPhoneNumber, normalizeToE164 } from "./phone";
+export { AUTH_ROUTES, PUBLIC_AUTH_PATHS } from "./routes";
+export {
+  ADMIN_NAV,
+  ADMIN_ROUTES,
+  ADMIN_SCOPED_NAV,
+  LARGE_EXPORT_ROW_THRESHOLD,
+  getAdminNavForInstitutionType,
+  resolveAdminNavId,
+  isAdminNavItemActive,
+  type AdminModuleId,
+  type AdminNavItem,
+  type InstitutionType,
+} from "./admin";
+export {
+  FACULTY_ROUTES,
+  FACULTY_SCOPED_NAV,
+  getFacultyNavForInstitutionType,
+  resolveFacultyNavId,
+  isFacultyNavItemActive,
+  type FacultyNavId,
+  type FacultyNavItem,
+} from "./faculty";
+export {
+  STUDENT_ROUTES,
+  STUDENT_NAV,
+  resolveStudentNavId,
+  isStudentNavItemActive,
+  type StudentNavId,
+  type StudentNavItem,
+} from "./student";
+export {
+  PARENT_ROUTES,
+  PARENT_NAV,
+  resolveParentNavId,
+  isParentNavItemActive,
+  type ParentNavId,
+  type ParentNavItem,
+} from "./parent";
+export {
+  PLATFORM_OWNER_ROUTES,
+  PLATFORM_OWNER_NAV,
+  PLATFORM_PLAN_MRR_INR,
+  PLATFORM_SUBDOMAIN_MIN_LENGTH,
+  PLATFORM_SUBDOMAIN_MAX_LENGTH,
+  PLATFORM_SUBDOMAIN_PATTERN,
+  PLATFORM_RESERVED_SUBDOMAINS,
+  PLATFORM_TRIAL_PERIOD_DAYS,
+  PLATFORM_TRIAL_GRACE_DAYS,
+  PLATFORM_TENANT_WIZARD_STEPS,
+  resolvePlatformOwnerNavId,
+  isPlatformOwnerNavItemActive,
+  getPlatformOwnerNavTabs,
+  isPlatformOwnerNavTabActive,
+  type PlatformOwnerNavId,
+  type PlatformOwnerNavItem,
+  type PlatformOwnerNavTab,
+  type PlatformTenantWizardStepId,
+} from "./platform-owner";
+export {
+  SUPER_ADMIN_ROUTES,
+  SUPER_ADMIN_NAV,
+  resolveSuperAdminNavId,
+  isSuperAdminNavItemActive,
+  type SuperAdminNavId,
+  type SuperAdminNavItem,
+} from "./super-admin";

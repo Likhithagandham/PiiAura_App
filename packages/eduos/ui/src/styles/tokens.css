@@ -1,0 +1,63 @@
+:root {
+  /* Google Stitch — Institutional Clarity */
+  --eduos-brand: #004634;
+  --eduos-primary: #1a5f4a;
+  --eduos-primary-hover: #144a3a;
+  --eduos-primary-light: #e8f5f0;
+  --eduos-primary-fixed: #adf0d5;
+  --eduos-danger: #ba1a1a;
+  --eduos-danger-bg: #ffdad6;
+  --eduos-border: #e2e8f0;
+  --eduos-border-focus: #004634;
+  --eduos-text: #181c1e;
+  --eduos-text-muted: #3f4944;
+  --eduos-text-subtle: #707974;
+  --eduos-kpi-label: #6b7280;
+  --eduos-kpi-sub: #6b7280;
+  --eduos-kpi-value: #004634;
+  --eduos-trend: #004634;
+  --eduos-alert-warning: #f59e0b;
+  --eduos-alert-critical: #dc2626;
+  --eduos-alert-warning-border: #fbbf24;
+  --eduos-bg: #f7fafc;
+  --eduos-card: #ffffff;
+  --eduos-radius: 8px;
+  --eduos-radius-lg: 12px;
+  --eduos-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+  --eduos-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.06);
+  --eduos-font: var(--font-inter, "Inter"), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --eduos-nav-active-bg: #e8f5f0;
+  --eduos-nav-active-border: #004634;
+  --eduos-accent-blue: #d6efe8;
+  --eduos-sidebar-width: 260px;
+  --eduos-sidebar-width-collapsed: 5.25rem;
+
+  /* Typography scale (Stitch / Inter) */
+  --eduos-text-display-lg-size: 2.25rem;
+  --eduos-text-display-lg-weight: 700;
+  --eduos-text-display-lg-line: 2.75rem;
+  --eduos-text-display-lg-tracking: -0.02em;
+  --eduos-text-headline-lg-size: 1.75rem;
+  --eduos-text-headline-lg-weight: 600;
+  --eduos-text-headline-lg-line: 2.25rem;
+  --eduos-text-headline-lg-tracking: -0.01em;
+  --eduos-text-headline-md-size: 1.25rem;
+  --eduos-text-headline-md-weight: 600;
+  --eduos-text-headline-md-line: 1.75rem;
+  --eduos-text-headline-sm-size: 1rem;
+  --eduos-text-headline-sm-weight: 600;
+  --eduos-text-headline-sm-line: 1.5rem;
+  --eduos-text-body-lg-size: 1.125rem;
+  --eduos-text-body-lg-weight: 400;
+  --eduos-text-body-lg-line: 1.75rem;
+  --eduos-text-body-md-size: 1rem;
+  --eduos-text-body-md-weight: 400;
+  --eduos-text-body-md-line: 1.5rem;
+  --eduos-text-body-sm-size: 0.875rem;
+  --eduos-text-body-sm-weight: 400;
+  --eduos-text-body-sm-line: 1.25rem;
+  --eduos-text-label-md-size: 0.75rem;
+  --eduos-text-label-md-weight: 600;
+  --eduos-text-label-md-line: 1rem;
+  --eduos-text-label-md-tracking: 0.05em;
+}

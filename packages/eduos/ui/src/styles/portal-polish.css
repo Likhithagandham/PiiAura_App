@@ -1,0 +1,874 @@
+/* PiiAura portal polish — UI-only refresh (scoped to --polished shells) */
+
+.eduos-portal-shell--polished {
+  --portal-bg: #f3f5f4;
+  --portal-primary-deep: #0c3b31;
+  --portal-primary-mid: #1a5f4a;
+  --portal-accent-soft: rgba(26, 95, 74, 0.08);
+  --portal-card-shadow: 0 1px 2px rgba(12, 59, 49, 0.05), 0 8px 24px rgba(12, 59, 49, 0.04);
+  --portal-card-shadow-hover: 0 2px 4px rgba(12, 59, 49, 0.06), 0 12px 28px rgba(12, 59, 49, 0.07);
+  --portal-welcome-gradient: linear-gradient(135deg, var(--portal-primary-deep) 0%, #1a5f4a 55%, #2d7a62 100%);
+  --portal-welcome-shadow: 0 10px 28px rgba(12, 59, 49, 0.18);
+  background: var(--portal-bg);
+}
+
+.eduos-portal-shell--polished.eduos-portal-shell--role-platform {
+  --portal-bg: #f1f3f2;
+  --portal-primary-deep: #0a0a0a;
+  --portal-primary-mid: #1f2937;
+  --portal-accent-soft: rgba(15, 23, 42, 0.07);
+  --portal-card-shadow: 0 1px 2px rgba(10, 10, 10, 0.05), 0 8px 24px rgba(10, 10, 10, 0.04);
+  --portal-card-shadow-hover: 0 2px 4px rgba(10, 10, 10, 0.07), 0 12px 28px rgba(10, 10, 10, 0.06);
+  --portal-welcome-gradient: linear-gradient(135deg, #0a0a0a 0%, #1f2937 55%, #374151 100%);
+  --portal-welcome-shadow: 0 10px 28px rgba(10, 10, 10, 0.2);
+}
+
+.eduos-portal-shell--polished.eduos-portal-shell--role-student {
+  --portal-welcome-gradient: linear-gradient(135deg, #0c3b31 0%, #1a6b55 55%, #2d8a6a 100%);
+}
+
+.eduos-portal-shell--polished.eduos-portal-shell--role-parent {
+  --portal-welcome-gradient: linear-gradient(135deg, #0f3d32 0%, #1a5f4a 50%, #3d8b6e 100%);
+}
+
+/* Sidebar */
+.eduos-portal-shell--polished .eduos-portal-sidebar {
+  background: linear-gradient(180deg, #ffffff 0%, #fafcfb 100%);
+  border-right-color: #e2e8e5;
+  box-shadow: 2px 0 16px rgba(12, 59, 49, 0.04);
+}
+
+.eduos-portal-shell--polished.eduos-portal-shell--role-platform .eduos-portal-sidebar {
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9f8 100%);
+  box-shadow: 2px 0 16px rgba(10, 10, 10, 0.05);
+}
+
+.eduos-portal-shell--polished .eduos-portal-sidebar__head {
+  border-bottom-color: #e8eeeb;
+}
+
+.eduos-portal-shell--polished .eduos-portal-sidebar__footer {
+  border-top-color: #e8eeeb;
+  background: #fafcfb;
+}
+
+/* Nav */
+.portal-nav-group {
+  padding: 0.35rem 0.75rem 0.15rem;
+}
+
+.portal-nav-group:first-child {
+  padding-top: 0.15rem;
+}
+
+.portal-nav-group__label {
+  display: block;
+  padding: 0.35rem 0.5rem 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a9a94;
+}
+
+.eduos-portal-shell--sidebar-collapsed .portal-nav-group__label {
+  display: none;
+}
+
+.eduos-portal-shell--polished .eduos-admin-nav-link {
+  margin: 0.1rem 0.5rem;
+  border-radius: 0.625rem;
+  border: 1px solid transparent;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.eduos-portal-shell--polished .eduos-admin-nav-link:hover {
+  background: var(--portal-accent-soft);
+  border-color: color-mix(in srgb, var(--portal-primary-mid) 12%, transparent);
+}
+
+.eduos-portal-shell--polished .eduos-admin-nav-link--active {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--portal-primary-mid) 14%, transparent) 0%,
+    color-mix(in srgb, var(--portal-primary-mid) 7%, transparent) 100%
+  );
+  border-color: color-mix(in srgb, var(--portal-primary-mid) 16%, transparent);
+  color: var(--portal-primary-deep);
+  box-shadow: inset 3px 0 0 var(--portal-primary-mid);
+}
+
+.eduos-portal-shell--polished .eduos-admin-nav-link--active .eduos-admin-nav-link__icon {
+  color: var(--portal-primary-mid);
+}
+
+.eduos-portal-shell--sidebar-collapsed.eduos-portal-shell--polished .eduos-admin-nav-link--active {
+  box-shadow: none;
+  border-color: color-mix(in srgb, var(--portal-primary-mid) 20%, transparent);
+}
+
+.portal-nav-soon {
+  margin-left: 0.35rem;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: #f1f5f3;
+  color: #6b7c75;
+  border: 1px solid #dfe7e3;
+  vertical-align: middle;
+}
+
+.portal-nav-badge {
+  margin-left: 0.4rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--portal-primary-mid);
+  border-radius: 999px;
+  padding: 0.05rem 0.35rem;
+}
+
+/* Header */
+.eduos-portal-shell--polished .eduos-portal-header {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom-color: #e8eeeb;
+  padding: 1rem 1.5rem;
+}
+
+.portal-header__titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.portal-header__title {
+  margin: 0;
+  color: var(--portal-primary-deep);
+  letter-spacing: -0.02em;
+}
+
+.portal-header__subtitle {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #6b7c75;
+  font-weight: 500;
+}
+
+.portal-header__meta {
+  font-size: 0.75rem;
+  color: #6b7c75;
+  font-weight: 500;
+}
+
+/* Scope toggle (admin / faculty) */
+.portal-scope-toggle {
+  display: flex;
+  gap: 0.2rem;
+  padding: 0.2rem;
+  border: 1px solid #e8eeeb;
+  border-radius: 999px;
+  background: #f8faf9;
+}
+
+.portal-scope-toggle__btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+  color: #6b7c75;
+  background: transparent;
+}
+
+.portal-scope-toggle__btn:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.portal-scope-toggle__btn--active {
+  color: var(--portal-primary-mid);
+  background: color-mix(in srgb, var(--portal-primary-mid) 12%, transparent);
+}
+
+/* Content */
+.eduos-portal-shell--polished .eduos-portal-content {
+  padding: 1.5rem;
+}
+
+.eduos-portal-shell--polished .eduos-portal-page,
+.eduos-portal-shell--polished .eduos-admin-page {
+  gap: 1.25rem;
+  max-width: 72rem;
+}
+
+/* Panels & cards */
+.eduos-portal-shell--polished .eduos-panel,
+.eduos-portal-shell--polished .eduos-kpi,
+.eduos-portal-shell--polished .eduos-report-card {
+  border-color: #e8eeeb;
+  border-radius: 1rem;
+  box-shadow: var(--portal-card-shadow);
+  transition: box-shadow 0.2s ease;
+}
+
+.eduos-portal-shell--polished .eduos-panel {
+  padding: 1.35rem 1.5rem;
+}
+
+.eduos-portal-shell--polished .eduos-panel:hover,
+.eduos-portal-shell--polished .eduos-kpi:hover {
+  box-shadow: var(--portal-card-shadow-hover);
+}
+
+.eduos-portal-shell--polished .eduos-section-title,
+.eduos-portal-shell--polished .eduos-panel__title {
+  color: var(--portal-primary-deep);
+  letter-spacing: -0.01em;
+}
+
+.eduos-portal-shell--polished .eduos-stat-card {
+  border-color: #e8eeeb;
+  border-radius: 1rem;
+  box-shadow: var(--portal-card-shadow);
+  padding: 1.2rem 1.35rem;
+  min-height: 7.25rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.eduos-portal-shell--polished .eduos-stat-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--portal-card-shadow-hover);
+}
+
+.eduos-portal-shell--polished .eduos-admin-stat-grid,
+.eduos-portal-shell--polished .eduos-dashboard-kpis {
+  gap: 1rem;
+}
+
+/* Welcome strip */
+.portal-welcome {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
+  background: var(--portal-welcome-gradient);
+  color: #fff;
+  box-shadow: var(--portal-welcome-shadow);
+}
+
+.portal-welcome__eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.82;
+}
+
+.portal-welcome__title {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.portal-welcome__desc {
+  margin: 0.4rem 0 0;
+  font-size: 0.875rem;
+  opacity: 0.9;
+  max-width: 40rem;
+  line-height: 1.45;
+}
+
+.portal-welcome__badge {
+  flex-shrink: 0;
+  align-self: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.portal-dashboard-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.portal-panel-header {
+  margin-bottom: 1rem;
+}
+
+.portal-panel-header .eduos-section-desc {
+  margin-bottom: 0;
+}
+
+.portal-chart-block {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: 0.75rem;
+  background: #f8faf9;
+  border: 1px solid #e8eeeb;
+}
+
+.portal-chart-block .eduos-subsection-title {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: var(--portal-primary-deep);
+}
+
+/* Tables */
+.eduos-portal-shell--polished .eduos-table-wrap {
+  border-radius: 0.75rem;
+  border: 1px solid #e8eeeb;
+  overflow: auto;
+}
+
+.eduos-portal-shell--polished .eduos-admin-table thead th {
+  background: #f4f7f6;
+  color: #4a5c55;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-bottom-color: #e0e8e4;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.eduos-portal-shell--polished .eduos-admin-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.eduos-portal-shell--polished .eduos-admin-table tbody tr:hover {
+  background: var(--portal-accent-soft);
+}
+
+.eduos-portal-shell--polished .eduos-admin-table td {
+  border-bottom-color: #eef2f0;
+}
+
+.portal-table-emphasis {
+  font-weight: 600;
+  color: var(--portal-primary-deep);
+}
+
+/* Alerts */
+.portal-alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.portal-alert-card {
+  border: 1px solid #e8eeeb;
+  border-radius: 0.75rem;
+  padding: 0.9rem 1rem 0.9rem 0.85rem;
+  background: #fff;
+  border-left-width: 4px;
+  box-shadow: 0 1px 2px rgba(12, 59, 49, 0.04);
+  transition: box-shadow 0.18s ease;
+}
+
+.portal-alert-card:hover {
+  box-shadow: var(--portal-card-shadow);
+}
+
+.portal-alert-card--critical {
+  border-left-color: #dc2626;
+  background: linear-gradient(90deg, #fef2f2 0%, #fff 28%);
+}
+
+.portal-alert-card--warning {
+  border-left-color: #d97706;
+  background: linear-gradient(90deg, #fffbeb 0%, #fff 28%);
+}
+
+.portal-alert-card--info {
+  border-left-color: #2563eb;
+  background: linear-gradient(90deg, #eff6ff 0%, #fff 28%);
+}
+
+.portal-alert-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.portal-alert-card__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #1a2420;
+}
+
+.portal-alert-card__message {
+  font-size: 0.8125rem;
+  color: #5f6f69;
+  margin-top: 0.35rem;
+  line-height: 1.45;
+}
+
+.portal-severity-tag {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: #f1f5f3;
+  color: #4a5c55;
+  border: 1px solid #dfe7e3;
+}
+
+.portal-severity-tag--critical {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.portal-severity-tag--warning {
+  background: #fffbeb;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+.portal-severity-tag--info {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+/* Messages */
+.eduos-portal-shell--polished .eduos-admin-message {
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e8eeeb;
+  background: #f8faf9;
+}
+
+.eduos-portal-shell--polished .eduos-admin-message--error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+/* Tabs */
+.eduos-portal-shell--polished .eduos-admin-tab,
+.eduos-portal-shell--polished .eduos-portal-subnav__tab {
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.eduos-portal-shell--polished .eduos-admin-tab--active,
+.eduos-portal-shell--polished .eduos-portal-subnav__tab--active {
+  color: var(--portal-primary-deep);
+  border-bottom-color: var(--portal-primary-mid);
+}
+
+/* Skeleton */
+.portal-dashboard-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.portal-skeleton-block {
+  border-radius: 1rem;
+  background: linear-gradient(90deg, #e8eeeb 0%, #f4f7f6 50%, #e8eeeb 100%);
+  background-size: 200% 100%;
+  animation: portal-shimmer 1.4s ease-in-out infinite;
+}
+
+.portal-skeleton-block--welcome {
+  height: 6.5rem;
+}
+
+.portal-skeleton-block--stat {
+  height: 7.25rem;
+}
+
+.portal-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.portal-filter-bar__search {
+  flex: 1 1 14rem;
+  min-width: 12rem;
+}
+
+.portal-filter-bar__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.65rem 0.75rem;
+}
+
+.portal-filter-bar__select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 8.5rem;
+}
+
+.portal-filter-bar__select-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6b7c75;
+}
+
+.portal-filter-bar__select-input {
+  min-height: 2.25rem;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.8125rem;
+}
+
+.portal-live-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.875rem;
+  color: var(--eduos-text-muted);
+}
+
+@keyframes portal-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .eduos-portal-shell--polished .eduos-portal-content {
+    padding: 1rem;
+  }
+
+  .portal-welcome {
+    flex-direction: column;
+    padding: 1.1rem 1.2rem;
+  }
+
+  .portal-welcome__badge {
+    align-self: flex-start;
+  }
+}
+
+/* Admin staffing tab */
+.staffing-tab .staffing-filters {
+  margin-bottom: 0;
+}
+
+.staffing-review-alert {
+  margin-top: 0.75rem;
+}
+
+.staffing-context-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: #f4f7f6;
+  border: 1px solid #e8eeeb;
+  font-size: 0.875rem;
+  color: #4a5c55;
+}
+
+.staffing-context-strip__label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7c75;
+}
+
+.staffing-context-strip__dot {
+  color: #a8b5af;
+}
+
+.staffing-context-strip__count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7c75;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: #f1f5f3;
+  border: 1px solid #dfe7e3;
+}
+
+.staffing-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.staffing-panel-head .eduos-section-desc {
+  margin-bottom: 0;
+}
+
+.staffing-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid #dfe7e3;
+  background: #f1f5f3;
+  color: #4a5c55;
+}
+
+.staffing-status-badge--ok {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #047857;
+}
+
+.staffing-status-badge--warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #b45309;
+}
+
+.staffing-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.staffing-class-teacher__body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.staffing-class-teacher__name {
+  font-weight: 700;
+  color: var(--portal-primary-deep, #0c3b31);
+}
+
+.staffing-class-teacher__meta {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--eduos-text-muted);
+}
+
+.staffing-modal-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.eduos-portal-shell--polished .staffing-tab .eduos-empty-state {
+  margin: 0.5rem 0 0;
+}
+
+.staffing-filters__inline.portal-filter-bar {
+  display: contents;
+}
+
+/* Timetable tab */
+.timetable-tab .staffing-filters {
+  margin-bottom: 0;
+}
+
+.timetable-legend {
+  margin-bottom: 0;
+}
+
+.timetable-legend__tbd {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.timetable-legend__unassigned {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.timetable-week-grid {
+  border: 1px solid #e8eeeb;
+  border-radius: 0.75rem;
+  overflow: auto;
+  background: #fff;
+}
+
+.timetable-week-grid__inner {
+  display: grid;
+  min-width: 640px;
+}
+
+.timetable-week-grid__head {
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #f4f7f6;
+  border-bottom: 1px solid #e8eeeb;
+  border-left: 1px solid #e8eeeb;
+}
+
+.timetable-week-grid__head--corner {
+  border-left: none;
+}
+
+.timetable-week-grid__period {
+  padding: 0.5rem 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #6b7c75;
+  border-bottom: 1px solid #e8eeeb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timetable-week-grid__cell {
+  min-height: 88px;
+  padding: 0.35rem;
+  border-bottom: 1px solid #e8eeeb;
+  border-left: 1px solid #e8eeeb;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.timetable-week-grid__cell--filled {
+  background: #f8fafc;
+}
+
+.timetable-slot-card {
+  text-align: left;
+  padding: 0.35rem 0.4rem;
+  border-radius: 0.5rem;
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  cursor: pointer;
+  font-size: 0.65rem;
+  line-height: 1.3;
+}
+
+.timetable-slot-card--tbd {
+  background: #fffbeb;
+  border-color: #fcd34d;
+}
+
+.timetable-slot-card--unassigned {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.timetable-slot-card__class {
+  font-weight: 600;
+}
+
+.timetable-slot-card__flag {
+  color: #b45309;
+  margin-top: 0.1rem;
+  font-weight: 600;
+}
+
+.timetable-slot-card__hint {
+  color: var(--eduos-text-muted);
+  margin-top: 0.1rem;
+}
+
+.timetable-week-grid__add {
+  margin-top: auto;
+  font-size: 0.625rem;
+  color: var(--eduos-primary);
+  background: none;
+  border: 1px dashed #dfe7e3;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.timetable-week-grid__add:hover {
+  border-color: var(--eduos-primary);
+  background: #f4f7f6;
+}
+
+.timetable-clash-alert {
+  margin: 0;
+}
+
+.timetable-clash-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.8125rem;
+}
+
+.timetable-review-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.timetable-review-item {
+  margin: 0;
+}
+
+.timetable-review-item__message {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.timetable-review-item__meta {
+  font-size: 0.7rem;
+  color: var(--eduos-text-muted);
+}
+
+.timetable-review-item__actions {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.eduos-portal-shell--polished .timetable-tab .eduos-empty-state {
+  margin: 0.5rem 0 0;
+}
