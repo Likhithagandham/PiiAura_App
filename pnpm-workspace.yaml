@@ -2,3 +2,6 @@ packages:
   - "apps/*"
   - "packages/*"
   - "packages/eduos/*"
+  - "frontend/apps/*"
+  - "frontend/packages/*"
+  - "backend/*"

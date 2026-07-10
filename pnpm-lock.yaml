@@ -20,26 +20,29 @@ importers:
         specifier: ^5.8.3
         version: 5.9.3
 
-  apps/mobile:
+  frontend/apps/mobile:
     dependencies:
       '@hookform/resolvers':
         specifier: ^5.1.1
         version: 5.4.0(react-hook-form@7.80.0(react@19.1.0))
+      '@piiaura/api':
+        specifier: workspace:*
+        version: link:../../packages/api
       '@piiaura/constants':
         specifier: workspace:*
         version: link:../../packages/constants
       '@piiaura/hooks':
         specifier: workspace:*
         version: link:../../packages/hooks
-      '@piiaura/mock-data':
-        specifier: workspace:*
-        version: link:../../packages/mock-data
       '@piiaura/types':
         specifier: workspace:*
         version: link:../../packages/types
       '@piiaura/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@piiaura/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@react-native-async-storage/async-storage':
         specifier: ~2.2.0
         version: 2.2.0(react-native@0.81.5(@babel/core@7.29.7)(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.1.17)(react@19.1.0))
@@ -111,7 +114,23 @@ importers:
         specifier: ~5.9.2
         version: 5.9.3
 
-  packages/constants:
+  frontend/packages/api:
+    dependencies:
+      '@piiaura/constants':
+        specifier: workspace:*
+        version: link:../constants
+      '@piiaura/types':
+        specifier: workspace:*
+        version: link:../types
+      axios:
+        specifier: ^1.10.0
+        version: 1.18.1
+    devDependencies:
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+
+  frontend/packages/constants:
     dependencies:
       '@piiaura/types':
         specifier: workspace:*
@@ -121,14 +140,14 @@ importers:
         specifier: ^5.8.3
         version: 5.9.3
 
-  packages/hooks:
+  frontend/packages/hooks:
     dependencies:
+      '@piiaura/api':
+        specifier: workspace:*
+        version: link:../api
       '@piiaura/constants':
         specifier: workspace:*
         version: link:../constants
-      '@piiaura/mock-data':
-        specifier: workspace:*
-        version: link:../mock-data
       '@piiaura/types':
         specifier: workspace:*
         version: link:../types
@@ -155,23 +174,13 @@ importers:
         specifier: ^5.8.3
         version: 5.9.3
 
-  packages/mock-data:
-    dependencies:
-      '@piiaura/types':
-        specifier: workspace:*
-        version: link:../types
+  frontend/packages/types:
     devDependencies:
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
 
-  packages/types:
-    devDependencies:
-      typescript:
-        specifier: ^5.8.3
-        version: 5.9.3
-
-  packages/ui:
+  frontend/packages/ui:
     dependencies:
       '@piiaura/types':
         specifier: workspace:*
@@ -186,6 +195,16 @@ importers:
       '@types/react':
         specifier: ~19.1.0
         version: 19.1.17
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+
+  frontend/packages/utils:
+    dependencies:
+      '@piiaura/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
