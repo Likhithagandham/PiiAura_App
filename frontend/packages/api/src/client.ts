@@ -1,5 +1,6 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { getApiBaseUrl } from './config';
+import { unwrapEduOSResponse } from './envelope';
 import { API_PATHS } from './paths';
 
 let baseUrl: string = getApiBaseUrl();
@@ -44,21 +45,37 @@ async function refreshAccessToken(): Promise<string> {
     throw new Error('No refresh token available');
   }
 
-  const { data } = await axios.post<{ access: string; refresh: string }>(
+  const response = await axios.post(
     `${baseUrl}${API_PATHS.auth.refresh}`,
     { refresh: refreshToken },
     { headers: { 'Content-Type': 'application/json' } },
   );
 
-  setAuthTokens(data.access, data.refresh);
-  return data.access;
+  const payload = unwrapEduOSResponse<{ access: string; refresh: string }>(response.data);
+  setAuthTokens(payload.access, payload.refresh);
+  return payload.access;
 }
 
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    response.data = unwrapEduOSResponse(response.data);
+    return response;
+  },
   async (error: AxiosError) => {
     const original = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
     if (error.response?.status !== 401 || !original || original._retry || !refreshToken) {
+      if (error.response?.data) {
+        try {
+          const message = unwrapEduOSResponse(error.response.data);
+          if (typeof message === 'string') {
+            return Promise.reject(new Error(message));
+          }
+        } catch (apiError) {
+          if (apiError instanceof Error) {
+            return Promise.reject(apiError);
+          }
+        }
+      }
       return Promise.reject(error);
     }
 

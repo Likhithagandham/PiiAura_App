@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { Calendar, Megaphone } from 'lucide-react-native';
 import { ROUTES, WALKTHROUGH_TARGETS } from '@piiaura/constants';
@@ -14,15 +14,33 @@ import {
 import { useToast } from '@/components/toast/ToastProvider';
 
 export default function StudentDashboardScreen() {
-  const { data, isLoading } = useStudentDashboard();
+  const { data, isLoading, isError, error, refetch } = useStudentDashboard();
   const toast = useToast();
   const scrollRef = useWalkthroughScrollRef();
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return (
       <View style={styles.screen}>
         <View style={styles.loading}>
           <Text style={styles.loadingText}>Loading dashboard...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <View style={styles.screen}>
+        <View style={styles.loading}>
+          <Text style={styles.errorTitle}>Could not load dashboard</Text>
+          <Text style={styles.errorText}>
+            {error instanceof Error
+              ? error.message
+              : 'Check that EduOS-backend is running and EXPO_PUBLIC_API_URL is reachable.'}
+          </Text>
+          <Pressable style={styles.retryBtn} onPress={() => refetch()}>
+            <Text style={styles.retryText}>Retry</Text>
+          </Pressable>
         </View>
       </View>
     );
@@ -41,11 +59,13 @@ export default function StudentDashboardScreen() {
         </WalkthroughTarget>
 
         <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.DASHBOARD_NOTIFICATIONS}>
-          <StudentFeeAlertCard
-            alert={data.feeAlert}
-            onPayNow={() => toast.show('Fee payment coming soon', 'info')}
-            onViewDetails={() => toast.show('Fee details coming soon', 'info')}
-          />
+          {data.feeAlert.amountLabel ? (
+            <StudentFeeAlertCard
+              alert={data.feeAlert}
+              onPayNow={() => toast.show('Fee payment coming soon', 'info')}
+              onViewDetails={() => toast.show('Fee details coming soon', 'info')}
+            />
+          ) : null}
         </WalkthroughTarget>
 
         <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.DASHBOARD_STATS}>
@@ -96,6 +116,29 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: typography.fontSize.sm,
     color: colors.textSecondary,
+  },
+  errorTitle: {
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.semibold,
+    color: colors.primaryContainer,
+    marginBottom: spacing.sm,
+  },
+  errorText: {
+    fontSize: typography.fontSize.sm,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    paddingHorizontal: spacing.xl,
+  },
+  retryBtn: {
+    marginTop: spacing.lg,
+    backgroundColor: colors.primaryContainer,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
+    borderRadius: 999,
+  },
+  retryText: {
+    color: colors.surface,
+    fontWeight: typography.fontWeight.semibold,
   },
   content: {
     padding: spacing.lg,

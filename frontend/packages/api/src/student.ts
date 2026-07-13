@@ -17,11 +17,12 @@ import type {
   StudentTimetableData,
 } from '@piiaura/types';
 import { apiClient } from './client';
+import { mapEduOSStudentDashboard } from './mappers/studentDashboard';
 import { API_PATHS } from './paths';
 
 export async function getStudentDashboard(): Promise<StudentDashboardData> {
-  const { data } = await apiClient.get<StudentDashboardData>(API_PATHS.auth.studentDashboard);
-  return data;
+  const { data } = await apiClient.get(API_PATHS.auth.studentDashboard);
+  return mapEduOSStudentDashboard(data);
 }
 
 export async function getStudentAttendance(): Promise<AttendanceRecord[]> {

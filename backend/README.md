@@ -1,44 +1,64 @@
 # PiiAura Backend
 
-This folder is reserved for backend-specific code in the PiiAura monorepo.
+The API lives in a separate repo on this machine:
 
-## Reference implementation
+**`C:\Users\likhi\PiiAura\EduOS-backend`**
 
-The mobile app integrates with **[EduOS-backend](https://github.com/Likhithagandham/EduOS-backend)** — a multi-tenant Education Management Platform API built with **Django 5 + DRF**.
+The mobile app talks to it over HTTP at `/api/v1/`.
 
-Use that repository as the source of truth for:
+## Start the backend
 
-- API routes (`/api/v1/...`)
-- Auth (JWT access + refresh)
-- Request/response shapes
-- Business rules and permissions
-
-## API base URL
-
-Configure the frontend with:
-
-```bash
-EXPO_PUBLIC_API_URL=http://localhost:8000
-EXPO_PUBLIC_TENANT_ID=<your-tenant-uuid>
+```powershell
+cd C:\Users\likhi\PiiAura\EduOS-backend
+.\.venv\Scripts\activate
+python manage.py runserver
 ```
 
-## EduOS API overview
+API: `http://localhost:8000`  
+Health: `http://localhost:8000/health/`
+
+## Connect the mobile app
+
+1. Copy env file:
+
+```powershell
+cd frontend\apps\mobile
+copy .env.example .env
+```
+
+2. Edit `.env`:
+   - **Emulator on same PC:** `EXPO_PUBLIC_API_URL=http://localhost:8000`
+   - **Physical phone:** use your PC LAN IP, e.g. `http://192.168.1.5:8000`
+   - **Tenant ID:** UUID from EduOS (local seed: Greenfield Academy `c1bbddb5-0b05-4dd9-9042-65ddb7941ff2`)
+
+3. Start mobile:
+
+```powershell
+cd C:\Users\likhi\PiiAura_App
+pnpm mobile
+```
+
+## Sample login (local seed data)
+
+| Field | Value |
+|-------|-------|
+| Identifier | `STU-001` |
+| Role | student |
+| Tenant | Greenfield Academy (`c1bbddb5-0b05-4dd9-9042-65ddb7941ff2`) |
+
+Use the password set in your EduOS seed data.
+
+## API overview
 
 | Prefix | App |
 |--------|-----|
-| `/api/v1/auth/` | accounts (login, me, dashboards, profiles) |
+| `/api/v1/auth/` | login, me, dashboards, profiles |
 | `/api/v1/academics/` | timetable, study materials, syllabus |
 | `/api/v1/attendance/` | attendance, leave |
-| `/api/v1/examinations/` | exams, assignments, marks, invigilation |
-| `/api/v1/fees/` | student fees & dues |
+| `/api/v1/examinations/` | exams, assignments, marks |
+| `/api/v1/fees/` | student fees |
 | `/api/v1/hr/` | leave, payslips |
 | `/api/v1/communications/` | announcements |
 | `/api/v1/coursework/` | homework |
 
-See [EduOS-backend README](https://github.com/Likhithagandham/EduOS-backend) for setup (`make dev`, migrations, seed data).
-
-## Local development
-
-1. Clone and run EduOS-backend separately (or add it here later).
-2. Point `EXPO_PUBLIC_API_URL` at the running API.
-3. Run the mobile app: `pnpm mobile` from the repo root.
+See [EduOS-backend](https://github.com/Likhithagandham/EduOS-backend) for migrations and full setup.

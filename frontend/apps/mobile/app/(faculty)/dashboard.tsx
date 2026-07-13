@@ -30,14 +30,30 @@ function GlassCard({ children, style }: { children: React.ReactNode; style?: obj
 
 export default function FacultyDashboardScreen() {
   const { user } = useAuth();
-  const { data, isLoading } = useFacultyDashboard();
+  const { data, isLoading, isError, error, refetch } = useFacultyDashboard();
   const scrollRef = useWalkthroughScrollRef();
   const dashboard = data?.data;
 
-  if (isLoading || !dashboard) {
+  if (isLoading) {
     return (
       <View style={styles.loading}>
         <Text style={styles.loadingText}>Loading dashboard...</Text>
+      </View>
+    );
+  }
+
+  if (isError || !dashboard) {
+    return (
+      <View style={styles.loading}>
+        <Text style={styles.errorTitle}>Could not load dashboard</Text>
+        <Text style={styles.errorText}>
+          {error instanceof Error
+            ? error.message
+            : 'Check that EduOS-backend is running and EXPO_PUBLIC_API_URL is reachable.'}
+        </Text>
+        <Pressable style={styles.retryBtn} onPress={() => refetch()}>
+          <Text style={styles.retryText}>Retry</Text>
+        </Pressable>
       </View>
     );
   }
@@ -227,11 +243,35 @@ const styles = StyleSheet.create({
   loading: {
     flex: 1,
     backgroundColor: colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: spacing.xl,
   },
   loadingText: {
     textAlign: 'center',
-    marginTop: spacing['3xl'],
     color: colors.textSecondary,
+  },
+  errorTitle: {
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.semibold,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  errorText: {
+    fontSize: typography.fontSize.sm,
+    color: colors.textSecondary,
+    textAlign: 'center',
+  },
+  retryBtn: {
+    marginTop: spacing.lg,
+    backgroundColor: colors.primaryContainer,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
+    borderRadius: 999,
+  },
+  retryText: {
+    color: colors.surface,
+    fontWeight: typography.fontWeight.semibold,
   },
   greeting: {
     gap: spacing.xs,

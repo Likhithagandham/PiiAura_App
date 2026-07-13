@@ -5,8 +5,6 @@ import type {
   FacultyAlertsData,
   FacultyAssignmentsData,
   FacultyAttendanceSession,
-  FacultyDashboardData,
-  FacultyDashboardStats,
   FacultyHelpSupportData,
   FacultyInvigilationData,
   FacultyLeaveData,
@@ -19,17 +17,17 @@ import type {
   FacultySyllabusData,
 } from '@piiaura/types';
 import { apiClient } from './client';
+import {
+  mapEduOSFacultyDashboard,
+  type FacultyDashboardResponse,
+} from './mappers/facultyDashboard';
 import { API_PATHS } from './paths';
 
-export interface FacultyDashboardResponse {
-  stats: FacultyDashboardStats;
-  data: FacultyDashboardData;
-  announcements: Announcement[];
-}
+export type { FacultyDashboardResponse };
 
 export async function getFacultyDashboard(): Promise<FacultyDashboardResponse> {
-  const { data } = await apiClient.get<FacultyDashboardResponse>(API_PATHS.auth.facultyDashboard);
-  return data;
+  const { data } = await apiClient.get(API_PATHS.auth.facultyDashboard);
+  return mapEduOSFacultyDashboard(data);
 }
 
 export async function getFacultyAttendanceSession(): Promise<FacultyAttendanceSession> {

@@ -28,7 +28,17 @@ Reference: [Likhithagandham/EduOS-backend](https://github.com/Likhithagandham/Ed
 | `useFacultyProfile` | `GET /api/v1/auth/me/faculty-profile/` |
 | `useStudentProfile` | `GET /api/v1/auth/me/student-profile/` |
 
-## Environment
+## Response envelope
+
+EduOS wraps all JSON as `{ success, data, message }`. The mobile API client unwraps this automatically in `frontend/packages/api/src/client.ts`.
+
+## Local backend path
+
+```
+C:\Users\likhi\PiiAura\EduOS-backend
+```
+
+Start with `python manage.py runserver` (port 8000).
 
 ```env
 EXPO_PUBLIC_API_URL=http://localhost:8000
