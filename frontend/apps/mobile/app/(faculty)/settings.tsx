@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { router } from 'expo-router';
+import { updateFacultySettingsPreferences } from '@piiaura/api';
 import type { FacultyNotificationPreference, FacultyNotificationPreferenceId } from '@piiaura/types';
 import { ROUTES } from '@piiaura/constants';
 import { useFacultySettings } from '@piiaura/hooks';
@@ -11,7 +12,7 @@ import { PrivacyControlCard, SavePreferencesButton } from '@/components/faculty/
 import { useToast } from '@/components/toast/ToastProvider';
 
 export default function FacultySettingsScreen() {
-  const { data, isLoading } = useFacultySettings();
+  const { data, isLoading, isError, error, refetch } = useFacultySettings();
   const toast = useToast();
   const [preferences, setPreferences] = useState<FacultyNotificationPreference[]>([]);
 
@@ -30,23 +31,36 @@ export default function FacultySettingsScreen() {
   };
 
   const handleSave = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await updateFacultySettingsPreferences(preferences);
+    await refetch();
     toast.show('Notification preferences saved', 'success');
   };
 
   const handleEdit = () => {
-    toast.show('Edit profile photo coming soon', 'info');
+    router.push(ROUTES.FACULTY.PROFILE as never);
   };
 
   const openProfile = () => {
     router.push(ROUTES.FACULTY.PROFILE as never);
   };
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return (
       <View style={styles.screen}>
         <View style={styles.loading}>
           <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <View style={styles.screen}>
+        <View style={styles.loading}>
+          <Text style={styles.loadingText}>
+            {error instanceof Error ? error.message : 'Unable to load settings right now'}
+          </Text>
         </View>
       </View>
     );

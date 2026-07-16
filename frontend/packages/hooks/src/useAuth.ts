@@ -1,7 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect } from 'react';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { login as apiLogin, logout as apiLogout, restoreSession } from '@piiaura/api';
+import {
+  fetchCurrentUser,
+  login as apiLogin,
+  logout as apiLogout,
+  restoreSession,
+  setUnauthorizedHandler,
+} from '@piiaura/api';
 import type { Role, User } from '@piiaura/types';
 import { ROLE_HOME_ROUTE } from '@piiaura/constants';
 
@@ -24,7 +31,7 @@ export interface AuthState {
 function inferRole(identifier: string): Role | undefined {
   const value = identifier.trim().toUpperCase();
   if (value.startsWith('FAC') || value.startsWith('EMP')) return 'faculty';
-  if (/^[A-Z]{2}\d{2}[A-Z]\d{3}$/.test(value)) return 'student';
+  if (value.startsWith('STU') || /^[A-Z]{2}\d{2}[A-Z]\d{3}$/.test(value)) return 'student';
   return undefined;
 }
 
@@ -74,22 +81,60 @@ export const useAuthStore = create<AuthState>()(
         isAuthenticated: state.isAuthenticated,
       }),
       onRehydrateStorage: () => (state) => {
-        if (state?.tokens) {
+        if (state?.tokens?.access) {
           restoreSession(state.tokens.access, state.tokens.refresh);
+          state.setHasHydrated(true);
+          return;
         }
-        state?.setHasHydrated(true);
+
+        // Drop stale sessions from the old mock-data era that have no JWT tokens.
+        useAuthStore.setState({
+          user: null,
+          tokens: null,
+          isAuthenticated: false,
+          hasHydrated: true,
+        });
       },
     },
   ),
 );
 
+setUnauthorizedHandler(() => {
+  useAuthStore.getState().logout();
+});
+
 export function useAuth() {
   const user = useAuthStore((s) => s.user);
+  const tokens = useAuthStore((s) => s.tokens);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const isLoading = useAuthStore((s) => s.isLoading);
   const hasHydrated = useAuthStore((s) => s.hasHydrated);
   const login = useAuthStore((s) => s.login);
   const logout = useAuthStore((s) => s.logout);
+
+  useEffect(() => {
+    if (!hasHydrated || !isAuthenticated || !tokens?.access) {
+      return;
+    }
+
+    let cancelled = false;
+
+    fetchCurrentUser()
+      .then((nextUser) => {
+        if (!cancelled) {
+          useAuthStore.setState({ user: nextUser });
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          useAuthStore.getState().logout();
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [hasHydrated, isAuthenticated, tokens?.access]);
 
   return { user, isAuthenticated, isLoading, hasHydrated, login, logout };
 }

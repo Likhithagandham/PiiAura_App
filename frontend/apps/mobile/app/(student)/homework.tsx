@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { ChevronDown } from 'lucide-react-native';
+import type { StudentHomeworkEntry } from '@piiaura/types';
 import { useStudentHomework } from '@piiaura/hooks';
 import { colors, spacing, typography } from '@piiaura/ui';
 import { StudentHomeworkOverviewBento } from '@/components/student/homework/StudentHomeworkOverviewBento';
@@ -16,11 +17,25 @@ export default function StudentHomeworkScreen() {
   const toast = useToast();
   const [selectedDayId, setSelectedDayId] = useState<string | null>(null);
 
-  const activeDayId = selectedDayId ?? data?.selectedDayId ?? '';
+  const entriesByDay = useMemo(() => {
+    if (!data || typeof data !== 'object' || !data.entriesByDay || typeof data.entriesByDay !== 'object') {
+      return {} as Record<string, StudentHomeworkEntry[]>;
+    }
+    return data.entriesByDay as Record<string, StudentHomeworkEntry[]>;
+  }, [data]);
+
+  const days = useMemo(() => (Array.isArray(data?.days) ? data.days : []), [data?.days]);
+
+  const activeDayId = useMemo(() => {
+    if (selectedDayId) return selectedDayId;
+    if (typeof data?.selectedDayId === 'string' && data.selectedDayId.length > 0) return data.selectedDayId;
+    return days[0]?.id ?? '';
+  }, [data?.selectedDayId, days, selectedDayId]);
+
   const entries = useMemo(() => {
-    if (!data) return [];
-    return data.entriesByDay[activeDayId] ?? [];
-  }, [data, activeDayId]);
+    const dayEntries = entriesByDay[activeDayId];
+    return Array.isArray(dayEntries) ? dayEntries : [];
+  }, [activeDayId, entriesByDay]);
 
   if (isLoading || !data) {
     return (
@@ -47,7 +62,7 @@ export default function StudentHomeworkScreen() {
           </View>
 
           <StudentHomeworkDayScroller
-            days={data.days}
+            days={days}
             selectedDayId={activeDayId}
             onSelectDay={setSelectedDayId}
           />

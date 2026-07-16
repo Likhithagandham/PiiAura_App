@@ -1,5 +1,6 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { getApiBaseUrl } from './config';
+import { formatApiError } from './errors';
 import { unwrapEduOSResponse } from './envelope';
 import { API_PATHS } from './paths';
 
@@ -7,6 +8,16 @@ let baseUrl: string = getApiBaseUrl();
 let accessToken: string | null = null;
 let refreshToken: string | null = null;
 let refreshPromise: Promise<string> | null = null;
+let onUnauthorized: (() => void) | null = null;
+
+export function setUnauthorizedHandler(handler: (() => void) | null) {
+  onUnauthorized = handler;
+}
+
+function clearSession() {
+  setAuthTokens(null, null);
+  onUnauthorized?.();
+}
 
 export function configureApiBaseUrl(url: string) {
   baseUrl = url;
@@ -64,19 +75,10 @@ apiClient.interceptors.response.use(
   async (error: AxiosError) => {
     const original = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
     if (error.response?.status !== 401 || !original || original._retry || !refreshToken) {
-      if (error.response?.data) {
-        try {
-          const message = unwrapEduOSResponse(error.response.data);
-          if (typeof message === 'string') {
-            return Promise.reject(new Error(message));
-          }
-        } catch (apiError) {
-          if (apiError instanceof Error) {
-            return Promise.reject(apiError);
-          }
-        }
+      if (error.response?.status === 401) {
+        clearSession();
       }
-      return Promise.reject(error);
+      return Promise.reject(formatApiError(error));
     }
 
     original._retry = true;
@@ -91,8 +93,8 @@ apiClient.interceptors.response.use(
       original.headers.Authorization = `Bearer ${nextAccess}`;
       return apiClient(original);
     } catch (refreshError) {
-      setAuthTokens(null, null);
-      return Promise.reject(refreshError);
+      clearSession();
+      return Promise.reject(formatApiError(refreshError));
     }
   },
 );

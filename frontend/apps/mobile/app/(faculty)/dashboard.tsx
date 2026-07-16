@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
-import { router } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import {
   AlertTriangle,
   SquareCheck,
@@ -19,22 +19,35 @@ import {
 } from '@piiaura/ui';
 import { ROUTES, WALKTHROUGH_TARGETS } from '@piiaura/constants';
 import { useAuth, useFacultyDashboard } from '@piiaura/hooks';
+import { getConfiguredApiBaseUrl } from '@piiaura/api';
 import { CircularProgressRing } from '@/components/faculty/CircularProgressRing';
 import { EmptyScheduleState } from '@/components/faculty/EmptyScheduleState';
 import { PriorityAlertsCard } from '@/components/faculty/PriorityAlertsCard';
-import { WalkthroughTarget, useWalkthroughScrollRef } from '@/components/walkthrough/WalkthroughProvider';
+import { WalkthroughTarget, useWalkthroughScrollHandlers } from '@/components/walkthrough/WalkthroughProvider';
 
 function GlassCard({ children, style }: { children: React.ReactNode; style?: object }) {
   return <View style={[styles.glassCard, style]}>{children}</View>;
 }
 
 export default function FacultyDashboardScreen() {
-  const { user } = useAuth();
-  const { data, isLoading, isError, error, refetch } = useFacultyDashboard();
-  const scrollRef = useWalkthroughScrollRef();
+  const { user, hasHydrated, isAuthenticated } = useAuth();
+  const { data, isFetching, isError, error, refetch } = useFacultyDashboard();
+  const scroll = useWalkthroughScrollHandlers();
   const dashboard = data?.data;
 
-  if (isLoading) {
+  if (!hasHydrated) {
+    return (
+      <View style={styles.loading}>
+        <Text style={styles.loadingText}>Loading dashboard...</Text>
+      </View>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Redirect href={ROUTES.AUTH.LOGIN} />;
+  }
+
+  if (isFetching && !dashboard) {
     return (
       <View style={styles.loading}>
         <Text style={styles.loadingText}>Loading dashboard...</Text>
@@ -51,6 +64,7 @@ export default function FacultyDashboardScreen() {
             ? error.message
             : 'Check that EduOS-backend is running and EXPO_PUBLIC_API_URL is reachable.'}
         </Text>
+        <Text style={styles.errorHint}>API: {getConfiguredApiBaseUrl()}</Text>
         <Pressable style={styles.retryBtn} onPress={() => refetch()}>
           <Text style={styles.retryText}>Retry</Text>
         </Pressable>
@@ -71,7 +85,9 @@ export default function FacultyDashboardScreen() {
   return (
     <View style={styles.screen}>
       <ScrollView
-        ref={scrollRef}
+        ref={scroll.ref}
+        onScroll={scroll.onScroll}
+        scrollEventThrottle={scroll.scrollEventThrottle}
         style={styles.scroll}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
@@ -260,6 +276,12 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: typography.fontSize.sm,
     color: colors.textSecondary,
+    textAlign: 'center',
+  },
+  errorHint: {
+    marginTop: spacing.sm,
+    fontSize: typography.fontSize.xs,
+    color: colors.textMuted,
     textAlign: 'center',
   },
   retryBtn: {

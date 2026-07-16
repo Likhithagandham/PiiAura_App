@@ -91,23 +91,25 @@ export function StudentHeader({
       <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.HEADER_ACTIONS} style={styles.actions}>
         {showSettings ? (
           <Pressable
-            onPress={() => toast.show('Settings coming soon', 'info')}
+            onPress={() => router.push(ROUTES.STUDENT.PROFILE as never)}
             hitSlop={8}
             accessibilityRole="button"
-            accessibilityLabel="Settings"
+            accessibilityLabel="Open profile settings"
           >
             <Settings size={22} color={colors.primaryContainer} />
           </Pressable>
         ) : (
           <>
-            <Pressable
-              onPress={() => toast.show('Notifications coming soon', 'info')}
-              hitSlop={8}
-              accessibilityRole="button"
-              accessibilityLabel="Notifications"
-            >
-              <Bell size={22} color={colors.textSecondary} />
-            </Pressable>
+            <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.HEADER_NOTIFICATIONS}>
+              <Pressable
+                onPress={() => toast.show('Notifications coming soon', 'info')}
+                hitSlop={8}
+                accessibilityRole="button"
+                accessibilityLabel="Notifications"
+              >
+                <Bell size={22} color={colors.textSecondary} />
+              </Pressable>
+            </WalkthroughTarget>
             {showSearch ? (
               <Pressable
                 onPress={() => toast.show('Search coming soon', 'info')}

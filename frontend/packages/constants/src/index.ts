@@ -76,7 +76,7 @@ export const API_ENDPOINTS = {
 
 export const APP_CONFIG = {
   APP_NAME: 'PiiAura',
-  INSTITUTION_NAME: 'HORIZON ENGINEERING COLLEGE',
+  INSTITUTION_NAME: 'Greenfield Academy',
   QUERY_STALE_TIME_MS: 60_000,
 } as const;
 

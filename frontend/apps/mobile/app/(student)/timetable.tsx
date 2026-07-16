@@ -16,7 +16,7 @@ export default function StudentTimetableScreen() {
 
   const activeDayId = selectedDayId ?? data?.selectedDayId ?? '';
   const dailySlots = useMemo(() => {
-    if (!data) return [];
+    if (!data?.dailySlotsByDay) return [];
     return data.dailySlotsByDay[activeDayId] ?? [];
   }, [data, activeDayId]);
 

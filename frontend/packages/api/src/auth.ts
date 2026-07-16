@@ -1,6 +1,6 @@
 import type { Role } from '@piiaura/types';
 import { apiClient, getRefreshToken, setAuthTokens } from './client';
-import { getTenantId } from './config';
+import { resolveTenantId } from './config';
 import { mapEduOSMeToUser, type EduOSLoginResponse, type EduOSMeResponse } from './mappers/user';
 import { API_PATHS } from './paths';
 
@@ -16,7 +16,7 @@ export async function login(
   password: string,
   role?: Role,
 ): Promise<LoginResult> {
-  const tenantId = getTenantId();
+  const tenantId = await resolveTenantId();
   const endpoint = role ? API_PATHS.auth.login : API_PATHS.auth.loginDisambiguate;
   const payload = role
     ? { identifier, password, role, tenant_id: tenantId }

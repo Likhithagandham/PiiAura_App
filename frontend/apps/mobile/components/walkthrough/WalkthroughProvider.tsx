@@ -8,7 +8,13 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { InteractionManager, View, type ViewProps, type ScrollView } from 'react-native';
+import {
+  InteractionManager,
+  useWindowDimensions,
+  View,
+  type ViewProps,
+  type ScrollView,
+} from 'react-native';
 import { router, usePathname } from 'expo-router';
 import type { Role, WalkthroughProgressRecord, WalkthroughStepConfig } from '@piiaura/types';
 import {
@@ -36,7 +42,10 @@ interface WalkthroughContextValue {
   role: Role;
   progress: WalkthroughProgressRecord | null;
   isTourActive: boolean;
-  registerTarget: (targetId: string, layout: { x: number; y: number; width: number; height: number }) => void;
+  registerTarget: (
+    targetId: string,
+    layout: { x: number; y: number; width: number; height: number },
+  ) => void;
   unregisterTarget: (targetId: string) => void;
   registerMeasurer: (targetId: string, measure: () => void) => void;
   unregisterMeasurer: (targetId: string) => void;
@@ -113,6 +122,7 @@ function scheduleMeasure(measure: () => void) {
 export function WalkthroughProvider({ role, children }: WalkthroughProviderProps) {
   const { user } = useAuth();
   const pathname = usePathname();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [progress, setProgress] = useState<WalkthroughProgressRecord | null>(null);
   const [activeTour, setActiveTour] = useState<ActiveTour | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -124,6 +134,19 @@ export function WalkthroughProvider({ role, children }: WalkthroughProviderProps
   const dashboardAutoStartedRef = useRef(false);
   const pendingTourRef = useRef<ActiveTour | null>(null);
   const pendingRouteRef = useRef<string | null>(null);
+  const hostRef = useRef<View>(null);
+  const [hostOrigin, setHostOrigin] = useState({ x: 0, y: 0 });
+
+  const measureHostOrigin = useCallback(() => {
+    hostRef.current?.measureInWindow((x, y) => {
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+      setHostOrigin((prev) => (prev.x === x && prev.y === y ? prev : { x, y }));
+    });
+  }, []);
+
+  useEffect(() => {
+    scheduleMeasure(measureHostOrigin);
+  }, [measureHostOrigin, windowWidth, windowHeight]);
 
   const getTourRoute = useCallback(
     (tour: ActiveTour): string | null => {
@@ -156,9 +179,15 @@ export function WalkthroughProvider({ role, children }: WalkthroughProviderProps
 
   const registerTarget = useCallback(
     (targetId: string, layout: { x: number; y: number; width: number; height: number }) => {
-      setTargets((prev) => ({ ...prev, [targetId]: layout }));
+      const normalized = {
+        x: layout.x - hostOrigin.x,
+        y: layout.y - hostOrigin.y,
+        width: layout.width,
+        height: layout.height,
+      };
+      setTargets((prev) => ({ ...prev, [targetId]: normalized }));
     },
-    [],
+    [hostOrigin.x, hostOrigin.y],
   );
 
   const unregisterTarget = useCallback((targetId: string) => {
@@ -186,6 +215,7 @@ export function WalkthroughProvider({ role, children }: WalkthroughProviderProps
 
   const remeasureAllTargets = useCallback(() => {
     const measureAll = () => {
+      measureHostOrigin();
       Object.values(measurersRef.current).forEach((measure) => measure());
     };
 
@@ -195,13 +225,14 @@ export function WalkthroughProvider({ role, children }: WalkthroughProviderProps
     setTimeout(measureAll, 80);
     setTimeout(measureAll, 250);
     setTimeout(measureAll, 500);
-  }, []);
+  }, [measureHostOrigin]);
 
   const remeasureCurrentTarget = useCallback(() => {
     const targetId = activeTour?.steps[stepIndex]?.targetId;
     if (!targetId) return;
 
     const measure = () => {
+      measureHostOrigin();
       measurersRef.current[targetId]?.();
     };
 
@@ -210,7 +241,7 @@ export function WalkthroughProvider({ role, children }: WalkthroughProviderProps
     });
     setTimeout(measure, 80);
     setTimeout(measure, 300);
-  }, [activeTour, stepIndex]);
+  }, [activeTour, measureHostOrigin, stepIndex]);
 
   const prepareStep = useCallback(
     (step?: WalkthroughStepConfig) => {
@@ -405,7 +436,7 @@ export function WalkthroughProvider({ role, children }: WalkthroughProviderProps
 
   return (
     <WalkthroughContext.Provider value={contextValue}>
-      <View style={{ flex: 1 }}>
+      <View ref={hostRef} style={{ flex: 1 }} onLayout={() => scheduleMeasure(measureHostOrigin)}>
         {children}
         {activeTour && currentStep ? (
           <WalkthroughOverlay
@@ -489,6 +520,43 @@ export function useWalkthroughScrollRef() {
   }, [context]);
 
   return scrollRef;
+}
+
+export function useWalkthroughScrollHandlers() {
+  const context = useContext(WalkthroughContext);
+  const scrollRef = useRef<ScrollView>(null);
+  const frameRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!context) return;
+    return context.registerScrollView({
+      scrollToTop: () => scrollRef.current?.scrollTo({ y: 0, animated: false }),
+      scrollToEnd: () => scrollRef.current?.scrollToEnd({ animated: false }),
+    });
+  }, [context]);
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current);
+      }
+    };
+  }, []);
+
+  const onScroll = useCallback(() => {
+    if (!context?.isTourActive) return;
+    if (frameRef.current !== null) return;
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = null;
+      context.remeasureAllTargets();
+    });
+  }, [context]);
+
+  return {
+    ref: scrollRef,
+    onScroll,
+    scrollEventThrottle: 16 as const,
+  };
 }
 
 export function useModuleWalkthrough(moduleId: string) {

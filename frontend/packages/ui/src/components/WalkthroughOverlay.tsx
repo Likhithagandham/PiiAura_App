@@ -26,7 +26,7 @@ const TOOLTIP_MAX_WIDTH = 340;
 const TOOLTIP_FALLBACK_HEIGHT = 168;
 const TOOLTIP_MARGIN = spacing.lg;
 const TOOLTIP_GAP = spacing.md;
-const SPOTLIGHT_PADDING = 16;
+const SPOTLIGHT_PADDING = 0;
 
 function getHighlightRect(
   target: NonNullable<WalkthroughOverlayProps['targetLayout']>,

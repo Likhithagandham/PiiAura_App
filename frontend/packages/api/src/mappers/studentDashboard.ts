@@ -77,6 +77,7 @@ export function mapEduOSStudentDashboard(
     attendance: {
       label: 'Attendance',
       percent: raw.attendancePercent ?? 0,
+      badgeLabel: `${Math.round(raw.attendancePercent ?? 0)}%`,
     },
     hallTicket: {
       label: 'Hall Ticket',
@@ -84,16 +85,19 @@ export function mapEduOSStudentDashboard(
       badgeLabel: raw.hallTicketAvailable ? 'Ready' : undefined,
     },
     assignments: {
-      label: 'Assignments',
-      count: 0,
-      countLabel: 'pending',
+      label: 'Announcements',
+      count: raw.announcements?.length ?? 0,
+      countLabel:
+        (raw.announcements?.length ?? 0) > 0
+          ? `${raw.announcements?.length} item(s)`
+          : 'None yet',
     },
     upcomingExamsTitle: 'Upcoming Exams',
     upcomingExamsCount: upcomingCount,
     featuredExam: {
       id: 'next-exam',
       subject: nextExam || (upcomingCount > 0 ? 'Upcoming exam' : 'No exams scheduled'),
-      dateTimeLabel: upcomingCount > 0 ? 'See exams for details' : '',
+      dateTimeLabel: '',
       iconLetter: (nextExam?.[0] ?? 'E').toUpperCase(),
     },
     nextExamLabel: nextExam || (upcomingCount > 0 ? 'View exam schedule' : 'No upcoming exams'),
@@ -102,12 +106,12 @@ export function mapEduOSStudentDashboard(
       ? {
           title: firstSchedule?.subjectName ?? 'Class',
           subtitle: firstSchedule
-            ? `${formatTime(firstSchedule.startTime ?? '')} · ${firstSchedule.roomName ?? 'Room TBD'}`
-            : 'Classes scheduled for today',
+            ? `${formatTime(firstSchedule.startTime ?? '')} · ${firstSchedule.roomName ?? ''}`
+            : '',
         }
       : {
           title: 'No classes today',
-          subtitle: 'Your schedule is clear for today',
+          subtitle: 'EduOS returned an empty schedule for today',
         },
     announcementsTitle: 'Announcements',
     announcementsEmpty: {
@@ -117,8 +121,8 @@ export function mapEduOSStudentDashboard(
           : 'No announcements',
       subtitle:
         (raw.announcements?.length ?? 0) > 0
-          ? 'Open the alerts tab for details'
-          : 'Check back later for updates',
+          ? 'Open Alerts for details'
+          : 'EduOS has no announcements for this student yet',
     },
   };
 }

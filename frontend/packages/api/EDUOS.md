@@ -47,8 +47,9 @@ EXPO_PUBLIC_TENANT_ID=<uuid-from-eduos>
 
 ## Auth flow
 
-1. `POST /api/v1/auth/login/disambiguate/` with `{ identifier, password, tenant_id }`
-2. Store `access` + `refresh` JWT tokens
-3. `GET /api/v1/auth/me/` for profile
-4. On 401, `POST /api/v1/auth/refresh/` with `{ refresh }`
-5. `POST /api/v1/auth/logout/` with `{ refresh }` on sign-out
+1. Resolve tenant via `EXPO_PUBLIC_TENANT_ID` or `EXPO_PUBLIC_TENANT_SUBDOMAIN` → `GET /api/v1/organizations/tenant-config/?subdomain=greenfield`
+2. `POST /api/v1/auth/login/disambiguate/` with `{ identifier, password, tenant_id }`
+3. Store `access` + `refresh` JWT tokens
+4. `GET /api/v1/auth/me/` for profile
+5. On 401, `POST /api/v1/auth/refresh/` with `{ refresh }`
+6. `POST /api/v1/auth/logout/` with `{ refresh }` on sign-out

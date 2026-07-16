@@ -19,11 +19,26 @@ export function SettingsProfileCard({
   onEditPress,
   onPress,
 }: SettingsProfileCardProps) {
+  const hasAvatar = avatarUrl.trim().length > 0;
+
   return (
     <Pressable style={styles.card} onPress={onPress} disabled={!onPress}>
       <View style={styles.avatarWrap}>
         <View style={styles.avatarRing}>
-          <Image source={{ uri: avatarUrl }} style={styles.avatar} accessibilityLabel={`${name} photo`} />
+          {hasAvatar ? (
+            <Image source={{ uri: avatarUrl }} style={styles.avatar} accessibilityLabel={`${name} photo`} />
+          ) : (
+            <View style={styles.avatarFallback}>
+              <Text style={styles.avatarInitial}>
+                {name
+                  .split(' ')
+                  .map((part) => part[0] ?? '')
+                  .join('')
+                  .slice(0, 2)
+                  .toUpperCase()}
+              </Text>
+            </View>
+          )}
         </View>
         <Pressable
           style={styles.editBtn}
@@ -81,6 +96,17 @@ const styles = StyleSheet.create({
   avatar: {
     width: '100%',
     height: '100%',
+  },
+  avatarFallback: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.secondaryContainer,
+  },
+  avatarInitial: {
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.bold,
+    color: colors.primary,
   },
   editBtn: {
     position: 'absolute',

@@ -12,6 +12,9 @@ import {
   LogOut,
   ChevronRight,
   UserCircle,
+  BookOpen,
+  BadgePercent,
+  CalendarCheck,
   type LucideIcon,
 } from 'lucide-react-native';
 import { ROUTES } from '@piiaura/constants';
@@ -21,6 +24,10 @@ import { colors, spacing, typography, radii } from '@piiaura/ui';
 const ACADEMIC_ICONS: Record<string, LucideIcon> = {
   homework: ClipboardList,
   exams: FileQuestion,
+  grades: BadgePercent,
+  assignments: ClipboardList,
+  attendance: CalendarCheck,
+  learn: BookOpen,
 };
 
 const CAMPUS_ICONS: Record<string, LucideIcon> = {
@@ -39,6 +46,10 @@ const SYSTEM_ICONS: Record<string, LucideIcon> = {
 const TILE_ROUTES: Record<string, string | undefined> = {
   homework: ROUTES.STUDENT.HOMEWORK,
   exams: ROUTES.STUDENT.EXAMS,
+  grades: ROUTES.STUDENT.GRADES,
+  assignments: ROUTES.STUDENT.ASSIGNMENTS,
+  attendance: ROUTES.STUDENT.ATTENDANCE,
+  learn: ROUTES.STUDENT.LEARN,
   fees: ROUTES.STUDENT.FEES,
   leave: ROUTES.STUDENT.LEAVE,
   notices: ROUTES.STUDENT.NOTICES,
@@ -94,7 +105,7 @@ export function StudentMoreModuleGrid({
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{title}</Text>
       <View style={styles.grid}>
-        {tiles.map((tile) => {
+        {(tiles ?? []).map((tile) => {
           const Icon = iconMap[tile.id] ?? ClipboardList;
           const iconWrapStyle =
             variant === 'academic' ? styles.tileIconAcademic : styles.tileIconCampus;
@@ -131,10 +142,10 @@ export function StudentMoreSystemList({ title, items, onItemPress }: StudentMore
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{title}</Text>
       <View style={styles.systemList}>
-        {items.map((item, index) => {
+        {(items ?? []).map((item, index) => {
           const Icon = SYSTEM_ICONS[item.id] ?? HelpCircle;
           const isLogout = item.id === 'logout';
-          const isLast = index === items.length - 1;
+          const isLast = index === (items?.length ?? 0) - 1;
 
           return (
             <Pressable

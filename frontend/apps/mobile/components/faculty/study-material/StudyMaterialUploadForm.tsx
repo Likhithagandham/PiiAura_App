@@ -50,7 +50,8 @@ export function StudyMaterialUploadForm({
   onUpload,
   onPickError,
 }: StudyMaterialUploadFormProps) {
-  const [session, setSession] = useState(defaultSession);
+  const safeSessions = sessions.length > 0 ? sessions : ['General'];
+  const [session, setSession] = useState(defaultSession || safeSessions[0]);
   const [date, setDate] = useState('');
   const [selectedFile, setSelectedFile] = useState<SelectedFile | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -183,7 +184,7 @@ export function StudyMaterialUploadForm({
           <View style={styles.modalSheet}>
             <Text style={styles.modalTitle}>Session</Text>
             <ScrollView>
-              {sessions.map((item) => (
+              {safeSessions.map((item) => (
                 <Pressable
                   key={item}
                   style={styles.modalOption}

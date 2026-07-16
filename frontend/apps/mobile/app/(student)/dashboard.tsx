@@ -1,24 +1,37 @@
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
-import { router } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import { Calendar, Megaphone } from 'lucide-react-native';
 import { ROUTES, WALKTHROUGH_TARGETS } from '@piiaura/constants';
-import { useStudentDashboard } from '@piiaura/hooks';
+import { useAuth, useStudentDashboard } from '@piiaura/hooks';
+import { getConfiguredApiBaseUrl } from '@piiaura/api';
 import { colors, spacing, typography } from '@piiaura/ui';
-import { WalkthroughTarget, useWalkthroughScrollRef } from '@/components/walkthrough/WalkthroughProvider';
+import { WalkthroughTarget, useWalkthroughScrollHandlers } from '@/components/walkthrough/WalkthroughProvider';
 import { StudentFeeAlertCard } from '@/components/student/dashboard/StudentFeeAlertCard';
 import { StudentStatsGrid } from '@/components/student/dashboard/StudentStatsGrid';
 import {
   StudentDashboardEmptyCard,
   StudentUpcomingExamsSection,
 } from '@/components/student/dashboard/StudentDashboardSections';
-import { useToast } from '@/components/toast/ToastProvider';
-
 export default function StudentDashboardScreen() {
-  const { data, isLoading, isError, error, refetch } = useStudentDashboard();
-  const toast = useToast();
-  const scrollRef = useWalkthroughScrollRef();
+  const { hasHydrated, isAuthenticated } = useAuth();
+  const { data, isFetching, isError, error, refetch } = useStudentDashboard();
+  const scroll = useWalkthroughScrollHandlers();
 
-  if (isLoading) {
+  if (!hasHydrated) {
+    return (
+      <View style={styles.screen}>
+        <View style={styles.loading}>
+          <Text style={styles.loadingText}>Loading dashboard...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Redirect href={ROUTES.AUTH.LOGIN} />;
+  }
+
+  if (isFetching && !data) {
     return (
       <View style={styles.screen}>
         <View style={styles.loading}>
@@ -38,6 +51,7 @@ export default function StudentDashboardScreen() {
               ? error.message
               : 'Check that EduOS-backend is running and EXPO_PUBLIC_API_URL is reachable.'}
           </Text>
+          <Text style={styles.errorHint}>API: {getConfiguredApiBaseUrl()}</Text>
           <Pressable style={styles.retryBtn} onPress={() => refetch()}>
             <Text style={styles.retryText}>Retry</Text>
           </Pressable>
@@ -49,7 +63,9 @@ export default function StudentDashboardScreen() {
   return (
     <View style={styles.screen}>
       <ScrollView
-        ref={scrollRef}
+        ref={scroll.ref}
+        onScroll={scroll.onScroll}
+        scrollEventThrottle={scroll.scrollEventThrottle}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
@@ -62,8 +78,8 @@ export default function StudentDashboardScreen() {
           {data.feeAlert.amountLabel ? (
             <StudentFeeAlertCard
               alert={data.feeAlert}
-              onPayNow={() => toast.show('Fee payment coming soon', 'info')}
-              onViewDetails={() => toast.show('Fee details coming soon', 'info')}
+              onPayNow={() => router.push(ROUTES.STUDENT.FEES as never)}
+              onViewDetails={() => router.push(ROUTES.STUDENT.FEES as never)}
             />
           ) : null}
         </WalkthroughTarget>
@@ -73,30 +89,38 @@ export default function StudentDashboardScreen() {
             attendance={data.attendance}
             hallTicket={data.hallTicket}
             assignments={data.assignments}
-            onAssignmentsPress={() => router.push(ROUTES.STUDENT.LEARN as never)}
+            onAttendancePress={() => router.push(ROUTES.STUDENT.ATTENDANCE as never)}
+            onHallTicketPress={() => router.push(ROUTES.STUDENT.EXAMS as never)}
+            onAssignmentsPress={() => router.push(ROUTES.STUDENT.NOTICES as never)}
           />
         </WalkthroughTarget>
 
         <WalkthroughTarget id={WALKTHROUGH_TARGETS.STUDENT.DASHBOARD_ACTIVITY}>
-          <StudentUpcomingExamsSection
-            title={data.upcomingExamsTitle}
-            count={data.upcomingExamsCount}
-            exam={data.featuredExam}
-            nextExamLabel={data.nextExamLabel}
-          />
+          <Pressable onPress={() => router.push(ROUTES.STUDENT.EXAMS as never)}>
+            <StudentUpcomingExamsSection
+              title={data.upcomingExamsTitle}
+              count={data.upcomingExamsCount}
+              exam={data.featuredExam}
+              nextExamLabel={data.nextExamLabel}
+            />
+          </Pressable>
 
-          <StudentDashboardEmptyCard
-            title={data.todayScheduleTitle}
-            empty={data.todayScheduleEmpty}
-            Icon={Calendar}
-            dashed
-          />
+          <Pressable onPress={() => router.push(ROUTES.STUDENT.TIMETABLE as never)}>
+            <StudentDashboardEmptyCard
+              title={data.todayScheduleTitle}
+              empty={data.todayScheduleEmpty}
+              Icon={Calendar}
+              dashed
+            />
+          </Pressable>
 
-          <StudentDashboardEmptyCard
-            title={data.announcementsTitle}
-            empty={data.announcementsEmpty}
-            Icon={Megaphone}
-          />
+          <Pressable onPress={() => router.push(ROUTES.STUDENT.NOTICES as never)}>
+            <StudentDashboardEmptyCard
+              title={data.announcementsTitle}
+              empty={data.announcementsEmpty}
+              Icon={Megaphone}
+            />
+          </Pressable>
         </WalkthroughTarget>
       </ScrollView>
     </View>
@@ -128,6 +152,12 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     textAlign: 'center',
     paddingHorizontal: spacing.xl,
+  },
+  errorHint: {
+    marginTop: spacing.sm,
+    fontSize: typography.fontSize.xs,
+    color: colors.textMuted,
+    textAlign: 'center',
   },
   retryBtn: {
     marginTop: spacing.lg,

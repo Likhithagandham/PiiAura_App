@@ -15,7 +15,7 @@ import { useWalkthrough } from '@/components/walkthrough/WalkthroughProvider';
 import { useToast } from '@/components/toast/ToastProvider';
 
 export default function FacultyHelpSupportScreen() {
-  const { data, isLoading } = useFacultyHelpSupport();
+  const { data, isLoading, isError, error, refetch } = useFacultyHelpSupport();
   const toast = useToast();
   const { replayDashboardTour } = useWalkthrough();
   const moduleOptions = getModuleWalkthroughOptions('faculty');
@@ -36,11 +36,27 @@ export default function FacultyHelpSupportScreen() {
     toast.show('Support ticket form coming soon', 'info');
   };
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return (
       <View style={styles.screen}>
         <View style={styles.loading}>
           <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <View style={styles.screen}>
+        <View style={styles.loading}>
+          <Text style={styles.errorTitle}>Could not load support data</Text>
+          <Text style={styles.errorText}>
+            {error instanceof Error ? error.message : 'Backend did not return help-support data.'}
+          </Text>
+          <Text style={styles.retryLink} onPress={() => refetch()}>
+            Retry
+          </Text>
         </View>
       </View>
     );
@@ -93,6 +109,23 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: typography.fontSize.sm,
     color: colors.textSecondary,
+  },
+  errorTitle: {
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.semibold,
+    color: colors.text,
+  },
+  errorText: {
+    fontSize: typography.fontSize.sm,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    paddingHorizontal: spacing.lg,
+  },
+  retryLink: {
+    marginTop: spacing.sm,
+    fontSize: typography.fontSize.sm,
+    color: colors.primary,
+    fontWeight: typography.fontWeight.semibold,
   },
   content: {
     padding: spacing.lg,

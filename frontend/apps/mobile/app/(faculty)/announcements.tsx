@@ -16,18 +16,25 @@ export default function FacultyAnnouncementsScreen() {
   const [activeFilter, setActiveFilter] = useState<FacultyAlertFilter>('all');
   const [dismissedIds, setDismissedIds] = useState<string[]>([]);
 
+  const alerts = useMemo(() => (Array.isArray(data?.alerts) ? data.alerts : []), [data?.alerts]);
+  const filters = useMemo(
+    () =>
+      Array.isArray(data?.filters) && data.filters.length > 0
+        ? data.filters
+        : [{ id: 'all' as FacultyAlertFilter, label: 'All' }],
+    [data?.filters],
+  );
+
   const visibleAlerts = useMemo(() => {
-    if (!data) return [];
-    return data.alerts.filter((alert) => {
+    return alerts.filter((alert) => {
       if (dismissedIds.includes(alert.id)) return false;
       if (activeFilter === 'all') return true;
       return alert.category === activeFilter;
     });
-  }, [data, activeFilter, dismissedIds]);
+  }, [activeFilter, alerts, dismissedIds]);
 
   const handleMarkAllRead = () => {
-    if (!data) return;
-    setDismissedIds(data.alerts.map((alert) => alert.id));
+    setDismissedIds(alerts.map((alert) => alert.id));
     toast.show('All alerts marked as read', 'success');
   };
 
@@ -71,7 +78,7 @@ export default function FacultyAnnouncementsScreen() {
         </View>
 
         <AlertsFilterChips
-          filters={data.filters}
+          filters={filters}
           active={activeFilter}
           onChange={setActiveFilter}
         />

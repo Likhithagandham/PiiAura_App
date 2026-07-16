@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { BadgeCheck } from 'lucide-react-native';
 import type { FacultyProfileBadge } from '@piiaura/types';
+import { Avatar } from '@piiaura/ui';
 import { colors, spacing, typography, radii } from '@piiaura/ui';
 
 interface ProfileHeroProps {
@@ -23,11 +24,19 @@ const BADGE_STYLES = {
 } as const;
 
 export function ProfileHero({ name, designation, avatarUrl, verified, badges }: ProfileHeroProps) {
+  const hasAvatar = avatarUrl.trim().length > 0;
+
   return (
     <View style={styles.container}>
       <View style={styles.avatarWrap}>
         <View style={styles.avatarRing}>
-          <Image source={{ uri: avatarUrl }} style={styles.avatar} accessibilityLabel={`${name} profile photo`} />
+          {hasAvatar ? (
+            <Image source={{ uri: avatarUrl }} style={styles.avatar} accessibilityLabel={`${name} profile photo`} />
+          ) : (
+            <View style={styles.avatarFallback}>
+              <Avatar name={name} size="lg" tone="dark" />
+            </View>
+          )}
         </View>
         {verified ? (
           <View style={styles.verifiedBadge}>
@@ -79,6 +88,11 @@ const styles = StyleSheet.create({
   avatar: {
     width: '100%',
     height: '100%',
+  },
+  avatarFallback: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   verifiedBadge: {
     position: 'absolute',

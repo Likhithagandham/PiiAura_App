@@ -10,6 +10,7 @@ export const WALKTHROUGH_TARGETS = {
     DASHBOARD_ACTIVITY: 'student-dashboard-activity',
     TAB_BAR: 'student-tab-bar',
     HEADER_PROFILE: 'student-header-profile',
+    HEADER_NOTIFICATIONS: 'student-header-notifications',
     HEADER_ACTIONS: 'student-header-actions',
   },
   FACULTY: {
@@ -95,9 +96,9 @@ const STUDENT_DASHBOARD_STEPS: WalkthroughStepConfig[] = [
   },
   {
     id: 'student-dash-search',
-    targetId: WALKTHROUGH_TARGETS.STUDENT.HEADER_ACTIONS,
-    title: 'Search & Quick Actions',
-    description: 'Search resources and check notifications from the top bar on your home screen.',
+    targetId: WALKTHROUGH_TARGETS.STUDENT.HEADER_NOTIFICATIONS,
+    title: 'Notifications',
+    description: 'Check alerts and reminders from the notifications icon in the top bar.',
     placement: 'bottom',
   },
 ];

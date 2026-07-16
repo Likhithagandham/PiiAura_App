@@ -1,64 +1,70 @@
 # PiiAura Backend
 
-The API lives in a separate repo on this machine:
+The mobile app connects to **[EduOS-backend](https://github.com/Likhithagandham/EduOS-backend)** — a Django 5 + DRF multi-tenant education platform API.
 
-**`C:\Users\likhi\PiiAura\EduOS-backend`**
+This folder documents how to run and connect that backend. The API code itself lives in a separate repository (clone it alongside this monorepo).
 
-The mobile app talks to it over HTTP at `/api/v1/`.
-
-## Start the backend
+## Clone and run
 
 ```powershell
-cd C:\Users\likhi\PiiAura\EduOS-backend
+git clone https://github.com/Likhithagandham/EduOS-backend.git
+cd EduOS-backend
+python -m venv .venv
 .\.venv\Scripts\activate
-python manage.py runserver
+pip install -r requirements-dev.txt
+copy .env.example .env
+python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
 ```
 
-API: `http://localhost:8000`  
-Health: `http://localhost:8000/health/`
+API base: `http://localhost:8000/api/v1/`
 
 ## Connect the mobile app
-
-1. Copy env file:
 
 ```powershell
 cd frontend\apps\mobile
 copy .env.example .env
 ```
 
-2. Edit `.env`:
-   - **Emulator on same PC:** `EXPO_PUBLIC_API_URL=http://localhost:8000`
-   - **Physical phone:** use your PC LAN IP, e.g. `http://192.168.1.5:8000`
-   - **Tenant ID:** UUID from EduOS (local seed: Greenfield Academy `c1bbddb5-0b05-4dd9-9042-65ddb7941ff2`)
+Edit `.env`:
 
-3. Start mobile:
+```env
+EXPO_PUBLIC_API_URL=http://YOUR_PC_LAN_IP:8000
+EXPO_PUBLIC_TENANT_ID=c1bbddb5-0b05-4dd9-9042-65ddb7941ff2
+```
+
+Or use subdomain instead of tenant ID:
+
+```env
+EXPO_PUBLIC_TENANT_SUBDOMAIN=greenfield
+```
+
+Then from the repo root:
 
 ```powershell
-cd C:\Users\likhi\PiiAura_App
 pnpm mobile
 ```
 
-## Sample login (local seed data)
+## Local seed tenants
 
-| Field | Value |
-|-------|-------|
-| Identifier | `STU-001` |
-| Role | student |
-| Tenant | Greenfield Academy (`c1bbddb5-0b05-4dd9-9042-65ddb7941ff2`) |
+| Institution | Subdomain | Tenant ID |
+|-------------|-----------|-----------|
+| Greenfield Academy | `greenfield` | `c1bbddb5-0b05-4dd9-9042-65ddb7941ff2` |
+| Horizon Engineering College | `horizon` | `66a8b903-3349-4335-9d22-414dd5394d5e` |
 
-Use the password set in your EduOS seed data.
+## API modules used by mobile
 
-## API overview
+| Prefix | Purpose |
+|--------|---------|
+| `/api/v1/auth/` | Login, JWT, dashboards, profiles |
+| `/api/v1/organizations/` | Tenant config (subdomain → tenant ID) |
+| `/api/v1/academics/` | Timetable, study materials, syllabus |
+| `/api/v1/attendance/` | Attendance, leave |
+| `/api/v1/examinations/` | Exams, assignments, marks, invigilation |
+| `/api/v1/fees/` | Student fees |
+| `/api/v1/hr/` | Faculty leave, payslips |
+| `/api/v1/communications/` | Announcements |
+| `/api/v1/coursework/` | Homework |
+| `/api/v1/grievances/` | Help & support tickets |
 
-| Prefix | App |
-|--------|-----|
-| `/api/v1/auth/` | login, me, dashboards, profiles |
-| `/api/v1/academics/` | timetable, study materials, syllabus |
-| `/api/v1/attendance/` | attendance, leave |
-| `/api/v1/examinations/` | exams, assignments, marks |
-| `/api/v1/fees/` | student fees |
-| `/api/v1/hr/` | leave, payslips |
-| `/api/v1/communications/` | announcements |
-| `/api/v1/coursework/` | homework |
-
-See [EduOS-backend](https://github.com/Likhithagandham/EduOS-backend) for migrations and full setup.
+Full mapping: `frontend/packages/api/EDUOS.md`

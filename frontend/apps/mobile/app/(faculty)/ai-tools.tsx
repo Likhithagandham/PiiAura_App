@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { Sparkles } from 'lucide-react-native';
 import { useFacultyAiTools } from '@piiaura/hooks';
 import { colors, spacing, typography } from '@piiaura/ui';
@@ -15,7 +15,7 @@ import { EngagementBanner } from '@/components/faculty/ai-tools/EngagementBanner
 import { useToast } from '@/components/toast/ToastProvider';
 
 export default function FacultyAiToolsScreen() {
-  const { data, isLoading } = useFacultyAiTools();
+  const { data, isLoading, isError, error, refetch } = useFacultyAiTools();
   const toast = useToast();
   const [activeTab, setActiveTab] = useState<AiToolsTabKey>('question-paper');
 
@@ -33,11 +33,29 @@ export default function FacultyAiToolsScreen() {
     toast.show(`Opening ${title}`, 'info');
   };
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return (
       <View style={styles.screen}>
         <View style={styles.loading}>
           <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <View style={styles.screen}>
+        <View style={styles.loading}>
+          <Text style={styles.errorTitle}>AI tools unavailable</Text>
+          <Text style={styles.errorText}>
+            {error instanceof Error
+              ? error.message
+              : 'Backend endpoint for AI tools is not available for this user.'}
+          </Text>
+          <Pressable style={styles.retryBtn} onPress={() => refetch()}>
+            <Text style={styles.retryText}>Retry</Text>
+          </Pressable>
         </View>
       </View>
     );
@@ -120,6 +138,28 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: typography.fontSize.sm,
     color: colors.textSecondary,
+  },
+  errorTitle: {
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.semibold,
+    color: colors.text,
+  },
+  errorText: {
+    fontSize: typography.fontSize.sm,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    paddingHorizontal: spacing.lg,
+  },
+  retryBtn: {
+    marginTop: spacing.md,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+    borderRadius: 999,
+    backgroundColor: colors.primaryContainer,
+  },
+  retryText: {
+    color: colors.white,
+    fontWeight: typography.fontWeight.semibold,
   },
   content: {
     padding: spacing.lg,

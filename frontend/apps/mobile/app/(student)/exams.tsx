@@ -20,21 +20,21 @@ export default function StudentExamsScreen() {
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
 
   const activeUnit = useMemo(() => {
-    if (!data) return null;
-    const units = data.results.units;
+    const units = data?.results?.units ?? [];
+    if (!units.length) return null;
     const match = units.find((unit) => unit.id === selectedUnitId);
     return match ?? units[0] ?? null;
   }, [data, selectedUnitId]);
 
   const cycleUnit = () => {
-    if (!data) return;
-    const units = data.results.units;
+    const units = data?.results?.units ?? [];
+    if (!units.length) return;
     const currentIndex = units.findIndex((unit) => unit.id === activeUnit?.id);
     const nextIndex = (currentIndex + 1) % units.length;
     setSelectedUnitId(units[nextIndex]?.id ?? null);
   };
 
-  if (isLoading || !data || !activeUnit) {
+  if (isLoading || !data) {
     return (
       <View style={styles.screen}>
         <View style={styles.loading}>
@@ -74,7 +74,7 @@ export default function StudentExamsScreen() {
               onExamPress={() => toast.show('Exam details coming soon', 'info')}
             />
           </View>
-        ) : (
+        ) : activeUnit ? (
           <View style={styles.section}>
             <StudentExamsPerformanceOverview
               title={data.results.overviewTitle}
@@ -85,6 +85,10 @@ export default function StudentExamsScreen() {
               title={data.results.breakdownTitle}
               subjects={activeUnit.breakdown}
             />
+          </View>
+        ) : (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>No published results yet</Text>
           </View>
         )}
       </ScrollView>

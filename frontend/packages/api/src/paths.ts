@@ -55,4 +55,10 @@ export const API_PATHS = {
     studentHomework: '/api/v1/coursework/student/homework/',
     facultyHomework: '/api/v1/coursework/me/homework/',
   },
+  organizations: {
+    tenantConfig: '/api/v1/organizations/tenant-config/',
+  },
+  grievances: {
+    me: '/api/v1/grievances/me/',
+  },
 } as const;

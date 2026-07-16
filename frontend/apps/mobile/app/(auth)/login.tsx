@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -27,6 +27,7 @@ import {
   radii,
 } from '@piiaura/ui';
 import { APP_CONFIG } from '@piiaura/constants';
+import { fetchTenantConfig } from '@piiaura/api';
 import { useAuth } from '@piiaura/hooks';
 
 const loginSchema = z.object({
@@ -41,6 +42,24 @@ type LoginForm = z.infer<typeof loginSchema>;
 export default function LoginScreen() {
   const { login, isLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [institutionName, setInstitutionName] = useState<string>(APP_CONFIG.INSTITUTION_NAME);
+
+  useEffect(() => {
+    const subdomain = process.env.EXPO_PUBLIC_TENANT_SUBDOMAIN ?? 'greenfield';
+    let cancelled = false;
+    fetchTenantConfig(subdomain)
+      .then((config) => {
+        if (!cancelled && config.institutionName) {
+          setInstitutionName(config.institutionName);
+        }
+      })
+      .catch(() => {
+        // Keep APP_CONFIG fallback when tenant-config is unreachable.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const {
     control,
@@ -83,7 +102,7 @@ export default function LoginScreen() {
             <View style={styles.cardBody}>
               <View style={styles.header}>
                 <AppLogo />
-                <InstitutionPill name={APP_CONFIG.INSTITUTION_NAME} />
+                <InstitutionPill name={institutionName} />
                 <Text style={styles.title}>Login</Text>
               </View>
 

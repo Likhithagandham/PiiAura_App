@@ -8,6 +8,8 @@ interface StudentStatsGridProps {
   attendance: StudentDashboardStatTile;
   hallTicket: StudentDashboardStatTile;
   assignments: StudentDashboardStatTile;
+  onAttendancePress?: () => void;
+  onHallTicketPress?: () => void;
   onAssignmentsPress?: () => void;
 }
 
@@ -15,11 +17,18 @@ export function StudentStatsGrid({
   attendance,
   hallTicket,
   assignments,
+  onAttendancePress,
+  onHallTicketPress,
   onAssignmentsPress,
 }: StudentStatsGridProps) {
   return (
     <View style={styles.grid}>
-      <View style={styles.attendanceCard}>
+      <Pressable
+        style={styles.attendanceCard}
+        onPress={onAttendancePress}
+        accessibilityRole="button"
+        accessibilityLabel={`${attendance.label}, ${attendance.badgeLabel}`}
+      >
         <Text style={styles.tileLabel}>{attendance.label}</Text>
         <CircularProgressRing
           percent={attendance.percent ?? 0}
@@ -30,10 +39,15 @@ export function StudentStatsGrid({
         <View style={styles.badge}>
           <Text style={styles.badgeText}>{attendance.badgeLabel}</Text>
         </View>
-      </View>
+      </Pressable>
 
       <View style={styles.rightColumn}>
-        <View style={styles.hallTicketCard}>
+        <Pressable
+          style={styles.hallTicketCard}
+          onPress={onHallTicketPress}
+          accessibilityRole="button"
+          accessibilityLabel={`${hallTicket.label}, ${hallTicket.status}`}
+        >
           <Text style={styles.tileLabel}>{hallTicket.label}</Text>
           <View style={styles.readyRow}>
             <View style={styles.checkCircle}>
@@ -41,7 +55,7 @@ export function StudentStatsGrid({
             </View>
             <Text style={styles.readyText}>{hallTicket.status}</Text>
           </View>
-        </View>
+        </Pressable>
 
         <Pressable
           style={styles.assignmentsCard}
